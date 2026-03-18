@@ -4,12 +4,12 @@
 
 | ID | Feature | Status | Priority | Notes |
 |---|---|---:|---:|---|
-| FEAT-001 | Project Overview | planned | high | Core overview of project state, next steps, blockers, and last stable state |
-| FEAT-002 | Features View | planned | high | Structured visibility into feature records |
-| FEAT-003 | Slices View | planned | high | Structured visibility into slice records |
-| FEAT-004 | Bugs / Issues View | planned | medium | View for known issues and bug tracking records |
-| FEAT-005 | Releases / Migrations View | planned | medium | View for release history and migration history |
-| FEAT-006 | Decisions / Skill Improvements View | planned | medium | View for decisions and dev-system learning records |
+| FEAT-001 | Project Overview | planned | high | Dashboard + project selector. Reads STATE.md, PRD.md, project config |
+| FEAT-002 | Features View | planned | high | Feature table from features/INDEX.md only |
+| FEAT-003 | Slices View | planned | high | Slice table from slices/INDEX.md with resume orientation |
+| FEAT-004 | Bugs / Issues View | planned | medium | Issues from docs/KNOWN_ISSUES.md only |
+| FEAT-005 | Releases / Migrations View | planned | medium | Two sections: releases + migrations from docs/ |
+| FEAT-006 | Decisions / Skill Improvements View | planned | medium | Two sections: decisions + improvements from docs/ |
 
 ## Status values
 - planned

@@ -61,13 +61,24 @@ The cockpit should provide a structured internal interface that gives a fast and
 V1 should focus on read-oriented project visibility, not full editing or workflow automation.
 
 ### Included in V1
-- project overview page
+- project selector — simple context switch between registered projects
+- project overview / dashboard page
 - current state display
 - features view
 - slices view
 - issues / bugs view
 - releases / migrations view
 - decisions / skill improvements view
+- left sidebar navigation
+
+### Multi-project in V1
+Multi-project support is intentionally part of V1, but only as a lightweight project context selector.
+
+V1 multi-project means:
+- a simple list of registered project directories
+- switching between projects changes the active data context
+- each project is a local directory path containing the expected Strategaize project structure
+- no complex project management, no cross-project analytics, no roles/permissions
 
 ### Explicitly not included in V1
 - full project management tool behavior
@@ -80,6 +91,9 @@ V1 should focus on read-oriented project visibility, not full editing or workflo
 - direct writeback editing for all project files
 - advanced analytics
 - multi-tenant SaaS architecture
+- cross-project analytics or aggregation
+- project creation wizard
+- role-based access control
 
 ## Functional goals
 
@@ -138,6 +152,35 @@ V1 is successful if it allows the user to:
 - review issues, releases, migrations, decisions, and improvements clearly
 - resume project work faster than before
 
+## V1 data source strategy
+
+The cockpit reads structured markdown files from local project directories.
+
+### How projects are represented
+Each project is a local directory containing the standard Strategaize project structure:
+- `docs/STATE.md`
+- `docs/PRD.md`
+- `docs/KNOWN_ISSUES.md`
+- `docs/RELEASES.md`
+- `docs/MIGRATIONS.md`
+- `docs/DECISIONS.md`
+- `docs/SKILL_IMPROVEMENTS.md`
+- `features/INDEX.md`
+- `slices/INDEX.md`
+
+### V1 data reading rules
+- V1 reads markdown files from disk (server-side, via Next.js server components or API routes)
+- V1 reads Index files (`features/INDEX.md`, `slices/INDEX.md`) as the primary structured source for list views
+- V1 reads single-document records (`docs/STATE.md`, `docs/DECISIONS.md`, etc.) as-is
+- Individual feature files (`features/FEAT-*.md`) and slice files (`slices/SLC-*.md`) are **not** read in V1 list views — only the Index files
+- Individual feature/slice detail views are a candidate for V1 if effort is low, otherwise deferred
+- No database is needed in V1 — all data comes from the filesystem
+- Parsing assumes the documented markdown structure — malformed files should produce a visible error state, not a crash
+
+### Project registration in V1
+V1 uses a simple configuration (e.g., a JSON config file or environment variable) listing project directory paths.
+No dynamic project creation, no database-backed project registry.
+
 ## Risks
 
 - overbuilding V1 into a full PM platform
@@ -145,8 +188,9 @@ V1 is successful if it allows the user to:
 - building too much editing logic too soon
 - unclear mapping between markdown records and UI views
 - scope creep from future ideas before the read-oriented core is stable
+- markdown parsing edge cases if project files deviate from expected structure
 
 ## Guiding constraint
 
-V1 must stay small, practical, and fast to deliver.  
+V1 must stay small, practical, and fast to deliver.
 The purpose is to make project visibility operationally useful first.

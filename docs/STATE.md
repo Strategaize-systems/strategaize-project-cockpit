@@ -11,16 +11,15 @@ Build an internal project cockpit that provides a clear operational view across 
 The cockpit should make project status, features, slices, issues, releases, migrations, decisions, and skill improvement records visible in a structured UI so that project tracking no longer depends on manually opening raw markdown files.
 
 ## Current State
-- High-Level State: intake
-- Current Focus: establish the initial project foundation and define V1 scope
-- Current Phase: Intake / Requirements
+- High-Level State: requirements-refinement
+- Current Focus: sharpen V1 requirements and feature definitions to be operationally precise
+- Current Phase: Requirements (refinement pass)
 
 ## Immediate Next Steps
-1. Finalize initial PRD
-2. Define V1 feature set
-3. Define first slice plan
-4. Prepare architecture baseline
-5. Start implementation once scope is stable
+1. Review sharpened PRD and feature definitions
+2. Run /slice-planning to refine slice definitions to match updated features
+3. Confirm architecture is still aligned after requirements refinement
+4. Begin implementation with SLC-001 (Project Shell)
 
 ## Active Scope
 Current scope is limited to a V1 internal cockpit that primarily reads and displays structured project information.
