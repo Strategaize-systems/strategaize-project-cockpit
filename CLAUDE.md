@@ -2,9 +2,39 @@
 
 ## Purpose
 
-This file defines the working behavior for Cloud Code inside the Strategaize Project Cockpit repository.
+This file defines the working behavior for Claude Code inside the Strategaize Project Cockpit repository.
 
-The objective is to keep work controlled, slice-based, and aligned with Strategaize Dev System.
+The objective is to keep work controlled, slice-based, and aligned with Strategaize Dev System while preserving the specific V1 boundaries of this cockpit project.
+
+## Operating mode
+
+Use repository documentation and project records as the source of truth.
+
+Do not invent scope, requirements, architecture, or release assumptions that are not supported by project documentation or explicit user direction.
+
+Prefer narrow, testable changes over broad speculative implementation.
+
+## Skill usage
+
+When an appropriate skill exists, prefer the project skill workflow before ad hoc implementation.
+
+Typical workflow:
+1. `/requirements`
+2. `/architecture`
+3. `/slice-planning`
+4. `/frontend` and/or `/backend`
+5. `/qa`
+6. `/final-check`
+7. `/go-live`
+8. `/deploy`
+9. `/post-launch`
+
+Support skills:
+- `/help`
+- `/docs`
+- `/doctor`
+- `/rollback`
+- `/ui-update`
 
 ## Core behavior
 
@@ -19,16 +49,16 @@ The objective is to keep work controlled, slice-based, and aligned with Stratega
 
 Treat these files as authoritative when present:
 
-- `docs/STATE.md`
-- `docs/PRD.md`
-- `docs/ARCHITECTURE.md`
-- `docs/DECISIONS.md`
-- `docs/KNOWN_ISSUES.md`
-- `docs/RELEASES.md`
-- `docs/MIGRATIONS.md`
-- `docs/SKILL_IMPROVEMENTS.md`
-- `features/INDEX.md`
-- `slices/INDEX.md`
+- `/docs/STATE.md`
+- `/docs/PRD.md`
+- `/docs/ARCHITECTURE.md`
+- `/docs/DECISIONS.md`
+- `/docs/KNOWN_ISSUES.md`
+- `/docs/RELEASES.md`
+- `/docs/MIGRATIONS.md`
+- `/docs/SKILL_IMPROVEMENTS.md`
+- `/features/INDEX.md`
+- `/slices/INDEX.md`
 
 ## Current project objective
 
@@ -48,6 +78,8 @@ Do not introduce the following into V1 unless explicitly approved:
 - advanced analytics
 - unnecessary multi-project complexity
 
+Do not turn this project into a Jira replacement or a general-purpose operations platform.
+
 ## Preferred execution pattern
 
 Use this order where relevant:
@@ -57,15 +89,29 @@ Use this order where relevant:
 4. verify it
 5. document meaningful updates
 
+## File Path Reporting (MANDATORY)
+
+Whenever creating, modifying, moving, renaming, or deleting files, always report the full repository-relative path.
+
+Always group file results by:
+- Created
+- Modified
+- Renamed
+- Deleted
+
+Never describe file changes without explicit paths.
+
 ## Documentation updates
 
 Update records when relevant:
-- update `STATE.md` when project focus changes materially
-- update `DECISIONS.md` when an important direction changes
-- update `KNOWN_ISSUES.md` when a notable unresolved issue appears
-- update `MIGRATIONS.md` for meaningful schema or storage changes
-- update `RELEASES.md` for meaningful release points
-- update `SKILL_IMPROVEMENTS.md` when repeated findings reveal a system gap
+- update `/docs/STATE.md` when project focus changes materially
+- update `/docs/DECISIONS.md` when an important direction changes
+- update `/docs/KNOWN_ISSUES.md` when a notable unresolved issue appears
+- update `/docs/MIGRATIONS.md` for meaningful schema or storage changes
+- update `/docs/RELEASES.md` for meaningful release points
+- update `/docs/SKILL_IMPROVEMENTS.md` when repeated findings reveal a system gap
+
+Do not leave important project records stale after meaningful changes.
 
 ## Quality rule
 
