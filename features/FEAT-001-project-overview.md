@@ -63,11 +63,17 @@ Give the user one screen that answers: What project am I looking at? Where does 
 - The project selector is always accessible (sidebar or header)
 - Layout should feel like a simple dashboard card or panel, not a complex analytics board
 
+## Default project selection behavior
+- On first load (no prior selection stored): automatically select the first project in the configuration list
+- On subsequent loads: restore the last selected project from localStorage
+- If the stored project no longer exists in the config: fall back to the first project in the list
+- There is no "no project selected" state — a project is always selected if at least one project is configured
+
 ## Empty / missing / error states
 | Condition | Behavior |
 |---|---|
-| No projects configured | Show a clear message: "No projects registered" |
-| Selected project directory not found | Show error: "Project directory not accessible" |
+| No projects configured | Show a full-page message: "No projects registered. Add project paths to the configuration." All other views are empty. |
+| Selected project directory not found | Show error on overview: "Project directory not accessible" with the configured path. Other views show their own error states. |
 | STATE.md missing | Show: "Project state file not found" with project name from config |
 | STATE.md malformed | Show: "Could not parse project state" with partial data if possible |
 | PRD.md missing | Omit purpose summary, show remaining state data normally |

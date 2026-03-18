@@ -36,8 +36,15 @@ A separate structured list displaying improvement entries parsed from `docs/SKIL
 - Affected area
 - Status
 
+### V1 display format
+- Use a **card list per section**, not data tables — each decision/improvement entry is a stacked card with labeled fields
+- This format is chosen because entries have 3-8 fields each, which makes cards clearer than table columns
+- Decision cards: show ID + title as heading, then Status, Reason, Consequence as labeled fields
+- Improvement cards: show ID + title as heading, then Date, Source, Observation, Suggested improvement, Affected area, Status as labeled fields
+
 ### UI separation
-- Decisions and skill improvements are displayed as **two distinct sections** on the same page (e.g., tabs, or stacked sections with clear headings)
+- Decisions and skill improvements are displayed as **two stacked sections** on the same page, each with a clear section heading
+- V1 uses stacked sections (not tabs) for simplicity and consistency with FEAT-005
 - They share a single sidebar navigation entry (e.g., "Decisions & Improvements")
 - Each section has its own empty state handling
 - No artificial merging — the two record types have different structures and different purposes
@@ -69,7 +76,8 @@ A separate structured list displaying improvement entries parsed from `docs/SKIL
 
 ## UI expectations
 - Accessible from the left sidebar navigation under a single label (e.g., "Decisions & Improvements")
-- Decisions section appears first, improvements section below (or as a second tab)
+- Decisions section appears first, improvements section below
+- Each section is a stacked card list
 - Decisions should work well with 5-30 entries (V1 realistic range)
 - Improvements should work well with 0-15 entries (V1 realistic range)
 

@@ -18,17 +18,26 @@ Make known issues visible and reviewable. The user should be able to answer: Wha
 ## Included in scope
 
 ### Issues list
-A structured list or table displaying issue records parsed from `docs/KNOWN_ISSUES.md`:
-- Issue ID (e.g., ISSUE-001)
-- Issue title
+A structured card list displaying issue records parsed from `docs/KNOWN_ISSUES.md`.
+
+Each issue card shows:
+- Issue ID and title (e.g., "ISSUE-001 — Short issue title") as card heading
 - Status (e.g., open, resolved, wontfix)
 - Severity (blocker, high, medium, low)
 - Area (affected component or area)
 - Summary (short description)
+- Impact (if present in source)
+- Workaround (if present in source)
+- Next action (if present in source)
+
+### V1 display format
+- Use a **card list**, not a data table — each issue is a stacked card with labeled fields
+- This format is chosen because issue records have 5-8 fields per entry, which is too many for clean table columns
+- Optional fields (Impact, Workaround, Next action) are shown when present in the source, omitted silently when absent
 
 ### Visual severity clarity
-- Severity should be visually distinguishable (color-coded badges)
-- Open issues should be visually prominent versus resolved ones
+- Severity should be visually distinguishable (color-coded badge on card)
+- Open issues should be visually prominent versus resolved ones (e.g., muted styling for resolved)
 
 ## Explicitly out of scope
 - full issue tracker replacement
@@ -65,7 +74,7 @@ V1 reads exclusively from `docs/KNOWN_ISSUES.md`, which uses the documented entr
 - If KNOWN_ISSUES.md is malformed: show error state
 
 ## UI expectations
-- A structured list or compact table
+- A stacked card list (not a table)
 - Accessible from the left sidebar navigation (e.g., "Issues")
 - Should work well with 0-20 issues (V1 realistic range)
 - The view should be useful even when the list is empty (explicit "no known issues" is valuable information)
@@ -78,9 +87,10 @@ V1 reads exclusively from `docs/KNOWN_ISSUES.md`, which uses the documented entr
 | KNOWN_ISSUES.md malformed | Show: "Could not parse issues file" |
 
 ## Acceptance criteria
-- known issues are displayed in a structured format
+- known issues are displayed as a card list with all documented fields
 - severity and status are visually distinguishable
 - open issues are visually prominent
+- optional fields (Impact, Workaround, Next action) appear when present, are absent without error when missing
 - the "no known issues" state is handled explicitly and clearly
 - the view is more usable than manually reading the markdown file
 - missing or malformed source produces a clear, non-crashing state

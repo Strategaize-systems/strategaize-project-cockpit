@@ -67,12 +67,59 @@ Make the interface clearer, not more impressive.
 
 ## Output format
 
-Always provide:
-1. what frontend scope was implemented
-2. which files were created or changed
-3. any important UI states covered
-4. any follow-up gaps, if relevant
-5. the recommended next step
+Always provide a full structured completion report that complies with the mandatory completion reporting rule.
+
+The frontend completion report must include at minimum:
+
+1. Outcome summary
+- what frontend scope was implemented
+- whether it is fully complete, partially complete, or blocked
+
+2. Files reviewed
+- all relevant reviewed files with full repository-relative paths
+
+3. Files changed
+- all changed files with full repository-relative paths
+- what changed and why for each file
+
+4. Files created
+- all newly created files with full repository-relative paths
+- distinguish between:
+  - manually authored files
+  - generated scaffold/framework files
+- state the purpose of each created file or file group
+
+5. Files intentionally not changed
+- reviewed but deliberately unchanged files
+- why they were left unchanged
+
+6. UI states covered
+- explicitly list which empty, loading, error, success, responsive, or navigation states were handled or verified
+
+7. Problems found
+- inconsistencies
+- unresolved assumptions
+- runtime ambiguity
+- structural choices introduced during implementation
+- anything not fully aligned yet
+
+8. Open points or deferred decisions
+- what remains unresolved
+- what was intentionally postponed
+
+9. Runtime verification summary
+- whether the dev server was started successfully
+- whether it is still running or was only verified temporarily
+- which local URL/port was actually used during verification
+- what was directly verified vs not directly verified
+
+10. Recommended next step
+- the next recommended skill or work step
+- why it is the correct next step
+
+Do not provide only a generic frontend summary.
+Do not omit exact file accounting.
+Do not blur created scaffold output together with manually authored implementation.
 
 Common next steps:
 - `/qa`

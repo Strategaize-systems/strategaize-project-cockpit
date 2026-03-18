@@ -62,14 +62,20 @@ V1 should focus on read-oriented project visibility, not full editing or workflo
 
 ### Included in V1
 - project selector — simple context switch between registered projects
-- project overview / dashboard page
+- project overview / dashboard page (default landing page)
 - current state display
-- features view
-- slices view
-- issues / bugs view
-- releases / migrations view
-- decisions / skill improvements view
-- left sidebar navigation
+- features view (data table)
+- slices view (data table with resume orientation)
+- issues / bugs view (card list)
+- releases / migrations view (two stacked card list sections)
+- decisions / skill improvements view (two stacked card list sections)
+- left sidebar navigation with fixed structure:
+  1. Overview (default/home)
+  2. Features
+  3. Slices
+  4. Issues
+  5. Releases & Migrations
+  6. Decisions & Improvements
 
 ### Multi-project in V1
 Multi-project support is intentionally part of V1, but only as a lightweight project context selector.
@@ -172,8 +178,8 @@ Each project is a local directory containing the standard Strategaize project st
 - V1 reads markdown files from disk (server-side, via Next.js server components or API routes)
 - V1 reads Index files (`features/INDEX.md`, `slices/INDEX.md`) as the primary structured source for list views
 - V1 reads single-document records (`docs/STATE.md`, `docs/DECISIONS.md`, etc.) as-is
-- Individual feature files (`features/FEAT-*.md`) and slice files (`slices/SLC-*.md`) are **not** read in V1 list views — only the Index files
-- Individual feature/slice detail views are a candidate for V1 if effort is low, otherwise deferred
+- Individual feature files (`features/FEAT-*.md`) and slice files (`slices/SLC-*.md`) are **not** read in V1 — only the Index files
+- V1 does not include individual detail pages for features or slices — the table view from INDEX.md is the complete visibility layer
 - No database is needed in V1 — all data comes from the filesystem
 - Parsing assumes the documented markdown structure — malformed files should produce a visible error state, not a crash
 

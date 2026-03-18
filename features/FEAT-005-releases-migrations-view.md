@@ -37,8 +37,13 @@ A separate structured list displaying migration entries parsed from `docs/MIGRAT
 - Risk
 - Rollback notes
 
+### V1 display format
+- Use a **card list per section**, not data tables — each release/migration entry is a stacked card with labeled fields
+- This format is chosen because entries have 5-7 fields each, which is too many for clean table columns
+
 ### UI separation
-- Releases and migrations are displayed as **two distinct sections** on the same page (e.g., tabs, or stacked sections with clear headings)
+- Releases and migrations are displayed as **two stacked sections** on the same page, each with a clear section heading
+- V1 uses stacked sections (not tabs) for simplicity
 - They share a single sidebar navigation entry (e.g., "Releases & Migrations")
 - Each section has its own empty state handling
 - No artificial merging of the two record types into a unified list
@@ -65,9 +70,10 @@ A separate structured list displaying migration entries parsed from `docs/MIGRAT
 
 ## UI expectations
 - Accessible from the left sidebar navigation under a single label (e.g., "Releases & Migrations")
-- Releases section appears first, migrations section below (or as a second tab)
+- Releases section appears first, migrations section below
+- Each section is a stacked card list
 - Each section should work well with 0-20 entries (V1 realistic range)
-- Chronological order (newest first) is the default
+- Chronological order (newest first) is the default display order
 
 ## Empty / missing / error states
 | Condition | Behavior |

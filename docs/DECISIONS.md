@@ -35,12 +35,12 @@
 - Consequence:
   V1 uses Next.js, Tailwind CSS, shadcn/ui, Docker, Hetzner, and Coolify as the main direction.
 
-## DEC-006 — Multi-project visibility is part of the longer-term direction
-- Status: accepted
+## DEC-006 — Multi-project is part of V1 as a lightweight project selector
+- Status: accepted (updated 2026-03-18)
 - Reason:
-  The cockpit is intended to support multiple future projects, not only a single project forever.
+  The cockpit is intended to support multiple projects. A simple project selector is operationally needed from the start to switch between active projects.
 - Consequence:
-  V1 should not overbuild this, but the architecture should not block future multi-project support.
+  V1 includes a simple project selector that reads from a static configuration. No complex multi-project management, no cross-project analytics, no roles/permissions. The selector is a context switch, not a management interface.
 
 ## DEC-007 — Visibility first, automation later
 - Status: accepted
@@ -48,6 +48,20 @@
   The immediate bottleneck is lack of operational visibility and reliable resume capability.
 - Consequence:
   Advanced automation, integrations, and editing should remain out of scope until visibility is working well.
+
+## DEC-009 — V1 uses two UI patterns: data tables for index views, card lists for record views
+- Status: accepted
+- Reason:
+  Index files (features/INDEX.md, slices/INDEX.md) produce rows with 5-6 short columns — these fit well in data tables. Record-based views (issues, releases, migrations, decisions, improvements) have 5-8 fields per entry — these are too dense for table columns and read better as stacked card lists with labeled fields.
+- Consequence:
+  FEAT-002 (Features) and FEAT-003 (Slices) use data tables. FEAT-004, FEAT-005, and FEAT-006 use card lists. This creates two consistent UI patterns across the cockpit.
+
+## DEC-010 — Combined views use stacked sections, not tabs in V1
+- Status: accepted
+- Reason:
+  FEAT-005 (Releases & Migrations) and FEAT-006 (Decisions & Improvements) each combine two record types on one page. Stacked sections with clear headings are simpler to implement and review than a tab component, and both sections are typically short enough to fit on one scroll.
+- Consequence:
+  V1 uses vertically stacked sections with section headings. Tabs may be reconsidered later if lists grow long.
 
 ## DEC-008 — Repeated problems should feed back into system improvement
 - Status: accepted

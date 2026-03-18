@@ -91,3 +91,30 @@ A good frontend outcome should feel:
 ## Outcome standard
 
 Frontend work should improve visibility, usability, and control without adding unnecessary design or structural complexity.
+
+## Frontend completion reporting requirements
+
+Frontend work must follow the mandatory completion reporting rule in full.
+
+In addition, frontend completion reports must explicitly distinguish between:
+- manually authored frontend files
+- generated scaffold or framework files
+- configuration files
+- route files
+- shared UI files
+- utility files
+
+If a frontend project was initialized or scaffolded, the report must clearly state:
+- where the frontend root lives
+- which command created it
+- which important root files now exist
+- whether the dev server was only verified or is still actively running
+- which port was actually used during verification
+
+Do not claim:
+- "runs on port X"
+- "responsive works"
+- "all routes work"
+unless that was explicitly verified.
+
+If verification was partial, state the limitation clearly.
