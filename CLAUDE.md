@@ -46,6 +46,8 @@ Support skills:
 - Preserve V1 scope discipline.
 - Make work traceable and operationally explicit.
 - Do not finish meaningful work silently.
+- Prefer visible progress over long silent execution when the task spans multiple files or multiple phases.
+- When visibility is at risk, work in smaller batches rather than one large hidden run.
 
 ## Primary project records
 
@@ -94,6 +96,8 @@ Use this order where relevant:
 4. verify it
 5. document meaningful updates
 6. report clearly what was done
+
+If the work step is long, split it into visible sub-steps instead of doing everything in one hidden batch.
 
 ## File path reporting (MANDATORY)
 
@@ -150,7 +154,7 @@ The completion report must include:
 - briefly state why
 
 6. Problems found
-- explicitly list inconsistencies, missing files, weak assumptions, invalid references, scope issues, contradictions, or unclear source-of-truth situations
+- explicitly list inconsistencies, missing files, weak assumptions, invalid references, scope issues, contradictions, runtime blockers, verification gaps, or unclear source-of-truth situations
 - do not hide or smooth over problems
 
 7. Open points or deferred decisions
@@ -164,6 +168,25 @@ The completion report must include:
 Do not end meaningful work with only a generic summary.
 Do not omit changed-file reporting.
 Do not omit problem reporting when issues were found.
+
+## Visibility rule for long tasks
+
+If a task affects multiple files, includes multiple write steps, or is likely to produce a long response, do not stay silent until the very end.
+
+Instead:
+- work in smaller visible batches
+- show brief intermediate progress after meaningful chunks
+- keep intermediate updates concise
+- avoid repeating the same details again in full at the end
+
+Intermediate updates do not replace the final completion report.
+They exist to preserve user visibility during longer runs.
+
+A good intermediate update should usually contain:
+- what batch was completed
+- which files were affected
+- whether a problem appeared
+- what the next immediate batch is
 
 ## Counting and consistency rule
 

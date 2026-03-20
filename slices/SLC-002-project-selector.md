@@ -84,4 +84,4 @@ The cockpit has a working project selector. Switching projects changes the data 
 high
 
 ## Status
-planned
+done

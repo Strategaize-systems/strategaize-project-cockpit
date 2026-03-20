@@ -37,6 +37,7 @@ When invoked, this skill should:
 5. Handle key user states clearly.
 6. Avoid unnecessary complexity, styling churn, or decorative overdesign.
 7. Make the result easy to understand, review, and extend.
+8. Keep longer frontend runs visible by working in smaller, understandable batches.
 
 ## Main responsibilities
 
@@ -65,6 +66,22 @@ Do not optimize for visual flair over operational clarity.
 
 Make the interface clearer, not more impressive.
 
+## Visibility behavior for longer runs
+
+If the frontend task spans multiple files or multiple implementation steps:
+- do not stay silent until the very end
+- provide short intermediate progress updates after meaningful batches
+- prefer small visible batches over many hidden parallel writes
+- keep intermediate updates concise and non-redundant
+
+A good intermediate frontend update should usually include:
+- what sub-step was completed
+- which files were affected
+- whether a visible issue appeared
+- what the next sub-step is
+
+The final completion report is still mandatory.
+
 ## Output format
 
 Always provide a full structured completion report that complies with the mandatory completion reporting rule.
@@ -74,6 +91,7 @@ The frontend completion report must include at minimum:
 1. Outcome summary
 - what frontend scope was implemented
 - whether it is fully complete, partially complete, or blocked
+- whether verification confidence is high, partial, or limited
 
 2. Files reviewed
 - all relevant reviewed files with full repository-relative paths
@@ -94,24 +112,40 @@ The frontend completion report must include at minimum:
 - why they were left unchanged
 
 6. UI states covered
-- explicitly list which empty, loading, error, success, responsive, or navigation states were handled or verified
+- explicitly list which empty, loading, error, success, responsive, navigation, or persistence states were implemented
+- clearly distinguish between implemented states and directly verified states if verification was partial
 
 7. Problems found
 - inconsistencies
 - unresolved assumptions
 - runtime ambiguity
+- blocked dev server startup
+- stale lock files or stale processes
+- browser verification gaps
+- persistence verification gaps
 - structural choices introduced during implementation
 - anything not fully aligned yet
+
+If a runtime, browser, or persistence check could not be completed, do not report "Problems found: none".
 
 8. Open points or deferred decisions
 - what remains unresolved
 - what was intentionally postponed
+
+Use this section for future work, not for hiding current technical limitations encountered during the run.
 
 9. Runtime verification summary
 - whether the dev server was started successfully
 - whether it is still running or was only verified temporarily
 - which local URL/port was actually used during verification
 - what was directly verified vs not directly verified
+- whether verification was based on:
+  - build only
+  - code inspection
+  - browser rendering
+  - interaction testing
+  - persistence testing
+  - responsive testing
 
 10. Recommended next step
 - the next recommended skill or work step
@@ -120,6 +154,7 @@ The frontend completion report must include at minimum:
 Do not provide only a generic frontend summary.
 Do not omit exact file accounting.
 Do not blur created scaffold output together with manually authored implementation.
+Do not treat build success alone as proof of full frontend correctness.
 
 Common next steps:
 - `/qa`

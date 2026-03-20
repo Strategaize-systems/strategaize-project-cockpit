@@ -118,3 +118,35 @@ Do not claim:
 unless that was explicitly verified.
 
 If verification was partial, state the limitation clearly.
+
+## Frontend problem classification
+
+The following must not be hidden under "Open points" alone if they affected the current work step:
+- dev server could not start normally
+- lock files or stale processes blocked runtime verification
+- browser rendering was not directly checked
+- responsive behavior was not directly checked
+- localStorage, URL state, or persistence behavior was not directly checked
+- route navigation was inferred from build success but not tested in browser
+- a key UI state was described but not directly verified
+
+If any of the above occurred, they must be reflected under:
+- Problems found
+or
+- Runtime verification summary with explicit confidence limitation
+
+## Verification honesty rule
+
+Frontend reporting must distinguish between:
+- build verification
+- static code verification
+- browser rendering verification
+- interaction verification
+- persistence verification
+- responsive verification
+
+Build success is not the same as browser verification.
+Compilation success is not the same as runtime behavior confirmation.
+Described UI behavior is not the same as verified UI behavior.
+
+If only part of the frontend was verified, state exactly which part.

@@ -6,29 +6,29 @@
 - Delivery Mode: internal-tool
 
 ## Purpose
-Build an internal project cockpit that provides a clear operational view across software projects managed with Strategaize Dev System.
+Ein internes Projektcockpit, das eine klare operative Sicht über Softwareprojekte bietet, die mit dem Strategaize Dev System verwaltet werden.
 
-The cockpit should make project status, features, slices, issues, releases, migrations, decisions, and skill improvement records visible in a structured UI so that project tracking no longer depends on manually opening raw markdown files.
+Das Cockpit macht Projektstatus, Features, Slices, Probleme, Releases, Migrationen, Entscheidungen und Skill-Verbesserungen in einer strukturierten Oberfläche sichtbar, sodass Projektarbeit nicht mehr von manuell geöffneten Markdown-Dateien abhängt.
 
 ## Current State
-- High-Level State: implementation
-- Current Focus: SLC-001 (Project Shell) complete, next SLC-002 (Project Selector)
-- Current Phase: Implementation
+- High-Level State: released
+- Current Focus: V1.0.0 lokal veröffentlicht, Design-Polish (Paket 1-8) abgeschlossen, Browser-Test bestanden
+- Current Phase: Post-Release
 
 ## Immediate Next Steps
-1. Implement SLC-002 (Project Selector) via /frontend
-2. Follow build order: SLC-002 → SLC-003 → SLC-004 → SLC-005 → SLC-006 → SLC-007 → SLC-008
+1. Optional: Dockerfile für Hetzner/Coolify-Deployment
+2. Optional: features/INDEX.md Status-Werte aktualisieren
 
 ## Active Scope
-Current scope is limited to a V1 internal cockpit that primarily reads and displays structured project information.
+Der aktuelle Scope ist auf ein V1-internes Cockpit beschränkt, das primär strukturierte Projektinformationen liest und anzeigt.
 
-It is not intended to become a full project management platform in V1.
+V1 soll keine vollständige Projektmanagement-Plattform werden.
 
 ## Blockers
-- none at the moment
+- aktuell keine
 
 ## Last Stable Version
-- none yet
+- V1.0.0 (Lokal) — 2026-03-19
 
 ## Notes
-This project is the first real test case for Strategaize Dev System and should therefore follow the system's structure strictly enough to validate it in practice.
+Dieses Projekt ist der erste echte Testfall für das Strategaize Dev System und sollte daher die Systemstruktur diszipliniert genug einhalten, um sie in der Praxis zu validieren.

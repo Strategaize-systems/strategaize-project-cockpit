@@ -1,0 +1,35 @@
+warning: in the working copy of 'docs/RELEASES.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/STATE.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'features/FEAT-001-project-overview.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'features/FEAT-002-features-view.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'features/FEAT-003-slices-view.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'features/FEAT-004-bugs-issues-view.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'features/FEAT-005-releases-migrations-view.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'features/FEAT-006-decisions-skill-improvements-view.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'slices/INDEX.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'slices/SLC-001-project-shell.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'slices/SLC-002-project-selector.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'slices/SLC-003-state-view.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'slices/SLC-004-features-table.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'slices/SLC-005-slices-table.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'slices/SLC-006-issues-view.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'slices/SLC-007-releases-view.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'slices/SLC-008-decisions-view.md', LF will be replaced by CRLF the next time Git touches it
+ .claude/rules/frontend.md                    | 34 [32m++++++++++++++[m[31m-[m
+ .claude/rules/mandatory-completion-report.md | 65 [32m+++++++++++++++++++++++++++[m[31m-[m
+ .claude/skills/frontend/SKILL.md             | 37 [32m+++++++++++++++[m[31m-[m
+ .claude/skills/qa/SKILL.md                   | 63 [32m++++++++++++++++++++++++[m[31m---[m
+ CLAUDE.md                                    | 25 [32m++++++++++[m[31m-[m
+ docs/DECISIONS.md                            | 11 [32m+++++[m
+ docs/PRD.md                                  | 18 [32m++++[m[31m----[m
+ docs/RELEASES.md                             | 26 [32m++++++++[m[31m---[m
+ docs/STATE.md                                | 24 [32m+++++[m[31m-----[m
+ slices/INDEX.md                              | 14 [32m+++[m[31m---[m
+ slices/SLC-002-project-selector.md           |  2 [32m+[m[31m-[m
+ slices/SLC-003-state-view.md                 |  2 [32m+[m[31m-[m
+ slices/SLC-004-features-table.md             |  2 [32m+[m[31m-[m
+ slices/SLC-005-slices-table.md               |  2 [32m+[m[31m-[m
+ slices/SLC-006-issues-view.md                |  2 [32m+[m[31m-[m
+ slices/SLC-007-releases-view.md              |  2 [32m+[m[31m-[m
+ slices/SLC-008-decisions-view.md             |  2 [32m+[m[31m-[m
+ 17 files changed, 279 insertions(+), 52 deletions(-)

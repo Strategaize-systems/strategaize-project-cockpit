@@ -5,13 +5,13 @@
 | ID | Slice | Related Feature | Status | Priority | Notes |
 |---|---|---|---:|---:|---|
 | SLC-001 | Project Shell | FEAT-001 | done | high | Next.js app, layout, sidebar nav, 6 page routes |
-| SLC-002 | Project Selector | FEAT-001 | planned | high | Project config, context switch, localStorage persistence |
-| SLC-003 | State View | FEAT-001 | planned | high | Overview dashboard from STATE.md + PRD.md |
-| SLC-004 | Features Table | FEAT-002 | planned | high | Data table from features/INDEX.md |
-| SLC-005 | Slices Table | FEAT-003 | planned | high | Data table from slices/INDEX.md with resume highlighting |
-| SLC-006 | Issues View | FEAT-004 | planned | medium | Card list from KNOWN_ISSUES.md |
-| SLC-007 | Releases & Migrations View | FEAT-005 | planned | medium | Two stacked card sections from RELEASES.md + MIGRATIONS.md |
-| SLC-008 | Decisions & Improvements View | FEAT-006 | planned | medium | Two stacked card sections from DECISIONS.md + SKILL_IMPROVEMENTS.md |
+| SLC-002 | Project Selector | FEAT-001 | done | high | Project config, context switch, localStorage persistence |
+| SLC-003 | State View | FEAT-001 | done | high | Overview dashboard from STATE.md + PRD.md |
+| SLC-004 | Features Table | FEAT-002 | done | high | Data table from features/INDEX.md |
+| SLC-005 | Slices Table | FEAT-003 | done | high | Data table from slices/INDEX.md with resume highlighting |
+| SLC-006 | Issues View | FEAT-004 | done | medium | Card list from KNOWN_ISSUES.md |
+| SLC-007 | Releases & Migrations View | FEAT-005 | done | medium | Two stacked card sections from RELEASES.md + MIGRATIONS.md |
+| SLC-008 | Decisions & Improvements View | FEAT-006 | done | medium | Two stacked card sections from DECISIONS.md + SKILL_IMPROVEMENTS.md |
 
 ## Build order
 

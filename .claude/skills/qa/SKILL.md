@@ -39,6 +39,7 @@ When invoked, this skill should:
 5. Prevent false “done” states.
 6. Produce a believable readiness assessment.
 7. Recommend the correct next step based on findings.
+8. Keep longer QA runs visible through smaller progress updates when useful.
 
 ## Main responsibilities
 
@@ -56,21 +57,71 @@ This skill may prepare or update:
 - relevant slice records
 - relevant feature records
 
+## Visibility behavior for longer runs
+
+If QA covers multiple slices, many files, or several verification modes:
+- do not stay silent until the very end
+- provide short intermediate progress updates after meaningful QA batches
+- keep updates concise
+- make clear what has already been checked and what remains
+
+A good intermediate QA update should usually include:
+- what scope has been checked so far
+- whether anything failed or looks uncertain
+- what remains to be verified next
+
+The final QA report is still mandatory.
+
 ## Output format
 
-Always provide:
-1. QA scope reviewed
-2. pass / fail / mixed result
-3. findings grouped by severity
-4. open risks or missing checks
-5. readiness assessment
-6. recommended next step
+Always provide a full structured QA report.
 
+The QA report must include:
+
+1. QA scope reviewed
+- what slice, feature, or implementation unit was reviewed
+
+2. Overall result
+- pass / fail / mixed
+- with a short justification
+
+3. Acceptance coverage
+- what acceptance criteria or expected behaviors were checked
+- what was directly verified vs only inferred
+- what was not checked
+
+4. Findings grouped by severity
 Preferred severity levels:
 - Blocker
 - High
 - Medium
 - Low
+- Info
+
+5. Open risks or missing checks
+- what remains uncertain
+- what was not directly verified
+- what still limits confidence
+
+6. Readiness assessment
+- whether the reviewed scope is ready for the next step
+- and under what conditions
+
+7. Recommended next step
+- what should happen next
+- and why
+
+## QA honesty rule
+
+Do not equate:
+- build success with runtime correctness
+- code review with interaction verification
+- inferred behavior with demonstrated behavior
+- partial checks with full confidence
+
+If browser, runtime, persistence, or responsive behavior was not directly verified, say so explicitly.
+
+Do not hide verification gaps behind a clean PASS statement without qualification.
 
 ## Scope rules
 

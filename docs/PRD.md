@@ -5,17 +5,17 @@ Strategaize Project Cockpit
 
 ## Purpose
 
-Strategaize Project Cockpit is an internal operational dashboard for managing visibility across software projects built with Strategaize Dev System.
+Strategaize Project Cockpit ist ein internes operatives Dashboard für die Sichtbarkeit über Softwareprojekte, die mit dem Strategaize Dev System verwaltet werden.
 
-Its purpose is to replace scattered project awareness with a clear and structured overview of:
+Ziel ist es, verstreutes Projektwissen durch eine klare, strukturierte Übersicht zu ersetzen:
 
-- current project state
-- active and completed features
-- active and completed slices
-- known issues and bug records
-- releases and migrations
-- technical and process decisions
-- skill improvement findings
+- aktueller Projektstatus
+- aktive und abgeschlossene Features
+- aktive und abgeschlossene Slices
+- bekannte Probleme und Fehlerberichte
+- Releases und Migrationen
+- technische und prozessuale Entscheidungen
+- Skill-Verbesserungen
 
 ## Problem
 

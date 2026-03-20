@@ -69,3 +69,14 @@
   The dev system should evolve based on real repeated findings, not arbitrary changes.
 - Consequence:
   Skill improvement and lessons-learned records are part of the project and system logic.
+
+## DEC-011 — V1 cockpit UI language is German
+- Status: accepted
+- Reason:
+  The cockpit is intended for internal day-to-day use in a German working context. A mixed-language user interface reduces clarity and makes the product feel inconsistent. The current frontend slices already show that user-facing labels, helper text, empty states, and fallback messages should follow one language consistently.
+- Consequence:
+  All user-facing UI copy in V1 should be German. This includes sidebar labels, page headings, card titles, section labels, loading states, empty states, error/fallback states, helper text, and user-visible status wording controlled by the UI layer.
+  
+  Technical internals may remain English where that improves implementation clarity, including route paths, file names, component names, type names, and internal API naming not directly shown to the user.
+  
+  Content rendered from source project files may remain in the language in which it is authored unless it is deliberately rewritten at source level. V1 does not introduce multilingual support, locale switching, or a full i18n framework.

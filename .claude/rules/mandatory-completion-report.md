@@ -70,6 +70,8 @@ Explicitly list:
 - contradictions
 - scope issues
 - unclear source-of-truth situations
+- runtime failures or runtime blockers
+- verification gaps that materially affect confidence
 - anything that does not cleanly line up
 
 Do not hide, smooth over, or silently ignore problems.
@@ -79,6 +81,9 @@ List:
 - unresolved questions
 - intentionally postponed changes
 - items that must be handled in a later step
+
+This section is for planned future work or consciously deferred decisions.
+Do not use this section to hide current technical problems that affected the work step.
 
 ### 8. Recommended next step
 State:
@@ -137,6 +142,11 @@ must be based on actual verification, not assumption.
 
 If something was not directly verified, say so explicitly.
 
+If a key verification step could not be completed, that must appear under:
+- Problems found
+or
+- Outcome summary when it materially limits confidence
+
 ## Problem reporting discipline
 
 "Problems found: none" is only valid if:
@@ -145,8 +155,61 @@ If something was not directly verified, say so explicitly.
 - no assumptions remain unresolved
 - no runtime ambiguity remains
 - no deferred technical decisions affect the reported result
+- no verification gap materially limits confidence
+- no failed or blocked verification step occurred during the work
 
 If any of those exist, they must be listed under:
 - Problems found
 or
 - Open points / deferred decisions
+
+Do not label something as "none" if the report later mentions:
+- blocked dev server startup
+- stale lock files
+- browser verification not completed
+- visual behavior not directly checked
+- persistence behavior not directly checked
+- unresolved config or runtime uncertainty
+
+## Visibility rule for long runs
+
+If the task is long, touches multiple files, or involves multiple write phases, do not rely on one giant final message.
+
+Instead:
+- split the work into smaller visible batches
+- provide short intermediate progress updates after meaningful batches
+- keep those updates concise
+- avoid repeating the full same detail set again in the final report
+
+Intermediate updates must not replace the final completion report.
+
+Intermediate updates should usually include:
+- batch completed
+- affected files
+- visible problem yes/no
+- next immediate batch
+
+Prefer sequential or small-batch updates over many parallel hidden writes when visibility matters.
+
+## Silent completion is not allowed
+
+Do not finish meaningful work with:
+- no summary
+- only a generic summary
+- only a narrative explanation without file accounting
+- only a recommendation for the next step
+
+A proper completion report is mandatory.
+
+## Quality expectation
+
+The completion report must reflect the true state of the work.
+
+Do not imply that a task is complete if:
+- only part of it was done
+- files were reviewed but not updated
+- assumptions remain unresolved
+- blockers exist
+- required follow-up work is still pending
+
+Do not imply high verification confidence when runtime or browser-level validation was not completed.
