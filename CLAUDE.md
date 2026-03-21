@@ -222,6 +222,66 @@ Before something is treated as ready:
 - project records should remain coherent
 - the completion report should clearly reflect the true state of the work
 
+## Report-Speicherung (V3)
+
+After every non-trivial work step (implementation, QA, review, architecture, slice-planning, requirements), the Completion Report must be saved as a Markdown file in `reports/` of the active project.
+
+### Format
+
+```yaml
+---
+id: RPT-XXX
+date: "YYYY-MM-DD"
+skill: frontend
+slice: SLC-XXX
+feature: FEAT-XXX
+type: completion
+status: completed
+reviewOf: null
+title: "Short description"
+---
+```
+
+### Fields
+
+- `id` (required): Next sequential RPT-XXX (scan existing reports, take max + 1, zero-pad to 3 digits)
+- `date` (required): Today's date in ISO format
+- `skill` (required): The skill that was executed (frontend, backend, qa, review, architecture, etc.)
+- `slice` (optional): Slice reference if applicable (SLC-XXX)
+- `feature` (optional): Feature reference if applicable (FEAT-XXX)
+- `type` (required): `completion` for normal reports, `review` for /review results
+- `status` (required): `completed` for new reports
+- `reviewOf` (optional): RPT-XXX reference, only for type=review
+- `result` (optional but recommended for QA/review): Overall result, e.g. "PASS", "FAIL — 2 Blocker", "PASS — 1 Low-Finding (behoben)"
+- `title` (required): Short description of the report
+
+### Body
+
+The body is the Completion Report content in Markdown format.
+
+### File naming
+
+`reports/RPT-XXX.md` — e.g., `reports/RPT-001.md`, `reports/RPT-002.md`
+
+### Directory creation
+
+Create the `reports/` directory if it does not exist.
+
+### When to save
+
+Save after every non-trivial skill completion. Exceptions:
+- Trivial single-line fixes
+- Pure conversation (no implementation)
+- Steps that are part of a combined block where the final step produces the report
+
+### When NOT to save
+
+Do not save reports for:
+- reading files
+- answering questions
+- explaining code
+- memory updates
+
 ## Final instruction
 
 Keep the project small, useful, and operationally clear.

@@ -1,0 +1,147 @@
+# Discovery Scope Rule
+
+## Purpose
+
+This rule defines how discovery work should behave before `/requirements`, especially when the user provides rough, spoken, exploratory, or mixed input.
+
+The goal is to turn loose early-stage product thinking into a structured and decision-ready direction without losing useful future ideas or polluting the current scope.
+
+## Core rule
+
+Discovery work must tolerate rough user input.
+
+The user does not need to provide:
+- structured requirements
+- clean bullet points
+- final scope wording
+- orderly version boundaries
+
+Discovery must be able to work from:
+- free-form spoken-style input
+- mixed goals and questions
+- partial ideas
+- future thoughts mixed into current needs
+- scope that is not yet sharply cut
+
+Do not treat that as bad input.
+Treat it as raw material that must be structured.
+
+## Required discovery behavior
+
+When handling discovery work, always do all of the following:
+
+1. Extract the likely main goal.
+2. Separate main scope from side ideas.
+3. Detect when the user is mixing:
+   - current version scope
+   - future version ideas
+   - implementation thoughts
+   - architecture thoughts
+   - open questions
+4. Propose a cleaner cut when the current idea is too broad.
+5. Preserve later ideas explicitly instead of dropping them.
+6. Recommend what should be:
+   - now
+   - later
+   - much later
+   - out of scope
+7. Decide whether the topic is ready for `/requirements`.
+
+## Scope-cutting rule
+
+Discovery must actively cut scope.
+
+If the user proposes too much at once, discovery must say so clearly and propose a smaller first cut.
+
+Do not pass scope chaos straight into `/requirements`.
+
+Do not keep every idea in the immediate version just because it was mentioned.
+
+## Future-idea parking rule
+
+If the user mentions useful later ideas, discovery must preserve them explicitly.
+
+Use a structure such as:
+- later version
+- later phase
+- parked idea
+- not now
+
+Do not:
+- lose them
+- ignore them
+- silently merge them into the current version
+
+## Feasibility rule
+
+Discovery must include a realism check.
+
+It should explicitly indicate whether the idea is:
+- feasible as stated
+- feasible only in a smaller first cut
+- better split across multiple versions
+- premature
+- not sensible in the requested form
+
+Do not only restate the idea.
+Judge it.
+
+## Clarifying questions rule
+
+Discovery may ask clarifying questions, but only after making a first structuring pass.
+
+### Allowed
+Ask a small number of high-value questions when needed to determine:
+- main goal
+- version boundary
+- core in-scope element
+- critical out-of-scope boundary
+- primary operator or use case
+
+### Not allowed
+Do not ask long exploratory questionnaires.
+Do not ask architecture questions unless they block product shaping.
+Do not use questions to avoid making a first best-effort structure.
+
+## Anti-drift rule
+
+Discovery must not drift into:
+- implementation
+- detailed architecture
+- detailed data model design
+- detailed slice planning
+
+Discovery may name likely next stages, but must stop before architecture or implementation detail.
+
+## Required output shape
+
+A discovery result should clearly contain:
+
+1. raw idea summary
+2. likely main goal
+3. side ideas / attached thoughts
+4. feasibility and realism assessment
+5. proposed current scope
+6. proposed later scope
+7. version or phase cut
+8. parked ideas
+9. critical open questions
+10. readiness for `/requirements`
+11. recommended next step
+
+## Quality standard
+
+A strong discovery result:
+- makes messy input clearer
+- cuts scope instead of inflating it
+- protects later ideas without mixing them into now
+- gives the user a realistic first direction
+- makes `/requirements` easier and safer
+
+A weak discovery result:
+- just paraphrases the user
+- keeps everything in scope
+- loses later ideas
+- asks too many questions
+- jumps too early into architecture
+- leaves the current version boundary unclear

@@ -34,6 +34,90 @@
 - Within each phase, the second slice reuses patterns from the first — sequential build is recommended
 - SLC-004 + SLC-006 could run in parallel if two implementation sessions are available
 
+---
+
+## V2 Slice Plan
+
+| ID | Slice | Related Feature | Status | Priority | Notes |
+|---|---|---|---:|---:|---|
+| SLC-009 | V2 Fundament (Read) | FEAT-007, FEAT-008 | done | high | Backlog-Library (read-only), Backlog-API (GET), Sidebar V2, Platzhalter-Seiten |
+| SLC-010 | Roadmap-Backend | FEAT-008 | done | high | Roadmap-Library, Roadmap-API (GET), Fortschrittsberechnung |
+| SLC-011 | Backlog-Ansicht | FEAT-007 | done | high | Backlog-Seite mit Tabelle/Karten, Filter, Sortierung |
+| SLC-012 | Roadmap-Ansicht | FEAT-008 | done | high | Roadmap-Seite mit Versionskarten und Fortschrittsbalken |
+| SLC-013 | Backlog-Eintrag erstellen | FEAT-010 | done | medium | Write-Logik, POST-Route, Erstellen-Dialog |
+| SLC-014 | Backlog-Eintrag bearbeiten | FEAT-010 | done | medium | PATCH-Route, Inline-Bearbeitung (Status, Priorität, Version) |
+| SLC-015 | Dashboard-Erweiterung | FEAT-009 | done | medium | Übersichtsseite erweitert um Fortschritt, Prioritäten, Blocker |
+
+### V1-Dateien die in V2 modifiziert werden
+- `/app/src/components/sidebar.tsx` — Sektions-Labels und neue Nav-Items (SLC-009)
+- `/app/src/app/page.tsx` — Planungsfortschritt-Sektion (SLC-015)
+
+## V2 Build order
+
+### Phase 1 — Read Foundation (sequential)
+1. **SLC-009** — V2 Fundament Read (keine Abhängigkeiten — Grundlage für alle V2-Slices)
+2. **SLC-010** — Roadmap-Backend (abhängig von SLC-009 — nutzt readBacklogItems)
+
+### Phase 2 — Read Views (partially parallel)
+3. **SLC-011** — Backlog-Ansicht (abhängig von SLC-009)
+4. **SLC-012** — Roadmap-Ansicht (abhängig von SLC-009 + SLC-010)
+
+### Phase 3 — Write (sequential)
+5. **SLC-013** — Backlog-Eintrag erstellen (abhängig von SLC-011 — Create-UI integriert in Backlog-Ansicht)
+6. **SLC-014** — Backlog-Eintrag bearbeiten (abhängig von SLC-013 — baut auf Write-Logik auf)
+
+### Phase 4 — Dashboard
+7. **SLC-015** — Dashboard-Erweiterung (abhängig von SLC-009 + SLC-010)
+
+### Parallelization notes
+- Phase 1 ist strikt sequenziell (SLC-010 nutzt backlog.ts aus SLC-009)
+- SLC-011 kann starten sobald SLC-009 fertig ist (parallel zu SLC-010)
+- SLC-012 braucht beide Phase-1-Slices
+- Phase 3 ist strikt sequenziell: erst Create (SLC-013), dann Update (SLC-014)
+- SLC-015 ist unabhängig von Phase 3 und kann parallel zu SLC-013/SLC-014 laufen
+- SLC-015 braucht nur die Read-APIs (SLC-009 + SLC-010), keine Write-APIs
+
+---
+
+## V3 Slice Plan
+
+| ID | Slice | Related Feature | Status | Priority | Notes |
+|---|---|---|---:|---:|---|
+| SLC-016 | V3 Fundament (Port + Report-Library + Sidebar) | FEAT-011, FEAT-014 | done | high | Port 4400, lib/reports.ts, Sidebar "Workspace", Platzhalter-Seiten |
+| SLC-017 | Report-API | FEAT-011 | done | high | GET + POST /api/reports, Validierung, Response-Pattern |
+| SLC-018 | Report-Ansicht | FEAT-012 | done | high | Report-Liste mit Filter/Sortierung, Detail-Ansicht, Markdown-Rendering |
+| SLC-019 | Nächster-Schritt-Engine | FEAT-013 | done | high | lib/next-step.ts Regelwerk + Prompt-Generierung, GET /api/next-step |
+| SLC-020 | Nächster-Schritt-Ansicht | FEAT-013 | done | high | Empfehlungs-Seite mit Prompt-Anzeige + Ein-Klick-Kopieren |
+| SLC-021 | /review-Skill + Report-Save | FEAT-015, FEAT-011 | done | high | /review Skill-Prompt, CLAUDE.md Report-Save-Instruktion |
+
+### V1/V2-Dateien die in V3 modifiziert werden
+- `/app/src/components/sidebar.tsx` — Dritte Sektion "Workspace" mit 2 neuen Nav-Items (SLC-016)
+- `/app/package.json` — Dev-Script Port auf 4400 ändern (SLC-016)
+- `/CLAUDE.md` — Report-Save-Instruktion hinzufügen (SLC-021)
+
+## V3 Build order
+
+### Phase 1 — Foundation (sequential)
+1. **SLC-016** — V3 Fundament (keine Abhängigkeiten — Grundlage für alle V3-Slices)
+2. **SLC-017** — Report-API (abhängig von SLC-016 — nutzt lib/reports.ts)
+
+### Phase 2 — Views + Engine (partially parallel)
+3. **SLC-018** — Report-Ansicht (abhängig von SLC-017 — nutzt GET /api/reports)
+4. **SLC-019** — Nächster-Schritt-Engine (abhängig von SLC-016 — nutzt lib/reports.ts + lib/markdown.ts)
+
+### Phase 3 — Nächster-Schritt-View
+5. **SLC-020** — Nächster-Schritt-Ansicht (abhängig von SLC-019 — nutzt GET /api/next-step)
+
+### Phase 4 — Skill (independent)
+6. **SLC-021** — /review-Skill + Report-Save (unabhängig von Cockpit-Code, kann parallel zu jeder Phase laufen)
+
+### Parallelization notes
+- Phase 1 ist strikt sequenziell (SLC-017 nutzt reports.ts aus SLC-016)
+- SLC-018 und SLC-019 können parallel laufen (beide abhängig von Phase 1, aber nicht voneinander)
+- SLC-020 braucht SLC-019 (nutzt die API)
+- SLC-021 ist vollständig unabhängig vom Cockpit-Code — kann jederzeit nach SLC-016 gebaut werden
+- SLC-021 muss vor dem ersten echten Einsatz fertig sein, sonst fehlt die Report-Save-Logik
+
 ## Status values
 - planned
 - ready

@@ -1,0 +1,194 @@
+{
+  "items": [
+    {
+      "id": "BL-001",
+      "title": "Backlog-Ansicht für V2 fertigstellen",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V2",
+      "description": "Tabelle, Filter, Sortierung und leere Zustände für das Backlog anzeigen.",
+      "createdAt": "2026-03-20"
+    },
+    {
+      "id": "BL-002",
+      "title": "Roadmap-Ansicht fertigstellen",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V2",
+      "description": "Versionskarten mit Status-Badge und Fortschrittsanzeige darstellen.",
+      "createdAt": "2026-03-20"
+    },
+    {
+      "id": "BL-003",
+      "title": "Backlog-Eintrag erstellen",
+      "type": "improvement",
+      "priority": "high",
+      "status": "done",
+      "version": "V2",
+      "description": "Dialog zum Anlegen neuer Backlog-Einträge über die UI.",
+      "createdAt": "2026-03-20"
+    },
+    {
+      "id": "BL-004",
+      "title": "Backlog-Eintrag bearbeiten",
+      "type": "improvement",
+      "priority": "medium",
+      "status": "done",
+      "version": "V2",
+      "description": "Status, Priorität und Versionszuordnung direkt im Cockpit ändern.",
+      "createdAt": "2026-03-20"
+    },
+    {
+      "id": "BL-005",
+      "title": "Dashboard um Planungsfortschritt erweitern",
+      "type": "feature",
+      "priority": "medium",
+      "status": "done",
+      "version": "V2",
+      "description": "Fortschritt, Prioritäten und Blocker auf der Übersichtsseite sichtbar machen.",
+      "createdAt": "2026-03-20"
+    },
+    {
+      "id": "BL-006",
+      "title": "Report-Speicherung als Markdown",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V3",
+      "description": "Completion Reports und Review-Ergebnisse als Markdown-Dateien mit YAML-Frontmatter im Repo speichern (reports/ Verzeichnis). → SLC-016 (Library), SLC-017 (API), SLC-021 (Save-Instruktion)",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-007",
+      "title": "Report-Viewer im Cockpit",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V3",
+      "description": "Neue Cockpit-Ansicht zum Anzeigen, Filtern und Durchsuchen gespeicherter Reports. → SLC-018",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-008",
+      "title": "Nächster-Schritt-Engine",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V3",
+      "description": "Regelbasierte Empfehlung des nächsten Arbeitsschritts basierend auf Slice-/Feature-Status. Gibt fertigen Prompt aus. → SLC-019",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-009",
+      "title": "Ein-Klick Prompt-Kopieren",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V3",
+      "description": "Kopieren-Button der den generierten Prompt in die Zwischenablage legt. Ein Klick statt manuelles Formulieren. → SLC-020",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-010",
+      "title": "/review-Skill für Claude Code",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V3",
+      "description": "Neuer Skill der Completion Reports gegen Slice-Definition, Akzeptanzkriterien und Architektur prüft. Ersetzt ChatGPT als Review-Instanz. → SLC-021",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-011",
+      "title": "Fester Cockpit-Port",
+      "type": "improvement",
+      "priority": "medium",
+      "status": "done",
+      "version": "V3",
+      "description": "Cockpit auf dedizierten Port 4400 konfigurieren um Kollisionen mit anderen Next.js-Projekten zu vermeiden. → SLC-016",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-012",
+      "title": "Sidebar um Workspace-Sektion erweitern",
+      "type": "improvement",
+      "priority": "medium",
+      "status": "done",
+      "version": "V3",
+      "description": "Neue Sektions-Gruppe 'Workspace' in der Sidebar mit Reports und Nächster Schritt. → SLC-016",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-013",
+      "title": "Execution-Log / Historie",
+      "type": "feature",
+      "priority": "medium",
+      "status": "done",
+      "version": "V3",
+      "description": "Chronologische Übersicht ausgeführter Schritte, Reports und Review-Ergebnisse. Teil der Report-Ansicht (Datums-Sortierung). → SLC-018",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-014",
+      "title": "/onboard-Skill für bestehende Repositories",
+      "type": "feature",
+      "priority": "high",
+      "status": "open",
+      "version": "Später",
+      "description": "Skill der ein bestehendes Git-Repo einliest, Projektstruktur bewertet, Lücken identifiziert und Einstiegspunkt im Strategaize-Workflow vorschlägt. Separater Arbeitsstrang, nicht Teil von V3.0 Features.",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-015",
+      "title": "Alte V1-Feature-Statuswerte korrigieren",
+      "type": "fix",
+      "priority": "low",
+      "status": "done",
+      "version": "V1.1",
+      "description": "Geplante Statuswerte in der Feature-Doku auf den tatsächlichen Release-Stand ziehen.",
+      "createdAt": "2026-03-20"
+    },
+    {
+      "id": "BL-016",
+      "title": "Branding-Konfiguration weiter ausbauen",
+      "type": "later",
+      "priority": "low",
+      "status": "open",
+      "version": "Später",
+      "description": "Erweiterte Branding-/Theme-Anpassungen bewusst nicht in den aktuellen Scope ziehen.",
+      "createdAt": "2026-03-20"
+    },
+    {
+      "id": "BL-017",
+      "title": "VS Code Extension für Prompt-Injection",
+      "type": "idea",
+      "priority": "low",
+      "status": "deferred",
+      "version": "Später",
+      "description": "Extension die Prompts direkt in Claude Code injiziert ohne Copy-Paste. Geparkt für V3.1+.",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-018",
+      "title": "Dockerfile für Hetzner/Coolify-Deployment",
+      "type": "improvement",
+      "priority": "medium",
+      "status": "open",
+      "version": "Später",
+      "description": "Docker-basiertes Deployment ermöglichen. War bereits als optionaler Schritt nach V2 geplant. Nicht Teil des V3.0-Feature-Scopes.",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-019",
+      "title": "Issues/Backlog-Konsolidierung",
+      "type": "idea",
+      "priority": "low",
+      "status": "deferred",
+      "version": "Später",
+      "description": "KNOWN_ISSUES.md und Backlog-Bugs zusammenführen. In V2 bewusst als Koexistenz belassen (DEC-014).",
+      "createdAt": "2026-03-21"
+    }
+  ]
+}

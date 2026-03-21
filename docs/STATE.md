@@ -12,23 +12,34 @@ Das Cockpit macht Projektstatus, Features, Slices, Probleme, Releases, Migration
 
 ## Current State
 - High-Level State: released
-- Current Focus: V1.0.0 lokal veröffentlicht, Design-Polish (Paket 1-8) abgeschlossen, Browser-Test bestanden
-- Current Phase: Post-Release
+- Current Focus: V3.0.0 lokal veröffentlicht
+- Current Phase: Post-Release (V3)
 
 ## Immediate Next Steps
-1. Optional: Dockerfile für Hetzner/Coolify-Deployment
-2. Optional: features/INDEX.md Status-Werte aktualisieren
+1. Git Commit für V3.0.0
+2. Testing-Strategie besprechen (End-to-End, Unit Tests)
+3. /discovery für /onboard-Skill (separater Arbeitsstrang)
+4. Optional: Dockerfile für Hetzner/Coolify-Deployment
 
 ## Active Scope
-Der aktuelle Scope ist auf ein V1-internes Cockpit beschränkt, das primär strukturierte Projektinformationen liest und anzeigt.
+V1, V1.1 und V2 sind abgeschlossen und released.
 
-V1 soll keine vollständige Projektmanagement-Plattform werden.
+V3.0 erweitert das Cockpit zum aktiven Arbeitsplatz:
+- Report-Speicherung und Report-Viewer
+- Nächster-Schritt-Engine mit fertigem Prompt-Output
+- /review-Skill für Claude Code
+- Fester Cockpit-Port
+- Execution-Log
+
+V3.0 soll keine API-basierte Execution, keine Datenbank, keine ChatGPT-Integration und kein Speech-to-Text enthalten.
+
+Discovery-Dokument: /planning/V3-discovery.md
 
 ## Blockers
 - aktuell keine
 
 ## Last Stable Version
-- V1.0.0 (Lokal) — 2026-03-19
+- V3.0.0 (Lokal) — 2026-03-21
 
 ## Notes
 Dieses Projekt ist der erste echte Testfall für das Strategaize Dev System und sollte daher die Systemstruktur diszipliniert genug einhalten, um sie in der Praxis zu validieren.

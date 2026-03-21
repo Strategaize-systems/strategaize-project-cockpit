@@ -85,7 +85,40 @@ List:
 This section is for planned future work or consciously deferred decisions.
 Do not use this section to hide current technical problems that affected the work step.
 
-### 8. Recommended next step
+### 8. Project record updates (MANDATORY after implementation)
+
+After completing implementation work (frontend, backend, or combined slices), the following project records must be updated immediately as part of the completion — not deferred, not batched, not left for later:
+
+- `/slices/INDEX.md` — set the implemented slice status to `done` (or `in_progress` if partially complete)
+- `/features/INDEX.md` — set the feature status to `done` when all related slices are done
+- `/planning/backlog.json` — set related backlog items to `done` (or `in_progress` if partially complete)
+- `/planning/roadmap.json` — set the version status to `active` when implementation begins, `released` when complete
+- `/docs/STATE.md` — update current focus and immediate next steps
+
+This is not optional. Failing to update these records causes:
+- the Nächster-Schritt-Engine to give wrong recommendations
+- the Cockpit UI to show stale data
+- loss of project visibility — the exact problem the cockpit is built to solve
+
+If a slice is implemented but its status is not updated, the work is not considered reported.
+
+### 9. QA after every step (MANDATORY)
+
+After every non-trivial skill completion (frontend, backend, requirements, architecture, slice-planning), QA must be performed as the immediate next action — not deferred, not skipped, not left for the user to request.
+
+The QA step serves as the systematic check that replaces external review.
+
+Exceptions:
+- Steps that build on each other and are not individually verifiable (e.g., a library without its API). In that case, QA after the combined block.
+- Trivial fixes (single-line edits, typo corrections) do not require a full QA cycle.
+
+After completing a skill, always either:
+- run `/qa` directly as part of the same response, or
+- explicitly state "Nächster Schritt: /qa" and wait for confirmation
+
+Do not move to the next implementation slice without QA on the current one.
+
+### 10. Recommended next step
 State:
 - the next recommended skill, mode, or work step
 - why that is the correct next step

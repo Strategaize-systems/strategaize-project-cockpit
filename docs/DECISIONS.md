@@ -70,6 +70,111 @@
 - Consequence:
   Skill improvement and lessons-learned records are part of the project and system logic.
 
+## DEC-012 — V2 verwendet keine Datenbank
+- Status: accepted
+- Reason:
+  V2 ist ein Planungs- und Fortschrittscockpit, kein datenintensives System. Eine Datenbank würde unnötige Infrastruktur-Komplexität einführen und V3-Entscheidungen vorwegnehmen. Repo-nahe strukturierte Dateien sind für V2 ausreichend.
+- Consequence:
+  V2 verwendet strukturierte Dateien im Repo als Datenquelle (Format wird im Architecture-Schritt entschieden). Kein Supabase, kein SQLite, kein anderer DB-Layer in V2. Schreibzugriff erfolgt direkt auf Dateien.
+
+## DEC-013 — V2 ist Planungssicht, nicht Execution-Oberfläche
+- Status: accepted
+- Reason:
+  V2 soll die Sichtbarkeit auf Planung und Fortschritt erweitern. Execution-Funktionalität (Live-Loop, Claude Code Integration, Approvals) gehört in V3. Die Grenze muss hart bleiben, damit V2 fokussiert und lieferbar bleibt.
+- Consequence:
+  V2 beschränkt den Schreibzugriff auf minimale Backlog-Datenpflege (Einträge anlegen, Status/Priorität ändern). Keine Workflow-Automation, keine IDE-Integration, keine Approval-Prozesse, keine QA-Reports als Arbeitsoberfläche.
+
+## DEC-014 — Issues und Backlog koexistieren in V2
+- Status: accepted
+- Reason:
+  KNOWN_ISSUES.md ist Teil der etablierten Strategaize-Projektstruktur und wird von der bestehenden Issues-Ansicht (FEAT-004) gelesen. Der neue Backlog (FEAT-007) ist eine separate Planungsschicht mit eigener Datenquelle (planning/backlog.json). Die Backlog-Kategorie "Bug" überlappt funktional mit Issues, aber eine Migration oder Konsolidierung in V2 würde die V1-Stabilität gefährden und unnötige Komplexität einführen.
+- Consequence:
+  V2 betreibt zwei parallele Sichten: Issues (Markdown, read-only) und Backlog (JSON, read/write). Konsolidierung wird auf V3 verschoben. Die Trennung muss im UI durch klare Sektions-Labels sichtbar sein.
+
+## DEC-015 — V2 verwendet JSON-Dateien in planning/ für neue Daten
+- Status: accepted
+- Reason:
+  V2 braucht Schreibzugriff auf Backlog-Daten. Markdown ist für Write-Back fragil (Tabellen-Formatierung, Edge Cases). JSON ist trivial serialisierbar/deserialisierbar, strukturell eindeutig und für programmatischen Zugriff geeignet. Die Dateien leben im Projekt-Repo und sind damit "repo-nah" wie gefordert.
+- Consequence:
+  Neue V2-Daten werden als JSON-Dateien unter `planning/` im Zielprojekt gespeichert: `planning/backlog.json` und `planning/roadmap.json`. Bestehende Markdown-Quellen (V1) bleiben unverändert. V2 führt damit ein zweites Datenformat (JSON) neben dem bestehenden (Markdown) ein.
+
+## DEC-016 — V2 Sidebar verwendet Sektions-Gruppierung
+- Status: accepted
+- Reason:
+  V2 fügt zwei neue Navigationseinträge hinzu (Backlog, Roadmap). Um die bestehende V1-Navigation nicht zu stören und die V2-Planungssicht klar abzugrenzen, wird die Sidebar in zwei Sektionen gruppiert: "Projekt" (V1-Sichten) und "Planung" (V2-Sichten).
+- Consequence:
+  Die Sidebar erhält Sektions-Labels. Die bestehenden 6 V1-Einträge bleiben unverändert unter "Projekt". Die 2 neuen V2-Einträge (Backlog, Roadmap) erscheinen unter "Planung". Die Reihenfolge der V1-Items ändert sich nicht.
+
+## DEC-017 — V3 verwendet keine externe LLM-API (kein OpenAI, kein Anthropic API)
+- Status: accepted
+- Reason:
+  Der User hat ein bestehendes Claude Max-Abo das Claude Code abdeckt. Eine zusätzliche API-Nutzung (Anthropic oder OpenAI) würde $50-150+/Monat Extra-Kosten verursachen für Funktionalität die Claude Code bereits bietet. Für das Einsatzprofil (interne Tools, kleinere Kundenprojekte) ist der Qualitätsgewinn eines zweiten LLM-Systems nicht gerechtfertigt.
+- Consequence:
+  V3 baut keine API-basierte Execution-Engine. Execution bleibt in Claude Code/VS Code. Das Cockpit ist Steuerungs- und Sichtbarkeitsschicht. Ein `/review`-Skill ersetzt die ChatGPT-Prüfung. Kann in V3.2+ revidiert werden falls sich Kosten/Nutzen-Verhältnis ändert.
+
+## DEC-018 — V3 verwendet keine Datenbank
+- Status: accepted
+- Reason:
+  V3 erweitert das Cockpit um Reports und Workspace-Funktionalität. Wie V2 bleibt das System dateibasiert (JSON + Markdown). Für ein Single-User internes Tool ist keine DB-Infrastruktur nötig.
+- Consequence:
+  Reports werden als Markdown-Dateien mit YAML-Frontmatter gespeichert (DEC-021). Keine Supabase, kein SQLite. Gleicher Ansatz wie V2 planning/ Dateien.
+
+## DEC-019 — Cockpit bekommt einen dedizierten festen Port
+- Status: accepted
+- Reason:
+  Das Cockpit läuft auf localhost parallel zu anderen Next.js-Entwicklungsprojekten die typischerweise Port 3000 nutzen. Port-Kollisionen müssen vermieden werden.
+- Consequence:
+  Cockpit wird auf einen festen Port konfiguriert (z.B. 4400), weit entfernt von Standard-Entwicklungsports. Konfiguration in package.json dev-Script oder .env.
+
+## DEC-020 — ChatGPT als Review-Instanz wird durch internen /review-Skill ersetzt
+- Status: accepted
+- Reason:
+  ChatGPT wurde als unabhängige Prüfinstanz für Completion Reports verwendet. Ein interner /review-Skill hat vollen Projektkontext (Slice-Definition, Akzeptanzkriterien, Architektur, Decisions) und liefert gleichwertige Ergebnisse ohne Extra-Kosten oder Copy-Paste-Aufwand.
+- Consequence:
+  Kein OpenAI-Account oder -API nötig. Review läuft komplett innerhalb von Claude Code. Reports werden gegen Projektdateien geprüft.
+
+## DEC-021 — Reports verwenden YAML-Frontmatter in Markdown-Dateien
+- Status: accepted
+- Reason:
+  Reports müssen sowohl maschinenlesbar (für Cockpit-API) als auch menschenlesbar (für direktes Öffnen im Editor) sein. YAML-Frontmatter ist der Standard für Markdown-Metadaten (Hugo, Jekyll, MDX). JSON-Frontmatter wäre technisch möglich, aber weniger lesbar. Das einfache Key-Value-Format der Frontmatter ist ohne externe Abhängigkeiten parsebar.
+- Consequence:
+  Reports werden als `.md`-Dateien mit `---`-delimitiertem YAML-Frontmatter gespeichert. Felder: id, date, skill, slice, feature, type, status. Parser wird als einfache Regex/String-Verarbeitung in `lib/reports.ts` implementiert — kein `gray-matter` oder andere npm-Abhängigkeiten nötig.
+
+## DEC-022 — Reports werden in reports/ im Zielprojekt-Repo gespeichert
+- Status: accepted
+- Reason:
+  Reports gehören zum Projekt, nicht zum Cockpit. Sie dokumentieren die Arbeitsschritte an einem spezifischen Projekt und sollen auch ohne Cockpit lesbar und versionierbar sein. Das `reports/`-Verzeichnis erweitert die Strategaize-Projektstruktur neben `docs/`, `features/`, `slices/`, `planning/`.
+- Consequence:
+  Jedes Projekt-Repo erhält ein `reports/`-Verzeichnis (on-demand erstellt). Reports werden als einzelne Markdown-Dateien gespeichert (RPT-001.md, RPT-002.md, ...). Der Cockpit liest sie per Verzeichnis-Scan, kein separater Index nötig.
+
+## DEC-023 — Nächster-Schritt-Engine ist regelbasiert in V3.0
+- Status: accepted
+- Reason:
+  Eine LLM-gestützte Empfehlung würde API-Kosten verursachen (DEC-017 verbietet das). Regelbasierte Logik ist für die vorhandene Projektstruktur (Slices mit Status, Features mit Reihenfolge) ausreichend und deterministisch. Die Engine liest Slice-Status, Report-Historie und Feature-Phase und leitet daraus den nächsten Skill ab.
+- Consequence:
+  Die Nächster-Schritt-Logik wird als serverseitige Funktion in `lib/next-step.ts` implementiert. Keine LLM-Aufrufe. Kann in V3.1+ optional durch LLM-Empfehlungen ergänzt werden.
+
+## DEC-024 — Report-Speicherung erfolgt durch Claude Code Datei-Write
+- Status: accepted
+- Reason:
+  Claude Code hat bereits vollen Dateisystem-Zugriff und schreibt Projektdateien direkt. Ein separater API-Endpunkt zum Speichern wäre redundant. Die CLAUDE.md Completion-Report-Regel kann so erweitert werden, dass Reports automatisch als Datei gespeichert werden.
+- Consequence:
+  Skills und die CLAUDE.md-Instruktion werden so angepasst, dass Completion Reports nach jedem nicht-trivialen Arbeitsschritt als Markdown-Datei in `reports/` gespeichert werden. Das Cockpit benötigt nur Read-APIs für Reports. Ein POST /api/reports wird für zukünftige Nutzung bereitgestellt, ist aber in V3.0 nicht primärer Speicherweg.
+
+## DEC-025 — Cockpit-Port ist 4400
+- Status: accepted
+- Reason:
+  Port 4400 liegt weit von Standard-Entwicklungsports entfernt (3000, 3001, 5173, 8080). Er ist leicht merkbar und kollidiert nicht mit gängigen Services.
+- Consequence:
+  `package.json` dev-Script wird auf Port 4400 konfiguriert. `.env` enthält PORT=4400 als Fallback. Dokumentation und Sidebar-Branding können den Port referenzieren.
+
+## DEC-026 — Sidebar erhält dritte Sektion "Workspace"
+- Status: accepted
+- Reason:
+  V3 fügt zwei neue Workspace-bezogene Seiten hinzu (Reports, Nächster Schritt). Diese sind funktional verschieden von den bestehenden Sektionen "Projekt" (V1, Read-Ansichten) und "Planung" (V2, Backlog/Roadmap). Eine dritte Sektion macht die Trennung sichtbar und erhält die bestehende Navigation unverändert.
+- Consequence:
+  Sidebar zeigt drei Sektionen: "Projekt" (6 Items), "Planung" (2 Items), "Workspace" (2 Items). Bestehende V1/V2-Items werden nicht verschoben oder umbenannt.
+
 ## DEC-011 — V1 cockpit UI language is German
 - Status: accepted
 - Reason:

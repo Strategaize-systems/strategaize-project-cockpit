@@ -1,0 +1,39 @@
+{
+  "versions": [
+    {
+      "id": "v1",
+      "name": "V1",
+      "status": "released",
+      "summary": "Read-orientiertes Project Cockpit mit Status-, Feature-, Slice-, Issue-, Release- und Decision-Sichten.",
+      "order": 1
+    },
+    {
+      "id": "v11",
+      "name": "V1.1",
+      "status": "released",
+      "summary": "Design-Polish und visuelle Nachschärfung für ein saubereres internes Cockpit.",
+      "order": 2
+    },
+    {
+      "id": "v2",
+      "name": "V2",
+      "status": "released",
+      "summary": "Planungs- und Fortschrittscockpit mit Backlog-, Roadmap- und Fortschrittssicht.",
+      "order": 3
+    },
+    {
+      "id": "v3",
+      "name": "V3",
+      "status": "released",
+      "summary": "Workspace Foundation — Report-Layer, Nächster-Schritt-Engine, /review-Skill, fester Port. Keine API, keine DB.",
+      "order": 4
+    },
+    {
+      "id": "later",
+      "name": "Später",
+      "status": "deferred",
+      "summary": "Spätere Ausbaustufe für Themen, die bewusst außerhalb des aktuellen Fokus liegen.",
+      "order": 5
+    }
+  ]
+}
