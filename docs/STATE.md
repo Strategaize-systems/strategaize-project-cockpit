@@ -12,13 +12,13 @@ Das Cockpit macht Projektstatus, Features, Slices, Probleme, Releases, Migration
 
 ## Current State
 - High-Level State: released
-- Current Focus: V3.0.0 lokal veröffentlicht
-- Current Phase: Post-Release (V3)
+- Current Focus: V3.1.0 lokal veröffentlicht
+- Current Phase: Post-Release (V3.1)
 
 ## Immediate Next Steps
-1. Git Commit für V3.0.0
-2. Testing-Strategie besprechen (End-to-End, Unit Tests)
-3. /discovery für /onboard-Skill (separater Arbeitsstrang)
+1. Git Commit + Push für V3.1.0
+2. Backport: Rule-Härtungen ins Dev-System (Arbeitsregel 7)
+3. Parallel möglich: Bestehende Projekte onboarden (/onboard-Skill)
 4. Optional: Dockerfile für Hetzner/Coolify-Deployment
 
 ## Active Scope

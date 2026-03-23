@@ -135,9 +135,9 @@
       "title": "/onboard-Skill für bestehende Repositories",
       "type": "feature",
       "priority": "high",
-      "status": "open",
+      "status": "done",
       "version": "Später",
-      "description": "Skill der ein bestehendes Git-Repo einliest, Projektstruktur bewertet, Lücken identifiziert und Einstiegspunkt im Strategaize-Workflow vorschlägt. Separater Arbeitsstrang, nicht Teil von V3.0 Features.",
+      "description": "Skill der ein bestehendes Git-Repo einliest, Projektstruktur bewertet, Lücken identifiziert und Einstiegspunkt im Strategaize-Workflow vorschlägt. Erstellt und im Dev-System deployed. Echttest steht noch aus.",
       "createdAt": "2026-03-21"
     },
     {
@@ -189,6 +189,26 @@
       "version": "Später",
       "description": "KNOWN_ISSUES.md und Backlog-Bugs zusammenführen. In V2 bewusst als Koexistenz belassen (DEC-014).",
       "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-020",
+      "title": "Testing Phase 1 — Vitest + Library Unit Tests",
+      "type": "improvement",
+      "priority": "high",
+      "status": "done",
+      "version": "V3.1",
+      "description": "Vitest einrichten, Unit Tests für reports.ts, next-step.ts, backlog.ts. On-demand via npm run test. Discovery: planning/testing-discovery.md",
+      "createdAt": "2026-03-21"
+    },
+    {
+      "id": "BL-021",
+      "title": "Nächster-Schritt-Engine: Offene Schritte + aktuelle Version parallel anzeigen",
+      "type": "improvement",
+      "priority": "high",
+      "status": "done",
+      "version": "V3.1",
+      "description": "Engine soll gleichzeitig anzeigen: (1) den nächsten Schritt der aktuellen Version (z.B. /slice-planning für V3.1) UND (2) offene ältere Schritte (z.B. Deploy für V3). Aktuell blockiert ein offener Post-Impl-Schritt die Anzeige des echten nächsten Arbeitsschritts.",
+      "createdAt": "2026-03-23"
     }
   ]
 }

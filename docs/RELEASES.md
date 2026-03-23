@@ -40,6 +40,13 @@ Jeder Release-Eintrag soll verständlich machen:
 - Risks: Keine automatisierten Tests. Kein Dockerfile. Report Auto-Save via CLAUDE.md-Instruktion noch nicht im Echteinsatz validiert. Silent Error-Catching in Libraries.
 - Rollback notes: Git-Zustand vor V3-Implementierung wiederherstellen. reports/ Verzeichnis in Zielprojekten manuell entfernen falls nötig. .claude/skills/review/ Verzeichnis entfernen. Port in package.json zurück auf Standard ändern.
 
+### REL-005 — V3.1.0 Testing Foundation (Lokal)
+- Date: 2026-03-23
+- Scope: V3.1-Erweiterung — alle 5 Slices (SLC-022 bis SLC-026), 1 Feature (FEAT-016), 2 Backlog-Items (BL-020, BL-021)
+- Summary: Testing-Infrastruktur mit Vitest. 45 Unit Tests für drei Kern-Libraries (reports.ts 12 Tests, next-step.ts 17 Tests, backlog.ts 13 Tests, Smoke 3 Tests). On-demand via `npm run test` (< 500ms). Nächster-Schritt-Engine um Multi-Version-Unterstützung erweitert: aktuelle Version priorisiert, offene ältere Schritte (Deploy etc.) als sekundäre Info in pendingSteps-Array. PendingSteps-UI in Nächster-Schritt-Seite. Engine Version-Detection via RPT-ID-Vergleich. QA-Pflicht präzisiert (nur nach /frontend, /backend, /slice-planning). Workflow-Reihenfolge als mandatory in CLAUDE.md verankert. Keyword-Erweiterung für Skill-Typ-Erkennung (Testing/Tooling → /backend). Slices-Parser Multi-Table-Fix tautologischer Confidence-Fix.
+- Risks: Kein Multi-Version Unit Test für isCurrentVersion(). Kein Dockerfile. RPT-ID-Vergleich setzt chronologische Report-Erstellung voraus.
+- Rollback notes: Vitest und Tests entfernen: `npm uninstall vitest`, `app/vitest.config.ts` löschen, `app/src/lib/__tests__/` löschen, test/test:watch Scripts aus package.json entfernen. Engine-Änderungen in next-step.ts revertieren.
+
 ## Standard structure for future entries
 
 ### REL-XXX — Version or release name

@@ -102,17 +102,31 @@ This is not optional. Failing to update these records causes:
 
 If a slice is implemented but its status is not updated, the work is not considered reported.
 
-### 9. QA after every step (MANDATORY)
+### 9. QA after implementation steps (MANDATORY)
 
-After every non-trivial skill completion (frontend, backend, requirements, architecture, slice-planning), QA must be performed as the immediate next action — not deferred, not skipped, not left for the user to request.
+After every `/frontend`, `/backend`, or `/slice-planning` completion, QA must be performed as the immediate next action — not deferred, not skipped, not left for the user to request.
 
 The QA step serves as the systematic check that replaces external review.
+
+**QA is mandatory after:**
+- `/frontend`
+- `/backend`
+- `/slice-planning`
+
+**QA is NOT required after:**
+- `/discovery`
+- `/requirements`
+- `/architecture`
+
+**QA must include test execution when tests exist:**
+- If `npm run test` is available, QA must run it and report the result
+- Test failures are findings (severity depends on what failed)
 
 Exceptions:
 - Steps that build on each other and are not individually verifiable (e.g., a library without its API). In that case, QA after the combined block.
 - Trivial fixes (single-line edits, typo corrections) do not require a full QA cycle.
 
-After completing a skill, always either:
+After completing a qualifying skill, always either:
 - run `/qa` directly as part of the same response, or
 - explicitly state "Nächster Schritt: /qa" and wait for confirmation
 

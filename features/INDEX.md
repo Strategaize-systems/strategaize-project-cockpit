@@ -38,9 +38,16 @@
 | FEAT-014 | Workspace-Navigation und Infrastruktur | done | medium | Sidebar "Workspace"-Sektion, fester Port, Routing |
 | FEAT-015 | /review-Skill | done | high | Claude Code Skill zur Report-Prüfung gegen Projektkriterien |
 
+## Planned / Active Feature Set for V3.1
+
+| ID | Feature | Status | Priority | Notes |
+|---|---|---:|---:|---|
+| FEAT-016 | Unit Test Suite | done | high | Vitest + Tests für reports.ts, next-step.ts, backlog.ts |
+
 ## Notes
 V1-Features definieren den abgeschlossenen V1-Scope.
 V2-Features definieren den abgeschlossenen V2-Scope.
 V3-Features: FEAT-011 bis FEAT-015 alle implementiert (done).
+V3.1-Features definieren den geplanten Testing-Scope.
 
 Zusätzliche Ideen werden erfasst, aber nicht in aktive Arbeit aufgenommen, ohne explizite Freigabe.

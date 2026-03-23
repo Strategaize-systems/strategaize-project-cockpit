@@ -1,0 +1,24 @@
+{
+  "items": [
+    {
+      "id": "BL-001",
+      "title": "Ersten Eintrag anlegen",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V1",
+      "description": "Test-Eintrag für Unit Tests.",
+      "createdAt": "2026-03-20"
+    },
+    {
+      "id": "BL-002",
+      "title": "Zweiten Eintrag anlegen",
+      "type": "bug",
+      "priority": "medium",
+      "status": "open",
+      "version": "V2",
+      "description": "Weiterer Test-Eintrag.",
+      "createdAt": "2026-03-21"
+    }
+  ]
+}

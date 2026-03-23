@@ -29,11 +29,18 @@
       "order": 4
     },
     {
+      "id": "v31",
+      "name": "V3.1",
+      "status": "released",
+      "summary": "Testing Foundation — Vitest + Unit Tests für Kern-Libraries (reports.ts, next-step.ts, backlog.ts).",
+      "order": 5
+    },
+    {
       "id": "later",
       "name": "Später",
       "status": "deferred",
       "summary": "Spätere Ausbaustufe für Themen, die bewusst außerhalb des aktuellen Fokus liegen.",
-      "order": 5
+      "order": 6
     }
   ]
 }

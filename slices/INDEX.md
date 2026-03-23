@@ -118,6 +118,37 @@
 - SLC-021 ist vollständig unabhängig vom Cockpit-Code — kann jederzeit nach SLC-016 gebaut werden
 - SLC-021 muss vor dem ersten echten Einsatz fertig sein, sonst fehlt die Report-Save-Logik
 
+---
+
+## V3.1 Slice Plan
+
+| ID | Slice | Related Feature | Status | Priority | Notes |
+|---|---|---|---:|---:|---|
+| SLC-022 | Vitest Setup + Fixtures | FEAT-016 | done | high | Vitest installieren, vitest.config.ts, npm Scripts, Fixture-Dateien |
+| SLC-023 | Unit Tests reports.ts | FEAT-016 | done | high | 12 Testfälle: Frontmatter-Parsing, ID-Gen, Read/Write, Fehlertoleranz |
+| SLC-024 | Unit Tests next-step.ts | FEAT-016 | done | high | 17 Testfälle: Slice-Parsing, Skill-Erkennung, Regelwerk, Post-Impl |
+| SLC-025 | Unit Tests backlog.ts | FEAT-016 | done | high | 13 Testfälle: Validierung, ID-Gen, Read/Write, Edge Cases |
+| SLC-026 | Engine: Multi-Version-Empfehlung | BL-021 | done | high | Offene ältere Schritte + aktuelle Version parallel anzeigen |
+
+## V3.1 Build order
+
+### Phase 1 — Foundation
+1. **SLC-022** — Vitest Setup + Fixtures (keine Abhängigkeiten)
+
+### Phase 2 — Tests (parallel)
+2. **SLC-023** — Unit Tests reports.ts (abhängig von SLC-022)
+3. **SLC-024** — Unit Tests next-step.ts (abhängig von SLC-022)
+4. **SLC-025** — Unit Tests backlog.ts (abhängig von SLC-022)
+
+### Phase 3 — Engine (independent)
+5. **SLC-026** — Engine Multi-Version (unabhängig von Tests, kann parallel laufen)
+
+### Parallelization notes
+- SLC-023, SLC-024, SLC-025 sind vollständig voneinander unabhängig
+- SLC-026 ist unabhängig von den Test-Slices
+- Empfohlen: SLC-022 → SLC-023 → SLC-024 → SLC-025 sequenziell (Pattern-Wiederverwendung)
+- SLC-026 kann jederzeit nach SLC-022 eingeschoben werden
+
 ## Status values
 - planned
 - ready

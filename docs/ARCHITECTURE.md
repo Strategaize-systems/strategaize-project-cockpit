@@ -1019,3 +1019,221 @@ V3.0 erweitert das bestehende V2-Cockpit kontrolliert zum Arbeitsplatz:
 - Keine API-Kosten, keine Datenbank, keine externen Abhängigkeiten
 
 Die Architektur folgt weiterhin dem Prinzip: langweilig, verständlich, erweiterbar.
+
+---
+
+## V3.1 Architecture Direction
+
+### V3.1 Architectural Intent
+
+V3.1 fügt eine Test-Schicht hinzu, ohne bestehende Architektur zu verändern. Tests laufen on-demand und prüfen die drei Kern-Libraries isoliert.
+
+### V3.1 Stack-Erweiterung
+- **Vitest** als Test-Runner (Dev-Dependency, DEC-027)
+- Keine weiteren Dependencies nötig
+
+---
+
+## V3.1 Test Architecture
+
+### Test-Runner: Vitest (DEC-027)
+
+Vitest wird über eine eigene Konfigurationsdatei `vitest.config.ts` im `app/`-Verzeichnis konfiguriert (DEC-028).
+
+```typescript
+// app/vitest.config.ts
+import { defineConfig } from "vitest/config";
+import path from "path";
+
+export default defineConfig({
+  test: {
+    globals: true,
+    environment: "node",
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+    },
+  },
+});
+```
+
+**Begründung:**
+- `globals: true` → `describe`, `it`, `expect` ohne Import verfügbar
+- `environment: "node"` → Libraries arbeiten mit fs/path, brauchen Node
+- `alias @` → gleicher Path-Alias wie in Next.js `tsconfig.json`
+
+### Script
+
+```json
+"scripts": {
+  "test": "vitest run",
+  "test:watch": "vitest"
+}
+```
+
+`npm run test` = einmalig (on-demand). `npm run test:watch` = Watch-Mode wenn gewünscht.
+
+---
+
+## V3.1 Test-Datei-Struktur (DEC-029)
+
+Tests leben neben den Libraries im `__tests__/`-Verzeichnis:
+
+```
+app/src/lib/
+├── reports.ts
+├── next-step.ts
+├── backlog.ts
+├── ...
+└── __tests__/
+    ├── reports.test.ts
+    ├── next-step.test.ts
+    ├── backlog.test.ts
+    └── fixtures/
+        ├── sample-index-v3.md
+        ├── sample-report.md
+        ├── sample-report-malformed.md
+        ├── sample-backlog.json
+        └── sample-roadmap.json
+```
+
+**Begründung:** `__tests__/` neben `lib/` ist Vitest/Jest-Standard. Fixtures als echte Dateien statt Inline-Strings — lesbarer und näher an der Produktionsrealität (DEC-030).
+
+---
+
+## V3.1 File-System-Test-Strategie (DEC-030)
+
+Libraries lesen und schreiben echte Dateien. Tests verwenden **echte temporäre Verzeichnisse**, keine Mocks.
+
+### Ansatz
+
+```typescript
+import { mkdtempSync, rmSync } from "fs";
+import path from "path";
+import os from "os";
+
+let tmpDir: string;
+
+beforeEach(() => {
+  tmpDir = mkdtempSync(path.join(os.tmpdir(), "cockpit-test-"));
+});
+
+afterEach(() => {
+  rmSync(tmpDir, { recursive: true, force: true });
+});
+```
+
+**Begründung:**
+- Libraries nutzen `fs.readFileSync`, `fs.writeFileSync`, `fs.existsSync` direkt
+- Mocking von `fs` wäre fragil und würde nicht die echte Logik testen
+- Temporäre Verzeichnisse simulieren echte Projekt-Strukturen
+- Cleanup in `afterEach` verhindert Datei-Reste
+- `os.tmpdir()` funktioniert auf Windows und Unix
+
+### Fixture-Kopie in Tests
+
+Tests die Lese-Funktionen prüfen, kopieren Fixture-Dateien ins temp-Verzeichnis:
+
+```typescript
+import { copyFileSync, mkdirSync } from "fs";
+
+function setupProjectDir(tmpDir: string) {
+  mkdirSync(path.join(tmpDir, "reports"), { recursive: true });
+  copyFileSync(
+    path.join(__dirname, "fixtures", "sample-report.md"),
+    path.join(tmpDir, "reports", "RPT-001.md")
+  );
+}
+```
+
+---
+
+## V3.1 Test-Scope pro Library
+
+### reports.ts — Testfälle
+
+| Testfall | Was wird geprüft |
+|---|---|
+| Frontmatter parsen (vollständig) | Alle Felder korrekt extrahiert |
+| Frontmatter parsen (optional leer) | Optionale Felder (slice, feature, reviewOf, result) = null |
+| Frontmatter parsen (malformed) | Kaputte Datei → graceful skip, kein Crash |
+| ID-Generierung (leeres Verzeichnis) | Erste ID = RPT-001 |
+| ID-Generierung (bestehende Reports) | Höchste ID + 1 |
+| Report schreiben + zurücklesen | Round-Trip: write → read → Daten identisch |
+| Verzeichnis-Scan | Nur RPT-*.md Dateien, andere ignoriert |
+| Leeres Verzeichnis | Leeres Array, kein Fehler |
+| Fehlendes Verzeichnis | hasReportsDir() = false |
+
+### next-step.ts — Testfälle
+
+| Testfall | Was wird geprüft |
+|---|---|
+| Slice-Parsing (Single-Table) | Slices korrekt aus INDEX.md extrahiert |
+| Slice-Parsing (Multi-Table V1+V2+V3) | Nur SLC-Zeilen, keine Header/Separator |
+| Skill-Typ Frontend-Keywords | "Ansicht", "Seite", "View", "UI" → /frontend |
+| Skill-Typ Backend-Keywords | "API", "Route", "Backend", "Library" → /backend |
+| Skill-Typ Default | Unklare Beschreibung → /frontend |
+| Regelwerk: kein Report → implement | Empfiehlt /frontend oder /backend |
+| Regelwerk: completion ohne review → /review | Empfiehlt /review |
+| Regelwerk: review needs-rework → rework | Empfiehlt gleichen Skill nochmal |
+| Regelwerk: reviewed → /qa | Empfiehlt /qa |
+| Post-Impl: alle done → /qa Gesamt | Empfiehlt Gesamt-QA |
+| Post-Impl: nach QA → /final-check | Empfiehlt Final-Check |
+| Edge: keine Slices | recommendation = null |
+| Edge: alle done + released | Projekt abgeschlossen |
+
+### backlog.ts — Testfälle
+
+| Testfall | Was wird geprüft |
+|---|---|
+| Validierung: gültige Eingabe | Keine Fehler |
+| Validierung: fehlender Titel | Fehler-Array enthält Meldung |
+| Validierung: ungültiger Typ | Fehler-Array enthält Meldung |
+| Validierung: ungültige Priorität | Fehler-Array enthält Meldung |
+| ID-Generierung (leer) | Erste ID = BL-001 |
+| ID-Generierung (bestehende) | Höchste ID + 1 |
+| Read/Write Round-Trip | write → read → Daten identisch |
+| Fehlende Datei | Leeres Array, kein Fehler |
+| Malformed JSON | null zurückgegeben |
+
+---
+
+## V3.1 Architektur-Constraints
+
+### 1. Tests sind isoliert
+Tests verändern keine Produktionsdaten. Alle File-System-Operationen in temp-Verzeichnissen.
+
+### 2. Keine neuen Runtime-Dependencies
+Vitest ist nur Dev-Dependency. Produktions-Bundle bleibt unverändert.
+
+### 3. Keine Architektur-Änderungen an Libraries
+Libraries werden getestet, nicht refaktoriert. Tests testen die bestehende API.
+
+### 4. Keine CI/CD-Integration
+Tests laufen nur on-demand. Kein Build-Blocker.
+
+---
+
+## V3.1 Risiken
+
+### Risk 13 — Vitest + Next.js 16 Kompatibilität
+Vitest muss den `@`-Path-Alias aus `tsconfig.json` korrekt auflösen.
+Mitigierung: Expliziter `resolve.alias` in `vitest.config.ts`.
+
+### Risk 14 — Windows-Path-Handling in Tests
+`os.tmpdir()` gibt auf Windows Backslash-Pfade. Libraries nutzen `path.join` das plattform-korrekt arbeitet.
+Mitigierung: Immer `path.join` statt String-Concatenation in Tests.
+
+---
+
+## V3.1 Architekturelle Zusammenfassung
+
+V3.1 fügt eine Test-Schicht hinzu:
+- 1 neue Dev-Dependency (Vitest)
+- 1 Konfigurationsdatei (`vitest.config.ts`)
+- 3 Test-Dateien in `lib/__tests__/`
+- 5 Fixture-Dateien in `lib/__tests__/fixtures/`
+- 2 neue npm Scripts (`test`, `test:watch`)
+- Keine Änderungen an bestehenden Libraries oder Cockpit-Code
+- Keine Runtime-Auswirkungen

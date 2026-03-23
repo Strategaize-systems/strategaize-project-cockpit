@@ -211,7 +211,8 @@ The purpose is to make project visibility operationally useful first.
 | V1.1 | Design-Anpassung | Branding, Theme, visuelle Polish für internes oder kundennahes Erscheinungsbild |
 | V2 | Planungs- und Fortschrittscockpit | Backlog-Sicht, Versionen/Roadmap, Fortschritts-Dashboard, minimale Datenpflege |
 | V3 | Workspace Foundation | Report-Layer, Nächster-Schritt-Engine, /review-Skill, fester Port |
-| V3.1+ | Erweiterte Integration | VS Code Extension, WebSocket-Bridge, LLM-gestützte Empfehlungen |
+| V3.1 | Testing Foundation | Unit Test Suite (Vitest) für Kern-Libraries, on-demand Test-Runner |
+| V3.2+ | Erweiterte Integration | VS Code Extension, WebSocket-Bridge, LLM-gestützte Empfehlungen |
 | V4 | Zentrale Arbeitsoberfläche | Execution Loop, Live-Steuerung, erweiterte Integrationen |
 
 ## V2 Problem
@@ -432,3 +433,72 @@ V3.0 ist erfolgreich, wenn der Nutzer:
 5. Port-Festlegung: 4400 oder anderer Wert
 6. Review-Skill Prüftiefe: Wie detailliert prüft der /review-Skill?
 7. Bestehende Sidebar: Dritte Sektion oder Erweiterung der "Planung"-Sektion?
+
+---
+
+## V3.1 Problem
+
+V3.0 hat eine wachsende Codebasis mit drei Kern-Libraries (reports.ts, next-step.ts, backlog.ts) die kritische Logik enthalten: Parsing, ID-Generierung, Regelwerk, Validierung. Es gibt null automatisierte Tests. Regressionen bei zukünftigen Änderungen werden erst im Browser oder durch manuelle Prüfung entdeckt.
+
+## V3.1 Ziel
+
+Automatisierte Unit Tests für die drei Kern-Libraries, die Regressionen auffangen. On-demand ausführbar mit `npm run test`, kein CI/CD-Overhead für ein internes Tool.
+
+## V3.1 Scope — eingeschlossen
+
+### Unit Test Suite
+- Vitest als Test-Runner (Dev-Dependency)
+- `npm run test` Script (on-demand, kein Watch-Mode als Default)
+- Vitest-Konfiguration für Next.js/TypeScript-Kompatibilität
+
+### Test-Abdeckung
+- `lib/reports.ts` — Frontmatter-Parsing, ID-Generierung, Read/Write, Fehlertoleranz
+- `lib/next-step.ts` — Slice-Parsing, Skill-Erkennung, Regelwerk, Post-Implementation-Workflow, Edge Cases
+- `lib/backlog.ts` — Validierung, ID-Generierung, Read/Write
+
+### Test-Fixtures
+- Beispiel-Markdown (INDEX.md Varianten, Report-Dateien)
+- Beispiel-JSON (backlog.json, roadmap.json)
+
+## V3.1 Scope — ausdrücklich ausgeschlossen
+
+- API Route Tests (Phase 2, bei V4)
+- E2E Browser Tests / Playwright (erst bei externen Nutzern)
+- CI/CD Pipeline / GitHub Actions (erst bei Hetzner-Deployment)
+- Snapshot Tests
+- Performance Tests / Security Tests
+- Test-Coverage-Reporting
+- Watch-Mode als Default
+
+## V3.1 Datenquelle
+
+Keine neuen Datenquellen. Tests lesen/schreiben temporäre Fixture-Dateien, keine Produktionsdaten.
+
+## V3.1 Erfolgskriterien
+
+V3.1 ist erfolgreich, wenn:
+- `npm run test` läuft ohne Fehler
+- Alle drei Libraries haben die definierten Testfälle
+- Tests laufen in unter 5 Sekunden
+- Ein absichtlich eingebauter Bug wird vom Test erkannt
+
+## V3.1 Risiken
+
+- Vitest-Konfiguration mit Next.js 16 / TypeScript könnte Anpassung brauchen
+- File-System-Tests brauchen temporäre Verzeichnisse (Cleanup-Logik nötig)
+- Path-Handling Windows vs. Unix könnte in Tests abweichen
+
+## V3.1 Offene Punkte (Architecture-Entscheidungen)
+
+1. Vitest-Konfiguration: `vitest.config.ts` oder in `package.json`?
+2. Test-Fixtures: Inline im Test oder separate Fixture-Dateien?
+3. File-System-Tests: Echte temp-Verzeichnisse oder Mocks?
+
+## V3.1 Delivery-Mode-Steuerung
+
+Test-Tiefe richtet sich nach dem Delivery Mode des jeweiligen Projekts:
+- `internal-tool`: Unit Tests on-demand (V3.1-Scope)
+- `client-app`: Unit + API Tests, E2E empfohlen, bei jedem Build
+- `saas`: Alles + CI/CD + Security + Performance
+
+Das Cockpit ist `internal-tool` — V3.1-Scope ist dafür ausreichend.

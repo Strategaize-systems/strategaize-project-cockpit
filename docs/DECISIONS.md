@@ -175,6 +175,34 @@
 - Consequence:
   Sidebar zeigt drei Sektionen: "Projekt" (6 Items), "Planung" (2 Items), "Workspace" (2 Items). Bestehende V1/V2-Items werden nicht verschoben oder umbenannt.
 
+## DEC-027 — V3.1 verwendet Vitest als Test-Runner
+- Status: accepted
+- Reason:
+  Vitest ist schnell, TypeScript-nativ, Next.js-kompatibel und benötigt minimale Konfiguration. Jest wäre ebenfalls möglich, hat aber langsameren Startup und mehr Konfigurationsaufwand für ESM/TypeScript. Für ein internes Tool mit on-demand Tests ist Geschwindigkeit und Einfachheit wichtiger als Ökosystem-Breite.
+- Consequence:
+  Vitest wird als Dev-Dependency installiert. `npm run test` führt Tests einmalig aus. Kein Build-Blocker, kein CI/CD-Overhead.
+
+## DEC-028 — Vitest-Konfiguration in eigener Datei (vitest.config.ts)
+- Status: accepted
+- Reason:
+  Eine eigene `vitest.config.ts` im `app/`-Verzeichnis erlaubt explizite Kontrolle über `resolve.alias` (für `@`-Pfade) und `test.environment`. In `package.json` wäre die Konfiguration weniger lesbar.
+- Consequence:
+  `app/vitest.config.ts` mit `globals: true`, `environment: "node"`, `@`-Alias. Vitest erkennt die Datei automatisch.
+
+## DEC-029 — Tests in __tests__/ neben lib/
+- Status: accepted
+- Reason:
+  Tests in `lib/__tests__/` ist Vitest/Jest-Konvention und hält Tests nahe am getesteten Code. Co-Location verbessert Navigierbarkeit. Alternative wäre ein separates `tests/`-Verzeichnis im Root, aber das trennt Tests unnötig vom Code.
+- Consequence:
+  Test-Dateien: `app/src/lib/__tests__/reports.test.ts`, `next-step.test.ts`, `backlog.test.ts`. Fixtures in `__tests__/fixtures/`.
+
+## DEC-030 — File-System-Tests mit echten temp-Verzeichnissen, keine Mocks
+- Status: accepted
+- Reason:
+  Libraries nutzen `fs` direkt (readFileSync, writeFileSync, existsSync). Mocking von `fs` wäre fragil und würde nicht die echte Datei-Interaktion testen. Echte temporäre Verzeichnisse (`os.tmpdir()`) simulieren realistische Projekt-Strukturen und funktionieren plattformübergreifend.
+- Consequence:
+  Tests erstellen temp-Verzeichnisse in `beforeEach`, räumen sie in `afterEach` auf. Fixture-Dateien werden bei Bedarf ins temp-Verzeichnis kopiert. Kein `fs`-Mocking.
+
 ## DEC-011 — V1 cockpit UI language is German
 - Status: accepted
 - Reason:

@@ -1,0 +1,14 @@
+{
+  "projects": [
+    {
+      "id": "strategaize-project-cockpit",
+      "name": "Strategaize Project Cockpit",
+      "path": "c:/strategaize/strategaize-project-cockpit"
+    },
+    {
+      "id": "strategaize-dev-system",
+      "name": "Strategaize Dev System",
+      "path": "c:/strategaize/strategaize-dev-system"
+    }
+  ]
+}

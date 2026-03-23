@@ -18,23 +18,32 @@ Prefer narrow, testable changes over broad speculative implementation.
 
 When an appropriate skill exists, prefer the project skill workflow before ad hoc implementation.
 
-Typical workflow:
-1. `/requirements`
-2. `/architecture`
-3. `/slice-planning`
-4. `/frontend` and/or `/backend`
-5. `/qa`
-6. `/final-check`
-7. `/go-live`
-8. `/deploy`
-9. `/post-launch`
+### Mandatory workflow sequence
 
-Support skills:
+The following sequence is **mandatory** and must not be skipped, regardless of perceived scope size:
+
+1. `/discovery` (only when idea is still rough)
+2. `/requirements`
+3. `/architecture`
+4. `/slice-planning`
+5. `/frontend` and/or `/backend` (per slice)
+6. `/qa` (after every slice AND as Gesamt-QA after all slices)
+7. `/final-check`
+8. `/go-live`
+9. `/deploy`
+10. `/post-launch`
+
+**No step may be skipped** with justifications like "the scope is small enough" or "this is straightforward enough". Even small changes benefit from the discipline of the full sequence. The only valid reason to skip a step is explicit user approval.
+
+**After every `/frontend`, `/backend`, or `/slice-planning` step**, `/qa` must be run automatically. QA is NOT required after `/discovery`, `/requirements`, or `/architecture`. When tests exist (`npm run test`), QA must include running them.
+
+### Support skills (can be used at any point):
 - `/help`
 - `/docs`
 - `/doctor`
 - `/rollback`
 - `/ui-update`
+- `/review`
 
 ## Core behavior
 
