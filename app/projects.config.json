@@ -3,22 +3,22 @@
     {
       "id": "strategaize-project-cockpit",
       "name": "Strategaize Project Cockpit",
-      "path": "/projects/strategaize-project-cockpit"
+      "path": "c:/strategaize/strategaize-project-cockpit"
     },
     {
       "id": "strategaize-operating-system",
       "name": "Strategaize Operating System",
-      "path": "/projects/strategaize-operating-system"
+      "path": "c:/strategaize/strategaize-operating-system"
     },
     {
       "id": "strategaize-blueprint-plattform",
       "name": "Strategaize Blueprint Plattform",
-      "path": "/projects/strategaize-blueprint-plattform"
+      "path": "c:/strategaize/strategaize-blueprint-plattform"
     },
     {
       "id": "immo-docs-hub",
       "name": "Immo Docs Hub",
-      "path": "/projects/immo-docs-hub"
+      "path": "c:/strategaize/immo-docs-hub"
     }
   ]
 }

@@ -12,14 +12,14 @@ Das Cockpit macht Projektstatus, Features, Slices, Probleme, Releases, Migration
 
 ## Current State
 - High-Level State: released
-- Current Focus: V4.0.0 lokal veröffentlicht — Premium Design System
-- Current Phase: Post-Release (V4)
+- Current Focus: V4.1.0 — Aktualisieren-Button auf Nächster-Schritt-Seite
+- Current Phase: Stable (V4.1)
+- Betriebsmodus: Lokal (localhost:4400)
 
 ## Immediate Next Steps
-1. Git Commit + Push für V4.0.0
-2. Backport: Style-Templates + Rule-Härtungen ins Dev-System
-3. Optional: V4.1 Projekt-Anpassbarkeit (Kundenname, Farben per Config)
-4. Optional: Dockerfile für Hetzner/Coolify-Deployment
+1. V4.1: Aktualisieren-Button auf Nächster-Schritt-Seite (UX-Verbesserung für lokale Nutzung)
+2. Optional: Projekt-Anpassbarkeit (Kundenname, Farben per Config)
+3. Cockpit für weitere Projekte nutzen (Blueprint Plattform, Immo Docs Hub)
 
 ## Active Scope
 V1, V1.1, V2, V3 und V3.1 sind abgeschlossen und released.
@@ -40,7 +40,7 @@ Discovery-Dokument: /planning/V4-design-discovery.md
 - aktuell keine
 
 ## Last Stable Version
-- V3.1.0 (Lokal) — 2026-03-23
+- V4.1.0 — 2026-03-24 — lokal auf localhost:4400
 
 ## Notes
 Dieses Projekt ist der erste echte Testfall für das Strategaize Dev System und sollte daher die Systemstruktur diszipliniert genug einhalten, um sie in der Praxis zu validieren.

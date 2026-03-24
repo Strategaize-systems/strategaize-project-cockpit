@@ -16,6 +16,7 @@ import {
   CheckCircle2,
   FileText,
   AlertTriangle,
+  RefreshCw,
 } from "lucide-react";
 import type { PendingStep } from "@/lib/next-step";
 import {
@@ -103,7 +104,7 @@ export default function NextStepPage() {
   if (!stepData || stepData.status === "not_accessible") {
     return (
       <div className="space-y-6">
-        <PageHeader />
+        <PageHeader onRefresh={loadData} isLoading={loading} />
         <EmptyState
           message="Projektverzeichnis nicht erreichbar."
           variant="error"
@@ -115,7 +116,7 @@ export default function NextStepPage() {
   if (stepData.status === "error") {
     return (
       <div className="space-y-6">
-        <PageHeader />
+        <PageHeader onRefresh={loadData} isLoading={loading} />
         <EmptyState
           message={`Fehler: ${stepData.reason}`}
           variant="error"
@@ -128,7 +129,7 @@ export default function NextStepPage() {
   if (!stepData.recommendation) {
     return (
       <div className="space-y-6">
-        <PageHeader />
+        <PageHeader onRefresh={loadData} isLoading={loading} />
         <Card>
           <CardContent className="pt-6 pb-6">
             <div className="flex flex-col items-center justify-center py-8 text-center">
@@ -156,7 +157,7 @@ export default function NextStepPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader />
+      <PageHeader onRefresh={loadData} isLoading={loading} />
 
       {/* KPI row */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -276,14 +277,27 @@ export default function NextStepPage() {
 
 // ─── Page header ──────────────────────────────────────────────────────────
 
-function PageHeader() {
+function PageHeader({ onRefresh, isLoading }: { onRefresh?: () => void; isLoading?: boolean }) {
   return (
     <div className="mb-0">
-      <div className="flex items-center gap-2.5 mb-1">
-        <Compass className="h-5 w-5 text-muted-foreground" />
-        <h1 className="text-xl font-semibold tracking-tight">
-          Nächster Schritt
-        </h1>
+      <div className="flex items-center justify-between mb-1">
+        <div className="flex items-center gap-2.5">
+          <Compass className="h-5 w-5 text-muted-foreground" />
+          <h1 className="text-xl font-semibold tracking-tight">
+            Nächster Schritt
+          </h1>
+        </div>
+        {onRefresh && (
+          <button
+            onClick={onRefresh}
+            disabled={isLoading}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-slate-100 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Daten aktualisieren"
+          >
+            <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} />
+            Aktualisieren
+          </button>
+        )}
       </div>
       <p className="text-sm text-muted-foreground">
         Empfohlener nächster Arbeitsschritt basierend auf dem aktuellen

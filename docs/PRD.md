@@ -214,6 +214,7 @@ The purpose is to make project visibility operationally useful first.
 | V3.1 | Testing Foundation | Unit Test Suite (Vitest) für Kern-Libraries, on-demand Test-Runner |
 | V3.2+ | Erweiterte Integration | VS Code Extension, WebSocket-Bridge, LLM-gestützte Empfehlungen |
 | V4 | Premium Design System | Visuelles Upgrade, Brand-Gradients, Premium-Komponenten, Style-Guide-basiert |
+| V4.1 | UX-Verbesserung für lokale Nutzung | Aktualisieren-Button auf Nächster-Schritt-Seite |
 | V5+ | Zentrale Arbeitsoberfläche | Execution Loop, Live-Steuerung, erweiterte Integrationen |
 
 ## V2 Problem
@@ -644,3 +645,46 @@ V4 ist erfolgreich, wenn:
 3. Sidebar: Bestehende Struktur restylen oder neu aufbauen?
 4. KPI-Cards: Bestehende Card-Komponente erweitern oder neue KPI-Komponente?
 5. Tabellen: Bestehende Tabellen-Markup-Pattern behalten oder neu?
+
+---
+
+## V4.1 Problem
+
+Das Cockpit läuft lokal und liest Projektdaten vom Dateisystem. Wenn Claude Code während einer Session Dateien ändert (Reports schreibt, Slice-Status aktualisiert, STATE.md ändert), zeigt die Nächster-Schritt-Seite noch den alten Stand. Der Nutzer muss im Browser F5 drücken — das unterbricht den Arbeitsfluss und ist nicht intuitiv.
+
+## V4.1 Ziel
+
+Ein Aktualisieren-Button auf der Nächster-Schritt-Seite, der alle Daten neu vom Dateisystem lädt, ohne dass der Browser komplett neu geladen werden muss.
+
+## V4.1 Scope — eingeschlossen
+
+### Aktualisieren-Button
+- Platzierung im Header-Bereich der Nächster-Schritt-Seite (neben dem Titel oder im Empfehlungs-Banner)
+- Klick löst bestehende loadData()-Funktion erneut aus
+- Visuelles Feedback: kurze Spinner-Animation während des Ladens
+- Button-Design konsistent mit V4 Premium-Look
+
+## V4.1 Scope — ausdrücklich ausgeschlossen
+
+- Aktualisieren-Button auf anderen Seiten (V4.2)
+- Auto-Refresh / Polling
+- WebSocket / File-Watching
+- Globaler Refresh in Sidebar oder App-Shell
+
+## V4.1 Erfolgskriterien
+
+V4.1 ist erfolgreich, wenn:
+- der Nutzer auf der Nächster-Schritt-Seite einen sichtbaren Aktualisieren-Button hat
+- ein Klick die Daten neu lädt und die Anzeige aktualisiert
+- während des Ladens ein visuelles Feedback sichtbar ist
+- der Button zum V4-Design passt
+- bestehende Tests weiterhin bestehen (45/45)
+
+## V4.1 Risiken
+
+- Keine nennenswerten Risiken — reine UI-Erweiterung auf bestehender Funktion
+
+## V4.1 Offene Punkte (Architecture-Entscheidungen)
+
+1. Button-Platzierung: neben Page-Title oder im Empfehlungs-Banner?
+2. Button-Stil: Ghost-Button mit Icon oder branded Secondary-Button?

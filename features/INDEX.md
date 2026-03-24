@@ -56,6 +56,12 @@
 | FEAT-022 | Interaction & Feedback States | done | medium | Hover-Transforms, Focus-Rings, Loading-Spinner, Toast |
 | FEAT-023 | Page-spezifische Upgrades | done | medium | Header-Banner, Timeline-Releases, Prompt-Block, Backlog-View |
 
+## Planned / Active Feature Set for V4.1
+
+| ID | Feature | Status | Priority | Notes |
+|---|---|---:|---:|---|
+| FEAT-024 | Aktualisieren-Button (Nächster Schritt) | done | high | Refresh-Button auf Nächster-Schritt-Seite, ruft loadData() auf, Spinner-Feedback |
+
 ## Notes
 V1-Features definieren den abgeschlossenen V1-Scope.
 V2-Features definieren den abgeschlossenen V2-Scope.

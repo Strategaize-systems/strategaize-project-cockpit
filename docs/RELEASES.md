@@ -54,6 +54,20 @@ Jeder Release-Eintrag soll verständlich machen:
 - Risks: Kein Dockerfile. Logo-Kontrast auf dunkler Sidebar könnte variieren. Keine E2E Browser-Tests.
 - Rollback notes: Git-Zustand vor V4 wiederherstellen. Logo-Dateien in public/ entfernen. theme.ts und globals.css auf V3-Stand zurücksetzen.
 
+### REL-007 — V4.0.0 Production Deploy (Coolify/Hetzner)
+- Date: 2026-03-24
+- Scope: Erstes Produktions-Deployment aller Versionen (V1 bis V4) als Docker-Container auf Hetzner VPS via Coolify
+- Summary: Multi-Stage Docker Build (Node 22 Alpine), Next.js Standalone Output. App erreichbar unter cockpit.strategaizetransition.com. Coolify managed SSL, Port-Mapping (3000 intern → 443 extern). projects.config.json mit 4 registrierten Projekten. Alle bisherigen Features (V1 Read-Cockpit, V1.1 Design-Polish, V2 Planungscockpit, V3 Workspace Foundation, V3.1 Testing, V4 Premium Design) in Produktion verfügbar.
+- Risks: Projektdaten im Container sind Build-Time-Snapshots. Datenänderungen erfordern Git-Push + Coolify-Redeploy bis Architektur auf GitHub-API oder ähnliches umgestellt wird.
+- Rollback notes: In Coolify auf vorheriges Deployment zurückrollen. Alternativ: Docker Image Tag auf letzten stabilen Build zurücksetzen.
+
+### REL-008 — V4.1.0 Aktualisieren-Button (Lokal)
+- Date: 2026-03-24
+- Scope: V4.1 — 1 Slice (SLC-034), 1 Feature (FEAT-024)
+- Summary: Aktualisieren-Button auf der Nächster-Schritt-Seite. Ghost-Button mit RefreshCw-Icon im PageHeader, ruft loadData() neu auf ohne Browser-Refresh. Spinner-Animation während Laden, Doppelklick-Schutz. Keine neuen Dependencies, keine API-Änderungen, keine Datenmodell-Änderungen.
+- Risks: Keine. Minimale UI-Erweiterung.
+- Rollback notes: Git-Zustand vor V4.1 wiederherstellen. Nur next-step/page.tsx betroffen.
+
 ## Standard structure for future entries
 
 ### REL-XXX — Version or release name

@@ -43,6 +43,13 @@
       "order": 6
     },
     {
+      "id": "v41",
+      "name": "V4.1",
+      "status": "released",
+      "summary": "UX-Verbesserung für lokale Nutzung — Aktualisieren-Button auf Nächster-Schritt-Seite.",
+      "order": 7
+    },
+    {
       "id": "later",
       "name": "Später",
       "status": "deferred",

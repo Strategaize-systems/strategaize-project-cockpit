@@ -204,6 +204,31 @@
 - SLC-031, SLC-032, SLC-033 sind voneinander unabhängig
 - Empfohlen: SLC-031 vor SLC-032 (Tabellen-Pattern etabliert das wiederverwendbare Muster)
 
+---
+
+## V4.1 Slice Plan
+
+| ID | Slice | Related Feature | Status | Priority | Notes |
+|---|---|---|---:|---:|---|
+| SLC-034 | Aktualisieren-Button (Nächster Schritt) | FEAT-024 | done | high | RefreshCw-Icon im PageHeader, ruft loadData() auf, Spinner bei Loading |
+
+### Betroffene Dateien
+- `/app/src/app/next-step/page.tsx` — PageHeader um onRefresh/isLoading Props erweitern, Button hinzufügen (SLC-034)
+
+### Akzeptanzkriterien SLC-034
+1. PageHeader zeigt rechts einen Ghost-Button mit RefreshCw-Icon
+2. Klick auf den Button ruft loadData() auf und lädt alle Daten neu
+3. Während des Ladens dreht sich das Icon (animate-spin)
+4. Button ist während des Ladens disabled (kein Doppelklick)
+5. Bestehende Tests bestehen weiterhin (45/45)
+6. Button-Design ist konsistent mit V4 Premium-Look
+
+## V4.1 Build order
+
+1. **SLC-034** — Einziger Slice, keine Abhängigkeiten
+
+---
+
 ## Status values
 - planned
 - ready

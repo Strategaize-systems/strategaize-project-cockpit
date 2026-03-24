@@ -224,6 +224,20 @@
 - Consequence:
   status-badges.ts Badge-Klassen werden komplett erneuert. Alle Seiten die Badges nutzen sehen automatisch anders aus ohne Code-Änderung in den Pages.
 
+## DEC-034 — V4.1 Aktualisieren-Button neben Page-Title, nicht im Banner
+- Status: accepted
+- Reason:
+  Der PageHeader ist immer sichtbar — auch in Loading-, Error- und "Alle abgeschlossen"-States. Im Empfehlungs-Banner wäre der Button nur sichtbar wenn eine aktive Empfehlung existiert. Header-Platzierung ist konsistent mit gängigen Dashboard-Patterns (Titel links, Aktionen rechts).
+- Consequence:
+  PageHeader bekommt onRefresh- und isLoading-Props. Button erscheint rechts vom Titel.
+
+## DEC-035 — V4.1 Button-Stil ist Ghost mit RefreshCw-Icon
+- Status: accepted
+- Reason:
+  Ghost-Buttons sind im V4-Design für sekundäre Aktionen vorgesehen. Die primäre Aktion auf der Seite bleibt "Prompt kopieren". RefreshCw ist das Standard-Refresh-Icon in lucide-react. Das Icon dreht sich während des Ladens (animate-spin).
+- Consequence:
+  Kein neuer Button-Typ nötig. Bestehende Tailwind-Klassen reichen aus.
+
 ## DEC-011 — V1 cockpit UI language is German
 - Status: accepted
 - Reason:
