@@ -36,11 +36,18 @@
       "order": 5
     },
     {
+      "id": "v4",
+      "name": "V4",
+      "status": "released",
+      "summary": "Premium Design System — Visuelles Upgrade basierend auf Figma Style Guide. Neue Brand-Farben, Gradients, KPI-Cards, Premium-Tabellen, Sidebar-Redesign.",
+      "order": 6
+    },
+    {
       "id": "later",
       "name": "Später",
       "status": "deferred",
       "summary": "Spätere Ausbaustufe für Themen, die bewusst außerhalb des aktuellen Fokus liegen.",
-      "order": 6
+      "order": 7
     }
   ]
 }

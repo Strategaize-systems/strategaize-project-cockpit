@@ -39,7 +39,10 @@ export default function IssuesPage() {
     return (
       <div className="space-y-6">
         <h1 className="text-2xl font-bold tracking-tight">Probleme</h1>
-        <p className="text-sm text-muted-foreground">Probleme werden geladen...</p>
+        <div className="flex items-center gap-2">
+          <div className="h-5 w-5 border-2 border-[var(--brand-primary-main)] border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-muted-foreground">Probleme werden geladen...</p>
+        </div>
       </div>
     );
   }
@@ -80,14 +83,23 @@ export default function IssuesPage() {
     );
   }
 
+  const openCount = data.issues.filter((i) => i.status?.toLowerCase() === "open").length;
+  const resolvedCount = data.issues.filter((i) => i.status?.toLowerCase() === "resolved").length;
+
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold tracking-tight">Probleme</h1>
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">Probleme</h1>
+        <p className="text-sm text-muted-foreground mt-0.5">
+          {data.issues.length} Einträge · {openCount} offen · {resolvedCount} behoben
+        </p>
+      </div>
       <div className="space-y-3">
         {data.issues.map((issue, i) => {
           const isResolved =
             issue.status.toLowerCase() === "resolved" ||
             issue.status.toLowerCase() === "wontfix";
+          const isOpen = issue.status.toLowerCase() === "open";
 
           return (
             <Card
@@ -97,9 +109,26 @@ export default function IssuesPage() {
               <CardContent className="pt-5 pb-5 space-y-3">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <p className="text-[11px] font-mono text-muted-foreground/60 mb-0.5">
-                      {issue.id}
-                    </p>
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span
+                        className="h-2 w-2 rounded-full shrink-0"
+                        style={{
+                          background: isOpen
+                            ? "linear-gradient(to bottom right, #dc2626, #f87171)"
+                            : isResolved
+                              ? "linear-gradient(to bottom right, #00a84f, #4dcb8b)"
+                              : "#94a3b8",
+                          boxShadow: isOpen
+                            ? "0 0 8px rgba(220, 38, 38, 0.3)"
+                            : isResolved
+                              ? "0 0 8px rgba(0, 168, 79, 0.3)"
+                              : "none",
+                        }}
+                      />
+                      <p className="text-[11px] font-mono text-[var(--brand-primary-main)]">
+                        {issue.id}
+                      </p>
+                    </div>
                     <p className="text-sm font-semibold leading-snug">
                       {issue.title || "—"}
                     </p>

@@ -14,13 +14,11 @@ import {
   FileText,
   Compass,
   PanelLeftClose,
-  PanelLeft,
   Menu,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ProjectSelector } from "@/components/project-selector";
-import { app } from "@/lib/theme";
 
 interface NavItem {
   label: string;
@@ -53,7 +51,7 @@ const navSections: NavSection[] = [
     ],
   },
   {
-    label: "Workspace",
+    label: "Reports & Admin",
     items: [
       { label: "Reports", href: "/reports", icon: FileText },
       { label: "Nächster Schritt", href: "/next-step", icon: Compass },
@@ -95,68 +93,80 @@ export function Sidebar({
   return (
     <aside
       className={cn(
-        "fixed inset-y-0 left-0 z-30 flex flex-col bg-sidebar text-sidebar-foreground transition-all duration-200",
+        "fixed inset-y-0 left-0 z-30 flex flex-col text-white transition-all duration-300",
         isMobile ? "w-64" : collapsed ? "w-16" : "w-64"
       )}
+      style={{ background: "linear-gradient(to bottom, #0f172a, #0f172a, #020617)" }}
     >
-      {/* Branding Header */}
+      {/* Branding Header — Logo + Brand */}
       <div
         className={cn(
-          "flex h-16 items-center border-b border-sidebar-border px-4",
-          collapsed && !isMobile ? "justify-center" : "justify-between"
+          "border-b border-white/8",
+          collapsed && !isMobile ? "flex h-16 items-center justify-center px-2" : "px-4 py-4"
         )}
       >
         {(!collapsed || isMobile) && (
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground text-xs font-bold">
-              S
+          <div className="space-y-3">
+            {/* Full Logo — on white background for contrast */}
+            <div className="rounded-lg bg-[#e2e8f0] p-2">
+              <img
+                src="/logo-full.png"
+                alt="StrategAIze"
+                className="h-14 w-auto object-contain"
+              />
             </div>
-            <div className="min-w-0">
-              <p className="text-sm font-semibold tracking-tight truncate text-sidebar-foreground">
-                {app.shortName}
-              </p>
-              <p className="text-[10px] text-sidebar-foreground/50 truncate">
-                {app.name}
-              </p>
+            {/* Sub-labels */}
+            <div className="px-1">
+              <p className="text-[14px] font-bold text-white/90">Project Cockpit</p>
+              <p className="text-[12px] font-medium text-white/60">Operations Dashboard</p>
             </div>
           </div>
         )}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-7 w-7 shrink-0 text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-sidebar-accent"
-          onClick={onToggle}
-          aria-label={collapsed ? "Sidebar ausklappen" : "Sidebar einklappen"}
-        >
-          {isMobile ? (
+        {collapsed && !isMobile && (
+          <button
+            onClick={onToggle}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl hover:opacity-80 transition-opacity cursor-pointer"
+            aria-label="Sidebar ausklappen"
+          >
+            <img
+              src="/logo-symbol.png"
+              alt="StrategAIze"
+              className="h-9 w-9 object-contain"
+            />
+          </button>
+        )}
+        {(!collapsed || isMobile) && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7 shrink-0 text-white/40 hover:text-white hover:bg-white/5 border-0 shadow-none"
+            onClick={onToggle}
+            aria-label={collapsed ? "Sidebar ausklappen" : "Sidebar einklappen"}
+          >
             <PanelLeftClose className="h-4 w-4" />
-          ) : collapsed ? (
-            <PanelLeft className="h-4 w-4" />
-          ) : (
-            <PanelLeftClose className="h-4 w-4" />
-          )}
-        </Button>
+          </Button>
+        )}
       </div>
 
       {/* Project Selector */}
       <ProjectSelector collapsed={collapsed && !isMobile} />
 
       {/* Separator */}
-      <div className="mx-3 border-t border-sidebar-border" />
+      <div className="mx-3 border-t border-white/8" />
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto py-2 px-2">
+      <nav className="flex-1 overflow-y-auto py-3 px-2.5">
         {navSections.map((section, sectionIndex) => (
-          <div key={section.label} className={sectionIndex > 0 ? "mt-4" : ""}>
+          <div key={section.label} className={sectionIndex > 0 ? "mt-5" : ""}>
             {(!collapsed || isMobile) && (
-              <p className="px-3 pb-2 pt-1 text-[10px] font-medium uppercase tracking-wider text-sidebar-foreground/40">
+              <p className="px-3 pb-2 pt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">
                 {section.label}
               </p>
             )}
             {collapsed && !isMobile && sectionIndex > 0 && (
-              <div className="mx-2 mb-2 border-t border-sidebar-border" />
+              <div className="mx-2 mb-2 border-t border-white/8" />
             )}
-            <ul className="space-y-0.5">
+            <ul className="space-y-1">
               {section.items.map((item) => {
                 const isActive =
                   item.href === "/"
@@ -170,15 +180,16 @@ export function Sidebar({
                       href={item.href}
                       onClick={onNavigate}
                       className={cn(
-                        "flex items-center gap-3 rounded-md px-3 py-2 text-[13px] font-medium transition-colors",
+                        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-all duration-200",
                         isActive
-                          ? "bg-sidebar-primary/15 text-sidebar-primary-foreground border-l-2 border-sidebar-primary"
-                          : "text-sidebar-foreground/60 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
-                        collapsed && !isMobile && "justify-center px-0 border-l-0"
+                          ? "text-white shadow-[0_10px_15px_-3px_rgba(68,84,184,0.25)]"
+                          : "text-white/50 hover:bg-white/5 hover:text-white",
+                        collapsed && !isMobile && "justify-center px-0"
                       )}
+                      style={isActive ? { background: "linear-gradient(to right, #4454b8, #120774)" } : undefined}
                       title={collapsed && !isMobile ? item.label : undefined}
                     >
-                      <Icon className={cn("h-4 w-4 shrink-0", isActive && "text-sidebar-primary")} />
+                      <Icon className={cn("h-4 w-4 shrink-0", isActive && "text-white")} />
                       {(!collapsed || isMobile) && (
                         <span className="truncate">{item.label}</span>
                       )}
@@ -192,9 +203,15 @@ export function Sidebar({
       </nav>
 
       {/* Footer */}
-      <div className="border-t border-sidebar-border px-4 py-3">
+      <div className="border-t border-white/8 px-4 py-3">
         {(!collapsed || isMobile) && (
-          <p className="text-[10px] text-sidebar-foreground/30">V3.0.0-dev</p>
+          <div className="flex items-center gap-2">
+            <img src="/logo-symbol.png" alt="" className="h-6 w-6 object-contain opacity-60" />
+            <div className="min-w-0">
+              <p className="text-[11px] font-medium text-white/50 truncate">StrategAIze</p>
+              <p className="text-[10px] text-white/25">Version 4.0</p>
+            </div>
+          </div>
         )}
       </div>
     </aside>

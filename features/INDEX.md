@@ -44,10 +44,23 @@
 |---|---|---:|---:|---|
 | FEAT-016 | Unit Test Suite | done | high | Vitest + Tests für reports.ts, next-step.ts, backlog.ts |
 
+## Planned / Active Feature Set for V4
+
+| ID | Feature | Status | Priority | Notes |
+|---|---|---:|---:|---|
+| FEAT-017 | Brand & Theme Upgrade | done | high | Neue Farben, Gradients, CSS Custom Properties in theme.ts + globals.css |
+| FEAT-018 | Sidebar Redesign | done | high | Gradient-Hintergrund, Active-Glow, Logo-Bereich |
+| FEAT-019 | Premium KPI-Cards | done | high | Gradient-Top-Border, Gradient-Zahlen, Hover-Glow |
+| FEAT-020 | Premium Tabellen | done | high | Gradient-Top-Border, Row-Hover, Action-Icons, Fortschrittsbalken |
+| FEAT-021 | Badge & Status Upgrade | done | medium | Gradient-Badges, Priority-Dots, Category-Badges |
+| FEAT-022 | Interaction & Feedback States | done | medium | Hover-Transforms, Focus-Rings, Loading-Spinner, Toast |
+| FEAT-023 | Page-spezifische Upgrades | done | medium | Header-Banner, Timeline-Releases, Prompt-Block, Backlog-View |
+
 ## Notes
 V1-Features definieren den abgeschlossenen V1-Scope.
 V2-Features definieren den abgeschlossenen V2-Scope.
 V3-Features: FEAT-011 bis FEAT-015 alle implementiert (done).
-V3.1-Features definieren den geplanten Testing-Scope.
+V3.1-Features: FEAT-016 implementiert (done).
+V4-Features definieren das visuelle Upgrade basierend auf dem Figma Style Guide.
 
 Zusätzliche Ideen werden erfasst, aber nicht in aktive Arbeit aufgenommen, ohne explizite Freigabe.

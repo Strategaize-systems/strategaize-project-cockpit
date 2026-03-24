@@ -37,7 +37,10 @@ export default function DecisionsPage() {
     return (
       <div className="space-y-6">
         <h1 className="text-2xl font-bold tracking-tight">Entscheidungen & Verbesserungen</h1>
-        <p className="text-sm text-muted-foreground">Daten werden geladen...</p>
+        <div className="flex items-center gap-2">
+          <div className="h-5 w-5 border-2 border-[var(--brand-primary-main)] border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-muted-foreground">Daten werden geladen...</p>
+        </div>
       </div>
     );
   }

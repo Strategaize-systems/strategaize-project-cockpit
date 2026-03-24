@@ -1098,6 +1098,170 @@ app/src/lib/
         └── sample-roadmap.json
 ```
 
+---
+
+## V4 Architecture Direction
+
+### V4 Architectural Intent
+
+V4 ist ein reines Visual Upgrade — keine neuen Seiten, keine neuen APIs, keine neuen Datenmodelle. Die bestehende Architektur bleibt vollständig erhalten. V4 ändert ausschließlich die visuelle Präsentation.
+
+### V4 Stack
+- Next.js, Tailwind CSS, shadcn/ui (unverändert)
+- Keine neuen Dependencies
+- Keine API-Änderungen
+- Keine Datenmodell-Änderungen
+
+---
+
+## V4 Design Token Architecture (DEC-031)
+
+### Zentrale Token-Dateien
+
+V4 verwendet zwei zentrale Dateien für alle Design-Tokens:
+
+**1. `/app/src/lib/theme.ts`** — TypeScript-Konstanten
+- App-Identität (Name, Logo)
+- Brand-Farben (neu: #120774, #4454B8)
+- Gradient-Definitionen (Primary, Success, Warning, Sidebar)
+- Spacing-Skala (8px-Basis)
+- Typografie-Hierarchie
+- Shadow-Definitionen (Card, Elevated, Glow)
+- Animation-Timings
+
+**2. `/app/src/app/globals.css`** — CSS Custom Properties
+- Alle `:root`-Variablen auf neue Werte aktualisieren
+- Neue Gradient-Variablen hinzufügen
+- Neue Shadow-Variablen hinzufügen
+- Sidebar-Variablen auf Gradient-Werte aktualisieren
+
+### Gradient-Strategie (DEC-032)
+
+Gradients werden als CSS Custom Properties definiert und über Tailwind-Utilities konsumiert:
+
+```css
+:root {
+  --gradient-primary: linear-gradient(to right, #120774, #4454b8);
+  --gradient-success: linear-gradient(to right, #00a84f, #4dcb8b);
+  --gradient-warning: linear-gradient(to right, #f2b705, #ffd54f);
+  --gradient-sidebar: linear-gradient(to bottom, #0f172a, #0f172a, #020617);
+}
+```
+
+Für Gradient-Text (KPI-Zahlen) wird `background-clip: text` verwendet:
+
+```css
+.gradient-text-primary {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+```
+
+### Badge-Strategie (DEC-033)
+
+Badges werden von Outline-Style zu Gradient-Fill-Style umgestellt:
+
+**Aktuell (V3):**
+```
+bg-emerald-50 text-emerald-700 border-emerald-200/60
+```
+
+**Neu (V4):**
+```
+Success: background: gradient-success, color: white, box-shadow: glow
+Warning: background: gradient-warning, box-shadow: glow
+Neutral: bg-slate-100, color: slate-600, border
+```
+
+Die gesamte Badge-Logik bleibt in `status-badges.ts` — nur die Klassen-Strings ändern sich.
+
+---
+
+## V4 Komponenten-Änderungsplan
+
+### Schicht 1 — Foundation (muss zuerst)
+| Datei | Änderung |
+|---|---|
+| `theme.ts` | Komplett neu: Neue Farben, Gradients, Spacing, Shadows, Timings |
+| `globals.css` | `:root`-Variablen aktualisieren, Gradient-Utilities, Glow-Utilities |
+
+### Schicht 2 — Shared Components
+| Datei | Änderung |
+|---|---|
+| `status-badges.ts` | Alle Badge-Styles auf Gradient/Premium umstellen |
+| `components/ui/card.tsx` | Hover-Transform, Transition-Timing |
+| `components/ui/badge.tsx` | Gradient-Support, Shadow-Support |
+| `components/ui/button.tsx` | Primary: Gradient, Hover-Glow, Transform |
+| `components/ui/empty-state.tsx` | Icon-Kreis-Styling |
+
+### Schicht 3 — Shell & Navigation
+| Datei | Änderung |
+|---|---|
+| `components/sidebar.tsx` | Gradient-Background, Active-Glow, Logo-Gradient-Text |
+| `components/app-shell.tsx` | Minimal (Hintergrund-Anpassung wenn nötig) |
+
+### Schicht 4 — Seiten (je Seite)
+| Datei | Änderung |
+|---|---|
+| `app/page.tsx` | Header-Banner, KPI-Cards Premium, Fortschritts-Upgrade |
+| `app/features/page.tsx` | Premium-Tabelle, KPI-Cards |
+| `app/slices/page.tsx` | Premium-Tabelle, Fortschrittsbalken, KPI-Cards |
+| `app/issues/page.tsx` | Card-Upgrade, Status-Dots |
+| `app/releases/page.tsx` | Timeline-Style, Release-Dots |
+| `app/decisions/page.tsx` | Card-Upgrade |
+| `app/backlog/page.tsx` | Premium-Tabelle, KPI-Cards |
+| `app/roadmap/page.tsx` | Timeline-Meilensteine, Fortschrittsbalken |
+| `app/reports/page.tsx` | Premium-Tabelle, Category-Badges |
+| `app/next-step/page.tsx` | Dunkler Prompt-Block, Aufgaben-Liste |
+
+---
+
+## V4 Architektur-Constraints
+
+### 1. Keine neuen Dependencies
+Alle visuellen Änderungen werden mit bestehendem Tailwind CSS + CSS Custom Properties umgesetzt.
+
+### 2. Bestehende Komponenten-Interfaces bleiben stabil
+Props, Typen und API-Verträge aller Komponenten bleiben unverändert. Nur die CSS-Klassen und Styles ändern sich.
+
+### 3. Tests müssen bestehen bleiben
+Alle 45 bestehenden Unit Tests müssen nach V4 weiterhin bestehen. V4 ändert kein Verhalten, nur Darstellung.
+
+### 4. Schrittweise Implementation
+V4 wird in Schichten implementiert: Foundation → Shared Components → Shell → Seiten. Jede Schicht muss eigenständig lauffähig sein.
+
+### 5. Style Guide als Referenz
+`/docs/strategaize_styleguide.md` ist die visuelle Referenz. Bei Konflikten zwischen Style Guide und technischer Machbarkeit hat die technische Machbarkeit Vorrang, mit dokumentierter Abweichung.
+
+---
+
+## V4 Risiken
+
+### Risk 13 — Umfangreiche CSS-Änderungen brechen Layouts
+Mitigierung: Foundation-Slice zuerst (theme.ts + globals.css), dann schrittweise pro Komponente. Nach jeder Schicht Browser-Verifikation.
+
+### Risk 14 — Gradient-Text auf kleinen Screens
+Mitigierung: Gradient-Text nur für große KPI-Zahlen. Fallback: Farbiger Text ohne Gradient.
+
+### Risk 15 — Tailwind-Kompatibilität mit Custom-Gradients
+Mitigierung: CSS Custom Properties + `@layer utilities` statt Tailwind-Plugin. Getesteter Ansatz aus Style Guide.
+
+---
+
+## V4 Architekturelle Zusammenfassung
+
+V4 ist ein kontrolliertes Visual Upgrade in 4 Schichten:
+1. **Foundation** — theme.ts + globals.css (neue Tokens, Gradients, Shadows)
+2. **Shared Components** — Badges, Cards, Buttons (Gradient-Styles)
+3. **Shell** — Sidebar (Gradient-Background, Active-Glow)
+4. **Seiten** — Jede Seite einzeln upgraden (KPI-Cards, Tabellen, Page-spezifisch)
+
+Keine neuen Dateien, keine neuen APIs, keine neuen Dependencies. Nur visuelle Transformation bestehender Komponenten.
+
+Die Architektur folgt weiterhin dem Prinzip: kontrolliert, schrittweise, rückbaubar.
+
 **Begründung:** `__tests__/` neben `lib/` ist Vitest/Jest-Standard. Fixtures als echte Dateien statt Inline-Strings — lesbarer und näher an der Produktionsrealität (DEC-030).
 
 ---

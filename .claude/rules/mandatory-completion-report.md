@@ -85,22 +85,30 @@ List:
 This section is for planned future work or consciously deferred decisions.
 Do not use this section to hide current technical problems that affected the work step.
 
-### 8. Project record updates (MANDATORY after implementation)
+### 8. Project record updates (MANDATORY — BLOCKING — after EVERY implementation step)
 
-After completing implementation work (frontend, backend, or combined slices), the following project records must be updated immediately as part of the completion — not deferred, not batched, not left for later:
+**THIS IS THE MOST FREQUENTLY VIOLATED RULE.** It has been violated multiple times across V3.0, V3.1, and V4.0. Treat this as a hard blocker — do NOT proceed to the next task without completing these updates.
 
-- `/slices/INDEX.md` — set the implemented slice status to `done` (or `in_progress` if partially complete)
-- `/features/INDEX.md` — set the feature status to `done` when all related slices are done
-- `/planning/backlog.json` — set related backlog items to `done` (or `in_progress` if partially complete)
-- `/planning/roadmap.json` — set the version status to `active` when implementation begins, `released` when complete
-- `/docs/STATE.md` — update current focus and immediate next steps
+After completing ANY implementation work (frontend, backend, or combined slices), ALL of the following project records must be updated **immediately as the final action of that step** — before writing the completion report, before recommending the next step, before anything else:
 
-This is not optional. Failing to update these records causes:
+**MANDATORY updates after EVERY slice completion:**
+1. `/slices/INDEX.md` — set the implemented slice status to `done`
+2. `/features/INDEX.md` — set related feature status to `done` when all its slices are done, or `in_progress` if partially done
+3. `/planning/backlog.json` — set ALL related backlog items to `done` (or `in_progress`)
+4. `/planning/roadmap.json` — verify version status is `active` (not `planned`)
+5. `/docs/STATE.md` — verify current focus is accurate
+
+**How to identify related backlog items:** Search backlog.json for items with the same version (e.g., "V4") and check if the feature/slice they reference is now done. If the backlog item's described work is complete, set it to `done`.
+
+**Verification step:** After updating, mentally count: "How many slices are done in this version? Does that match the INDEX? How many backlog items are done? Does that match?" If the counts don't add up, something was missed.
+
+This is not optional. This is not deferrable. This is not "nice to have". Failing to update these records causes:
 - the Nächster-Schritt-Engine to give wrong recommendations
-- the Cockpit UI to show stale data
+- the Cockpit UI to show stale/incorrect data
+- the user to lose trust in the system
 - loss of project visibility — the exact problem the cockpit is built to solve
 
-If a slice is implemented but its status is not updated, the work is not considered reported.
+**If a slice is implemented but its records are not updated, the work is considered INCOMPLETE regardless of code quality.**
 
 ### 9. QA after implementation steps (MANDATORY)
 

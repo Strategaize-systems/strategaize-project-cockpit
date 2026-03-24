@@ -209,6 +209,76 @@
       "version": "V3.1",
       "description": "Engine soll gleichzeitig anzeigen: (1) den nächsten Schritt der aktuellen Version (z.B. /slice-planning für V3.1) UND (2) offene ältere Schritte (z.B. Deploy für V3). Aktuell blockiert ein offener Post-Impl-Schritt die Anzeige des echten nächsten Arbeitsschritts.",
       "createdAt": "2026-03-23"
+    },
+    {
+      "id": "BL-022",
+      "title": "Brand & Theme Upgrade",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V4",
+      "description": "Neue Brand-Farben, Gradients, CSS Custom Properties, theme.ts + globals.css. → FEAT-017",
+      "createdAt": "2026-03-23"
+    },
+    {
+      "id": "BL-023",
+      "title": "Sidebar Redesign",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V4",
+      "description": "Gradient-Hintergrund, Active-Glow, Logo-Bereich mit Gradient-Text. → FEAT-018",
+      "createdAt": "2026-03-23"
+    },
+    {
+      "id": "BL-024",
+      "title": "Premium KPI-Cards",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V4",
+      "description": "Gradient-Top-Border, Gradient-Zahlen, Hover-Glow auf allen KPI-Cards. → FEAT-019",
+      "createdAt": "2026-03-23"
+    },
+    {
+      "id": "BL-025",
+      "title": "Premium Tabellen",
+      "type": "feature",
+      "priority": "high",
+      "status": "done",
+      "version": "V4",
+      "description": "Gradient-Top-Border, Row-Hover, Action-Icons, Status-Dots, Fortschrittsbalken. → FEAT-020",
+      "createdAt": "2026-03-23"
+    },
+    {
+      "id": "BL-026",
+      "title": "Badge & Status Upgrade",
+      "type": "feature",
+      "priority": "medium",
+      "status": "done",
+      "version": "V4",
+      "description": "Gradient-Badges für Status, Priority-Dots, Category-Badges. → FEAT-021",
+      "createdAt": "2026-03-23"
+    },
+    {
+      "id": "BL-027",
+      "title": "Interaction & Feedback States",
+      "type": "improvement",
+      "priority": "medium",
+      "status": "done",
+      "version": "V4",
+      "description": "Hover-Transforms, Focus-Rings, Loading-Spinner, Toast-Notifications. → FEAT-022",
+      "createdAt": "2026-03-23"
+    },
+    {
+      "id": "BL-028",
+      "title": "Page-spezifische Upgrades",
+      "type": "feature",
+      "priority": "medium",
+      "status": "done",
+      "version": "V4",
+      "description": "Header-Banner, Timeline-Releases, Prompt-Block, Backlog-View visuell upgraden. → FEAT-023",
+      "createdAt": "2026-03-23"
     }
   ]
 }

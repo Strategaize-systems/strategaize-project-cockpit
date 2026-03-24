@@ -47,6 +47,13 @@ Jeder Release-Eintrag soll verständlich machen:
 - Risks: Kein Multi-Version Unit Test für isCurrentVersion(). Kein Dockerfile. RPT-ID-Vergleich setzt chronologische Report-Erstellung voraus.
 - Rollback notes: Vitest und Tests entfernen: `npm uninstall vitest`, `app/vitest.config.ts` löschen, `app/src/lib/__tests__/` löschen, test/test:watch Scripts aus package.json entfernen. Engine-Änderungen in next-step.ts revertieren.
 
+### REL-006 — V4.0.0 Premium Design System (Lokal)
+- Date: 2026-03-24
+- Scope: V4-Upgrade — alle 7 Slices (SLC-027 bis SLC-033), 7 Features (FEAT-017 bis FEAT-023), 7 Backlog-Items (BL-022 bis BL-028)
+- Summary: Komplettes visuelles Upgrade basierend auf Figma Style Guide. Neue Brand-Farben (#120774, #4454B8) mit Gradient-System. Premium KPI-Cards mit Gradient-Top-Border und Gradient-Zahlen auf allen Seiten. Premium-Tabellen mit Gradient-Border, Row-Hover, Status-Dots und Filter auf Features/Slices. Sidebar-Redesign mit echtem Logo (Kompass + StrategAIze), Gradient-Background und Active-Glow. Header-Banner auf Übersichtsseite. Timeline-Style für Releases und Roadmap mit expandierbaren Details. Dunkler Prompt-Block auf Nächster-Schritt-Seite. Shared FilterSelect-Komponente. Loading-Spinner mit Brand-Color. 8px-Spacing-System. Keine neuen APIs, keine neuen Dependencies, keine Datenmodell-Änderungen.
+- Risks: Kein Dockerfile. Logo-Kontrast auf dunkler Sidebar könnte variieren. Keine E2E Browser-Tests.
+- Rollback notes: Git-Zustand vor V4 wiederherstellen. Logo-Dateien in public/ entfernen. theme.ts und globals.css auf V3-Stand zurücksetzen.
+
 ## Standard structure for future entries
 
 ### REL-XXX — Version or release name

@@ -213,7 +213,8 @@ The purpose is to make project visibility operationally useful first.
 | V3 | Workspace Foundation | Report-Layer, Nächster-Schritt-Engine, /review-Skill, fester Port |
 | V3.1 | Testing Foundation | Unit Test Suite (Vitest) für Kern-Libraries, on-demand Test-Runner |
 | V3.2+ | Erweiterte Integration | VS Code Extension, WebSocket-Bridge, LLM-gestützte Empfehlungen |
-| V4 | Zentrale Arbeitsoberfläche | Execution Loop, Live-Steuerung, erweiterte Integrationen |
+| V4 | Premium Design System | Visuelles Upgrade, Brand-Gradients, Premium-Komponenten, Style-Guide-basiert |
+| V5+ | Zentrale Arbeitsoberfläche | Execution Loop, Live-Steuerung, erweiterte Integrationen |
 
 ## V2 Problem
 
@@ -502,3 +503,144 @@ Test-Tiefe richtet sich nach dem Delivery Mode des jeweiligen Projekts:
 - `saas`: Alles + CI/CD + Security + Performance
 
 Das Cockpit ist `internal-tool` — V3.1-Scope ist dafür ausreichend.
+
+---
+
+## V4 Problem
+
+Das Cockpit funktioniert, sieht aber visuell nach Prototyp aus:
+- Einfache Slate/Indigo-Farben ohne eigene Brand-Identität
+- Flache Cards ohne visuelle Tiefe oder Hover-Effekte
+- Tabellen ohne Premium-Feel (kein Gradient, keine Action-Icons, keine sortierbaren Header)
+- Sidebar funktional aber nicht visuell ansprechend
+- Status-Badges als einfache Outline-Badges statt Gradient-Badges
+- Kein konsistentes Spacing-System (8px-Grid) durchgesetzt
+- Kein visuelles Feedback bei Interaktionen (Hover-Glow, Transform)
+
+Das Cockpit soll als Aushängeschild für das Strategaize Dev System dienen — und muss dafür professioneller aussehen.
+
+## V4 Ziel
+
+Visuelles Upgrade des gesamten Cockpits basierend auf dem Figma Style Guide. Von "funktionaler Prototyp" zu "Premium Operations Dashboard".
+
+Die Änderung ist rein visuell — keine neue Funktionalität, keine neuen Seiten, keine Datenmodell-Änderungen.
+
+## V4.0 Scope — eingeschlossen
+
+### Brand & Farben
+- Neue Primary-Farben: #120774 (Dark), #4454B8 (Main)
+- Brand-Gradients: Primary, Success, Warning
+- Sidebar-Gradient: linear-gradient(to bottom, #0f172a, #0f172a, #020617)
+- Konsistente Farbzuordnung: Grün=Success, Gelb=Warning, Rot=Error, Blau=Primary
+
+### Typografie
+- System-Font-Stack (system-ui, -apple-system, ...)
+- Definierte Hierarchie: 30px Page Title, 16px Section, 14px Body, 12px Caption
+- Uppercase nur für Labels und Table-Header
+- Bold für Zahlen und Headlines
+
+### Layout & Spacing
+- 8px-Spacing-Basis (8, 16, 24, 32)
+- Max-width 1400px Container
+- Konsistente Card-Gaps (24px)
+- Min 32px Container-Padding
+
+### Sidebar
+- Gradient-Hintergrund (Dark Slate → Near-Black)
+- Active-State mit Brand-Gradient + Glow-Shadow
+- Hover-State mit 5% White-Overlay
+- Section-Header: 10px Uppercase mit Letter-Spacing
+- Logo-Bereich mit Brand-Gradient-Text
+
+### KPI-Cards
+- 4px Gradient-Top-Border (farblich je nach Metrik)
+- Gradient-Text für große Zahlen
+- Hover: Border-Color + Glow-Shadow + Transform Y-2px
+- Icon-Kreise in Farbe
+
+### Tabellen
+- 4px Gradient-Top-Border (Brand-Gradient)
+- Sortierbare Header (Uppercase, Hover-Color-Change)
+- Row-Hover: Subtle Gradient-Background + 4px Left-Border
+- Action-Icons: nur bei Hover sichtbar (max. 4)
+- Status-Dots neben Titeln (mit Glow)
+- Fortschrittsbalken in Zeilen (Slices-Tabelle)
+
+### Status-Badges
+- Success: Gradient-Fill (Grün) mit weißem Text und Shadow
+- Warning: Gradient-Fill (Gelb) mit Shadow
+- Neutral: Slate-Background mit Border
+- Priority: Farbiger Dot + Border-Badge
+
+### Buttons
+- Primary: Brand-Gradient + Glow-Shadow + Hover-Transform
+- Secondary: Weiß mit Border → Hover Brand-Color
+- Ghost: Transparent → Hover 5% Brand-Overlay
+- Max 1 Primary Button pro Section
+
+### Header-Banner (Übersichtsseite)
+- Gradient-Card (Blau → Indigo) mit weißem Text
+- Titel + Kurzbeschreibung des Projekts
+
+### Releases/Roadmap
+- Timeline-Stil mit farbigen Dots
+- Expandierbare Release-Details
+- Version-Badges mit Status-Farbe
+
+### Nächster-Schritt-Seite
+- Dunkler Prompt-Block
+- Großer "Prompt Kopieren"-Button
+- Priorisierte Aufgaben-Liste darunter
+
+### Interaction-States
+- Alle interaktiven Elemente: Hover, Focus, Active, Disabled
+- Cards: Hover → elevated Shadow + Transform Y-2px
+- Buttons: Hover → elevated Shadow + Transform Y-1px
+- Table Rows: Hover → Subtle Gradient + Left-Border
+- Focus: 3px Brand-Color Ring
+- Timing: 200ms Micro, 300ms Cards, 500ms Progress
+
+### Empty, Loading, Feedback States
+- Empty States: Zentriert, Icon-Kreis, Titel + Beschreibung
+- Loading: Brand-Color Spinner
+- Toast-Notifications: Bottom-Right, Border-Left-Color nach Typ
+
+## V4.0 Scope — ausdrücklich ausgeschlossen
+
+- Neue Seiten oder Features
+- Datenmodell-Änderungen
+- API-Änderungen (außer evtl. minor Response-Anpassungen)
+- Dark Mode
+- Per-Projekt-Theming (V4.1)
+- Design System als npm Package
+- Figma-Plugin-Integration
+- Logo-Datei (Text-Logo bleibt, evtl. mit Gradient)
+- Responsive Redesign (bestehende Responsive-Logik bleibt)
+
+## V4.0 Erfolgskriterien
+
+V4 ist erfolgreich, wenn:
+- das Cockpit den Figma-Designs visuell entspricht
+- alle Seiten konsistent die neuen Design-Tokens verwenden
+- KPI-Cards Gradient-Highlights und Hover-Glow haben
+- Tabellen Premium-Look mit Top-Border und Row-Hover zeigen
+- Sidebar den neuen Gradient-Look hat
+- Status-Badges mit Gradient-Fills dargestellt werden
+- alle interaktiven Elemente sichtbare Hover/Focus-States haben
+- bestehende Funktionalität nicht beeinträchtigt ist (45/45 Tests bestehen)
+- die Seiten auf gängigen Bildschirmgrößen gut aussehen
+
+## V4.0 Risiken
+
+- Umfangreiche CSS-Änderungen könnten bestehende Layouts brechen
+- Gradient-Badges auf kleinen Screens könnten unleserlich werden
+- Performance-Impact durch viele Animationen/Shadows (mitigiert: interne Tool, keine Massennutzung)
+- Tailwind-CSS-Kompatibilität mit Custom-Gradients muss geprüft werden
+
+## V4.0 Offene Punkte (Architecture-Entscheidungen)
+
+1. Gradient-Implementation: CSS Custom Properties oder Tailwind Utilities?
+2. Badge-Refactoring: status-badges.ts komplett neu oder erweitern?
+3. Sidebar: Bestehende Struktur restylen oder neu aufbauen?
+4. KPI-Cards: Bestehende Card-Komponente erweitern oder neue KPI-Komponente?
+5. Tabellen: Bestehende Tabellen-Markup-Pattern behalten oder neu?

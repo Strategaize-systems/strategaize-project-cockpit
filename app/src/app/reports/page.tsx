@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { FileText, ChevronDown, ChevronRight } from "lucide-react";
+import { FilterSelect, FilterResetButton } from "@/components/ui/filter-select";
 import {
   badgeBase,
   getReportStatusStyle,
@@ -96,7 +97,10 @@ export default function ReportsPage() {
     return (
       <div className="space-y-6">
         <PageHeader />
-        <p className="text-sm text-muted-foreground">Reports werden geladen...</p>
+        <div className="flex items-center gap-2">
+          <div className="h-5 w-5 border-2 border-[var(--brand-primary-main)] border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-muted-foreground">Reports werden geladen...</p>
+        </div>
       </div>
     );
   }
@@ -133,9 +137,38 @@ export default function ReportsPage() {
     );
   }
 
+  const totalReports = data.reports.length;
+  const completionCount = data.reports.filter((r) => r.type === "completion").length;
+  const reviewCount = data.reports.filter((r) => r.type === "review").length;
+
   return (
     <div className="space-y-6">
       <PageHeader />
+
+      {/* KPI row */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Card className="relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(to right, #120774, #4454b8)" }} />
+          <CardContent className="pt-5 pb-4">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">Total Reports</p>
+            <p className="text-2xl font-bold" style={{ background: "linear-gradient(to right, #120774, #4454b8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{totalReports}</p>
+          </CardContent>
+        </Card>
+        <Card className="relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(to right, #00a84f, #4dcb8b)" }} />
+          <CardContent className="pt-5 pb-4">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">Completion</p>
+            <p className="text-2xl font-bold" style={{ background: "linear-gradient(to right, #00a84f, #4dcb8b)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{completionCount}</p>
+          </CardContent>
+        </Card>
+        <Card className="relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(to right, #8b5cf6, #a78bfa)" }} />
+          <CardContent className="pt-5 pb-4">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">Reviews</p>
+            <p className="text-2xl font-bold" style={{ background: "linear-gradient(to right, #8b5cf6, #a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{reviewCount}</p>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Filter bar */}
       <div className="flex flex-wrap items-center gap-2">
@@ -168,12 +201,7 @@ export default function ReportsPage() {
           options={STATUS_OPTIONS.map((s) => ({ value: s, label: getReportStatusLabel(s) }))}
         />
         {hasActiveFilters && (
-          <button
-            onClick={clearFilters}
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1.5"
-          >
-            Filter zurücksetzen
-          </button>
+          <FilterResetButton onClick={clearFilters} />
         )}
       </div>
 
@@ -329,35 +357,4 @@ function ResultBadge({ result }: { result: string }) {
   );
 }
 
-// ─── Filter select ────────────────────────────────────────────────────────
-
-function FilterSelect({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className={`h-8 rounded-md border bg-card px-2 text-xs transition-colors ${
-        value
-          ? "border-primary/40 text-foreground"
-          : "border-border/60 text-muted-foreground"
-      }`}
-    >
-      <option value="">{label}</option>
-      {options.map((opt) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
-    </select>
-  );
-}
+// FilterSelect imported from @/components/ui/filter-select

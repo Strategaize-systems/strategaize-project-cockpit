@@ -149,6 +149,61 @@
 - Empfohlen: SLC-022 → SLC-023 → SLC-024 → SLC-025 sequenziell (Pattern-Wiederverwendung)
 - SLC-026 kann jederzeit nach SLC-022 eingeschoben werden
 
+---
+
+## V4 Slice Plan
+
+| ID | Slice | Related Feature | Status | Priority | Notes |
+|---|---|---|---:|---:|---|
+| SLC-027 | Design Foundation (Theme + CSS) | FEAT-017 | done | high | theme.ts neu, globals.css aktualisieren, Gradient-Utilities, Spacing-System |
+| SLC-028 | Shared Components Upgrade | FEAT-021, FEAT-022 | done | high | status-badges.ts Gradient-Refactor, Card Hover, Button Gradient, Badge Shadow |
+| SLC-029 | Sidebar Redesign | FEAT-018 | done | high | Gradient-Background, Active-Glow, Logo-Gradient, Section-Header |
+| SLC-030 | Übersichtsseite Premium | FEAT-019, FEAT-023 | done | high | Header-Banner, KPI-Cards Premium, Fortschritts-Upgrade |
+| SLC-031 | Tabellen-Seiten Premium | FEAT-020, FEAT-023 | done | high | Features, Slices, Backlog, Reports — Gradient-Top-Border, Row-Hover, Action-Icons |
+| SLC-032 | Card/Timeline-Seiten Premium | FEAT-023 | done | medium | Issues, Releases, Decisions, Roadmap — Timeline-Dots, Card-Upgrade |
+| SLC-033 | Workspace-Seiten Premium | FEAT-023, FEAT-022 | done | medium | Nächster Schritt: Dunkler Prompt-Block, Aufgaben-Liste. Loading-Spinner |
+
+### V1/V2/V3-Dateien die in V4 modifiziert werden
+- `/app/src/lib/theme.ts` — Komplett neu (SLC-027)
+- `/app/src/app/globals.css` — Variablen, Gradients, Utilities (SLC-027)
+- `/app/src/lib/status-badges.ts` — Gradient-Badges (SLC-028)
+- `/app/src/components/ui/card.tsx` — Hover-Transform (SLC-028)
+- `/app/src/components/ui/badge.tsx` — Gradient-Support (SLC-028)
+- `/app/src/components/ui/button.tsx` — Primary-Gradient (SLC-028)
+- `/app/src/components/ui/empty-state.tsx` — Icon-Kreis (SLC-028)
+- `/app/src/components/sidebar.tsx` — Gradient, Active-Glow (SLC-029)
+- `/app/src/app/page.tsx` — Header-Banner, KPI Premium (SLC-030)
+- `/app/src/app/features/page.tsx` — Premium-Tabelle (SLC-031)
+- `/app/src/app/slices/page.tsx` — Premium-Tabelle, Fortschrittsbalken (SLC-031)
+- `/app/src/app/backlog/page.tsx` — Premium-Tabelle (SLC-031)
+- `/app/src/app/reports/page.tsx` — Premium-Tabelle (SLC-031)
+- `/app/src/app/issues/page.tsx` — Card-Upgrade (SLC-032)
+- `/app/src/app/releases/page.tsx` — Timeline-Style (SLC-032)
+- `/app/src/app/decisions/page.tsx` — Card-Upgrade (SLC-032)
+- `/app/src/app/roadmap/page.tsx` — Timeline-Meilensteine (SLC-032)
+- `/app/src/app/next-step/page.tsx` — Prompt-Block, Aufgaben-Liste (SLC-033)
+
+## V4 Build order
+
+### Phase 1 — Foundation (sequential, muss zuerst)
+1. **SLC-027** — Design Foundation (keine Abhängigkeiten — Basis für alles)
+2. **SLC-028** — Shared Components Upgrade (abhängig von SLC-027 — nutzt neue Tokens)
+
+### Phase 2 — Shell + Übersicht (parallel möglich)
+3. **SLC-029** — Sidebar Redesign (abhängig von SLC-027)
+4. **SLC-030** — Übersichtsseite Premium (abhängig von SLC-027 + SLC-028)
+
+### Phase 3 — Restliche Seiten (parallel möglich)
+5. **SLC-031** — Tabellen-Seiten Premium (abhängig von SLC-028)
+6. **SLC-032** — Card/Timeline-Seiten Premium (abhängig von SLC-028)
+7. **SLC-033** — Workspace-Seiten Premium (abhängig von SLC-028)
+
+### Parallelization notes
+- Phase 1 ist strikt sequenziell (SLC-028 braucht die neuen Tokens aus SLC-027)
+- SLC-029 und SLC-030 können parallel laufen (beide brauchen nur Foundation)
+- SLC-031, SLC-032, SLC-033 sind voneinander unabhängig
+- Empfohlen: SLC-031 vor SLC-032 (Tabellen-Pattern etabliert das wiederverwendbare Muster)
+
 ## Status values
 - planned
 - ready

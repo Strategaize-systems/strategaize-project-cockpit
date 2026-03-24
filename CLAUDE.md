@@ -58,6 +58,30 @@ The following sequence is **mandatory** and must not be skipped, regardless of p
 - Prefer visible progress over long silent execution when the task spans multiple files or multiple phases.
 - When visibility is at risk, work in smaller batches rather than one large hidden run.
 
+## Nächster-Schritt-Logik (Cockpit Engine)
+
+The Nächster-Schritt-Engine in the cockpit determines the next recommended step automatically. The logic must follow this sequence:
+
+### Pre-Implementation (active version has no slices yet)
+1. Check PRD.md for version section → if missing: `/requirements`
+2. Check ARCHITECTURE.md for version section → if missing: `/architecture`
+3. If both exist but no slices: `/slice-planning`
+
+### Implementation (version has non-done slices)
+1. No completion report → `/frontend` or `/backend` (based on slice keywords)
+2. Completion without review → `/review`
+3. Review with needs-rework → rework (same skill as last completion)
+4. Review with reviewed → `/qa`
+5. QA done → mark slice as done
+
+### Post-Implementation (all slices done)
+1. No Gesamt-QA → `/qa {version} gesamt`
+2. No final-check → `/final-check`
+3. No go-live → `/go-live`
+4. No deploy → `/deploy`
+
+Post-implementation reports must be NEWER (higher RPT-ID) than the latest slice completion to count for the current version. This prevents old version reports from being counted.
+
 ## Primary project records
 
 Treat these files as authoritative when present:

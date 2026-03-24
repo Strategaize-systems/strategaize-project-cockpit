@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Plus, X } from "lucide-react";
+import { FilterSelect, FilterResetButton } from "@/components/ui/filter-select";
 import {
   badgeBase,
   getBacklogTypeStyle,
@@ -186,9 +187,21 @@ export default function BacklogPage() {
     );
   }
 
+  const totalItems = data.items.length;
+  const doneItems = data.items.filter((i) => i.status === "done").length;
+  const activeItems = data.items.filter((i) => i.status === "in_progress").length;
+
   return (
     <div className="space-y-6">
       <PageHeader onCreateClick={() => setShowCreate(true)} />
+
+      {/* KPI row */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <MiniKpi label="Total Items" value={String(totalItems)} />
+        <MiniKpi label="Fertig" value={String(doneItems)} color="success" />
+        <MiniKpi label="In Arbeit" value={String(activeItems)} color="warning" />
+        <MiniKpi label="Offen" value={String(totalItems - doneItems)} color="info" />
+      </div>
 
       {/* Filter bar */}
       <div className="flex flex-wrap items-center gap-2">
@@ -219,12 +232,7 @@ export default function BacklogPage() {
           />
         )}
         {hasActiveFilters && (
-          <button
-            onClick={clearFilters}
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1.5"
-          >
-            Filter zurücksetzen
-          </button>
+          <FilterResetButton onClick={clearFilters} />
         )}
       </div>
 
@@ -232,17 +240,19 @@ export default function BacklogPage() {
       {filteredItems.length === 0 ? (
         <EmptyState message="Keine Einträge für diese Filterauswahl." />
       ) : (
-        <div className="rounded-lg border border-border/60 bg-card shadow-[var(--shadow-card)] overflow-x-auto">
+        <div className="relative rounded-xl border border-border/60 bg-card shadow-[var(--shadow-card)] overflow-hidden">
+          <div className="h-1" style={{ background: "linear-gradient(to right, #120774, #4454b8, #00a84f)" }} />
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-border/60 bg-muted/40">
-                <th className="px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70">ID</th>
+              <tr className="border-b-2 border-border/60" style={{ background: "linear-gradient(to bottom, #f8fafc, rgba(248, 250, 252, 0.5))" }}>
+                <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-[0.05em] text-slate-700">ID</th>
                 <SortHeader label="Titel" field="title" current={sortField} asc={sortAsc} onSort={handleSort} />
                 <SortHeader label="Typ" field="type" current={sortField} asc={sortAsc} onSort={handleSort} />
                 <SortHeader label="Priorität" field="priority" current={sortField} asc={sortAsc} onSort={handleSort} />
                 <SortHeader label="Status" field="status" current={sortField} asc={sortAsc} onSort={handleSort} />
-                <th className="px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70 hidden lg:table-cell">Version</th>
-                <th className="px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70 hidden xl:table-cell">Beschreibung</th>
+                <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-[0.05em] text-slate-700 hidden lg:table-cell">Version</th>
+                <th className="px-6 py-3 text-left text-xs font-bold uppercase tracking-[0.05em] text-slate-700 hidden xl:table-cell">Beschreibung</th>
               </tr>
             </thead>
             <tbody>
@@ -256,14 +266,17 @@ export default function BacklogPage() {
               ))}
             </tbody>
           </table>
+          </div>
+
+          {/* Table footer */}
+          <div className="border-t border-border/40 px-6 py-3 text-xs text-muted-foreground flex justify-between">
+            <span>Zeige {filteredItems.length} von {data.items.length} Einträgen{hasActiveFilters ? " (gefiltert)" : ""}</span>
+            <span>{doneItems} fertig · {activeItems} in Arbeit · {totalItems - doneItems - activeItems} offen</span>
+          </div>
         </div>
       )}
 
-      {/* Item count */}
-      <p className="text-xs text-muted-foreground">
-        {filteredItems.length} von {data.items.length} Einträgen
-        {hasActiveFilters ? " (gefiltert)" : ""}
-      </p>
+      {/* Item count moved to table footer */}
 
       {/* Create dialog */}
       {showCreate && activeProject && (
@@ -446,36 +459,7 @@ function CreateBacklogDialog({
 
 // ─── Sub-components ─────────────────────────────────────────────────────────
 
-function FilterSelect({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className={`h-8 rounded-md border bg-card px-2 text-xs transition-colors ${
-        value
-          ? "border-primary/40 text-foreground"
-          : "border-border/60 text-muted-foreground"
-      }`}
-    >
-      <option value="">{label}</option>
-      {options.map((opt) => (
-        <option key={opt.value} value={opt.value}>
-          {opt.label}
-        </option>
-      ))}
-    </select>
-  );
-}
+// FilterSelect imported from @/components/ui/filter-select
 
 function SortHeader({
   label,
@@ -493,7 +477,7 @@ function SortHeader({
   const isActive = current === field;
   return (
     <th
-      className="px-4 py-2.5 text-left text-[11px] font-medium uppercase tracking-wider text-muted-foreground/70 cursor-pointer hover:text-foreground transition-colors select-none"
+      className="px-6 py-3 text-left text-xs font-bold uppercase tracking-[0.05em] text-slate-700 cursor-pointer hover:text-[var(--brand-primary-main)] transition-colors select-none"
       onClick={() => onSort(field)}
     >
       {label}
@@ -501,6 +485,27 @@ function SortHeader({
         <span className="ml-1">{asc ? "↑" : "↓"}</span>
       )}
     </th>
+  );
+}
+
+// ─── Mini KPI Card ────────────────────────────────────────────────────────
+
+function MiniKpi({ label, value, color = "primary" }: { label: string; value: string; color?: "primary" | "success" | "warning" | "info" }) {
+  const colors = {
+    primary: "linear-gradient(to right, #120774, #4454b8)",
+    success: "linear-gradient(to right, #00a84f, #4dcb8b)",
+    warning: "linear-gradient(to right, #f2b705, #ffd54f)",
+    info: "linear-gradient(to right, #4454b8, #6366f1)",
+  };
+  const g = colors[color];
+  return (
+    <Card className="relative overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-1" style={{ background: g }} />
+      <CardContent className="pt-5 pb-4">
+        <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">{label}</p>
+        <p className="text-2xl font-bold" style={{ background: g, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{value}</p>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -535,19 +540,19 @@ function BacklogRow({
   }
 
   return (
-    <tr className={`border-b border-border/30 last:border-b-0 hover:bg-muted/20 transition-colors ${updating ? "opacity-50" : ""}`}>
-      <td className="px-4 py-3 font-mono text-[11px] text-muted-foreground/60 whitespace-nowrap">
+    <tr className={`border-b border-border/30 last:border-b-0 transition-all duration-200 group hover:bg-[linear-gradient(to_right,rgba(239,246,255,0.5),transparent)] hover:border-l-4 hover:border-l-[var(--brand-primary-main)] ${updating ? "opacity-50" : ""}`}>
+      <td className="px-6 py-4 font-mono text-xs text-[var(--brand-primary-main)] whitespace-nowrap group-hover:font-semibold">
         {item.id}
       </td>
-      <td className="px-4 py-3 font-medium">
+      <td className="px-6 py-4 font-medium text-slate-900 group-hover:text-[var(--brand-primary-dark)]">
         {item.title}
       </td>
-      <td className="px-4 py-3">
+      <td className="px-6 py-4">
         <Badge variant="outline" className={`${badgeBase} ${getBacklogTypeStyle(item.type)}`}>
           {getBacklogTypeLabel(item.type)}
         </Badge>
       </td>
-      <td className="px-4 py-3">
+      <td className="px-6 py-4">
         <InlineSelect
           value={item.priority}
           options={PRIORITY_OPTIONS.map((p) => ({ value: p, label: getPriorityLabel(p) }))}
@@ -555,7 +560,7 @@ function BacklogRow({
           disabled={updating}
         />
       </td>
-      <td className="px-4 py-3">
+      <td className="px-6 py-4">
         <InlineSelect
           value={item.status}
           options={STATUS_OPTIONS.map((s) => ({ value: s, label: getBacklogStatusLabel(s) }))}
@@ -563,14 +568,14 @@ function BacklogRow({
           disabled={updating}
         />
       </td>
-      <td className="px-4 py-3 text-muted-foreground text-xs whitespace-nowrap hidden lg:table-cell">
+      <td className="px-6 py-4 text-muted-foreground text-xs whitespace-nowrap hidden lg:table-cell">
         <InlineVersionEdit
           value={item.version}
           onChange={(v) => handleUpdate({ version: v })}
           disabled={updating}
         />
       </td>
-      <td className="px-4 py-3 text-muted-foreground text-xs max-w-xs truncate hidden xl:table-cell">
+      <td className="px-6 py-4 text-muted-foreground text-xs max-w-xs truncate hidden xl:table-cell">
         {item.description || "—"}
       </td>
     </tr>

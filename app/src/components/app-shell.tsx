@@ -60,7 +60,7 @@ function ShellContent({ children }: { children: React.ReactNode }) {
         )}
       >
         <div className={cn(
-          "mx-auto max-w-5xl px-6 py-8 lg:px-8",
+          "mx-auto max-w-[1600px] px-6 py-8 lg:px-10 xl:px-16",
           isMobile && "pt-14"
         )}>
           {loading ? (

@@ -157,6 +157,75 @@ function analyzeSliceReports(
   };
 }
 
+// ─── Version Helpers ──────────────────────────────────────────────────────
+
+/**
+ * Get the name of the active version from roadmap.json.
+ */
+function getActiveVersionName(projectPath: string): string | null {
+  const roadmapContent = readProjectFile(projectPath, "planning/roadmap.json");
+  if (!roadmapContent) return null;
+
+  try {
+    const roadmap = JSON.parse(roadmapContent);
+    const active = roadmap.versions?.find(
+      (v: { status: string; name: string }) => v.status === "active"
+    );
+    return active?.name ?? null;
+  } catch {
+    return null;
+  }
+}
+
+// ─── Pre-Implementation Phase Detection ───────────────────────────────────
+
+/**
+ * Detect which pre-implementation step is next for a version without slices.
+ * Checks: PRD → ARCHITECTURE → suggest /slice-planning.
+ * Workflow: /requirements → /architecture → /slice-planning
+ */
+function detectPreImplementationStep(
+  projectPath: string,
+  versionName: string
+): { skill: string; reason: string } {
+  const vLower = versionName.toLowerCase();
+
+  // Check if requirements exist (version section in PRD.md)
+  const prdContent = readProjectFile(projectPath, "docs/PRD.md");
+  const hasRequirements = prdContent
+    ? prdContent.toLowerCase().includes(`## ${vLower} problem`) ||
+      prdContent.toLowerCase().includes(`## ${vLower} ziel`) ||
+      prdContent.toLowerCase().includes(`## ${vLower} scope`)
+    : false;
+
+  if (!hasRequirements) {
+    return {
+      skill: "/requirements",
+      reason: `${versionName} hat noch keine Requirements in PRD.md. Starte mit /requirements.`,
+    };
+  }
+
+  // Check if architecture exists (version section in ARCHITECTURE.md)
+  const archContent = readProjectFile(projectPath, "docs/ARCHITECTURE.md");
+  const hasArchitecture = archContent
+    ? archContent.toLowerCase().includes(`## ${vLower} architecture`) ||
+      archContent.toLowerCase().includes(`## ${vLower} arch`)
+    : false;
+
+  if (!hasArchitecture) {
+    return {
+      skill: "/architecture",
+      reason: `${versionName} hat Requirements aber noch keine Architecture. Weiter mit /architecture.`,
+    };
+  }
+
+  // Both exist but no slices → slice-planning
+  return {
+    skill: "/slice-planning",
+    reason: `${versionName} hat Requirements und Architecture aber noch keine Slices. Weiter mit /slice-planning.`,
+  };
+}
+
 // ─── Prompt Generation ─────────────────────────────────────────────────────
 
 /**
@@ -214,7 +283,32 @@ export function determineNextStep(projectPath: string): NextStepResult {
   );
 
   if (!activeSlice) {
-    // All slices done — check for post-implementation workflow steps
+    // All existing slices done — check if active version has slices or is still in planning
+    const activeVersion = getActiveVersionName(projectPath);
+    if (activeVersion) {
+      const hasVersionSlices = indexContent.toLowerCase().includes(
+        `## ${activeVersion.toLowerCase()} slice plan`
+      );
+      if (!hasVersionSlices) {
+        // Active version exists but has no slices yet → detect pre-implementation phase
+        const pendingSteps = detectPendingOlderSteps(projectPath, allSlices);
+        const preImplStep = detectPreImplementationStep(projectPath, activeVersion);
+        return {
+          recommendation: {
+            skill: preImplStep.skill,
+            slice: "—",
+            feature: "—",
+            reason: preImplStep.reason,
+            prompt: `${preImplStep.skill} für ${activeVersion}`,
+            confidence: "high",
+          },
+          reason: `${activeVersion} ist in der Planungsphase.`,
+          pendingSteps,
+        };
+      }
+    }
+
+    // All slices done for current version — check for post-implementation workflow steps
     return determinePostImplementationStep(projectPath);
   }
 

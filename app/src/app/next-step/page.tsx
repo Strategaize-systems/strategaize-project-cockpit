@@ -83,9 +83,10 @@ export default function NextStepPage() {
     return (
       <div className="space-y-6">
         <PageHeader />
-        <p className="text-sm text-muted-foreground">
-          Engine analysiert Projektstatus...
-        </p>
+        <div className="flex items-center gap-2">
+          <div className="h-5 w-5 border-2 border-[var(--brand-primary-main)] border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-muted-foreground">Engine analysiert Projektstatus...</p>
+        </div>
       </div>
     );
   }
@@ -157,70 +158,115 @@ export default function NextStepPage() {
     <div className="space-y-6">
       <PageHeader />
 
-      {/* Recommendation card */}
-      <Card>
-        <CardContent className="pt-5 pb-5 space-y-4">
-          {/* Meta line */}
-          <div className="flex flex-wrap items-center gap-2">
-            <ConfidenceBadge level={rec.confidence} />
-            <span className="text-sm font-semibold text-indigo-600">
-              {rec.skill}
-            </span>
-            <span className="text-sm text-muted-foreground">für</span>
-            <span className="text-sm font-mono font-medium">
-              {rec.slice}
-            </span>
-            {rec.feature && (
-              <>
-                <span className="text-xs text-muted-foreground/50">•</span>
-                <span className="text-xs text-muted-foreground/60">
-                  {rec.feature}
-                </span>
-              </>
-            )}
+      {/* KPI row */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Card className="relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(to right, #120774, #4454b8)" }} />
+          <CardContent className="pt-5 pb-4 flex items-start justify-between">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">Total Steps</p>
+              <p className="text-2xl font-bold" style={{ background: "linear-gradient(to right, #120774, #4454b8)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                {recentReports.length > 0 ? recentReports.length : "—"}
+              </p>
+            </div>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-50">
+              <Compass className="h-4.5 w-4.5 text-indigo-600" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(to right, #00a84f, #4dcb8b)" }} />
+          <CardContent className="pt-5 pb-4 flex items-start justify-between">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">Erledigt</p>
+              <p className="text-2xl font-bold" style={{ background: "linear-gradient(to right, #00a84f, #4dcb8b)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                {recentReports.filter(r => r.status === "reviewed" || r.status === "completed").length}
+              </p>
+            </div>
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-50">
+              <CheckCircle2 className="h-4.5 w-4.5 text-emerald-600" />
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(to right, #dc2626, #f87171)" }} />
+          <CardContent className="pt-5 pb-4">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">Hohe Priorität</p>
+            <p className="text-2xl font-bold text-red-600">
+              {stepData.pendingSteps?.length ?? 0}
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(to right, #f2b705, #ffd54f)" }} />
+          <CardContent className="pt-5 pb-4">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70 mb-1">Mittlere Priorität</p>
+            <p className="text-2xl font-bold" style={{ background: "linear-gradient(to right, #f2b705, #ffd54f)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+              {recentReports.length > 0 ? Math.max(0, recentReports.length - 1) : 0}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Recommendation — gradient card like Figma */}
+      <div className="rounded-xl overflow-hidden" style={{ background: "linear-gradient(135deg, #0f4c75 0%, #1b262c 100%)" }}>
+        <div className="px-6 py-5">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
+              <Compass className="h-5 w-5 text-amber-400" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-white">Empfohlener Nächster Schritt</h2>
+              <p className="text-xs text-white/60">Intelligente Priorisierung basierend auf deinem Backlog</p>
+            </div>
           </div>
 
-          {/* Reason */}
-          <p className="text-sm text-muted-foreground">{rec.reason}</p>
-
-          {/* Prompt block */}
-          <div className="relative rounded-lg border border-border/60 bg-muted/30">
-            <div className="flex items-center justify-between px-4 py-2 border-b border-border/40">
-              <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/60">
-                Prompt
-              </span>
-              <Button
-                size="sm"
-                variant="ghost"
-                className="h-7 gap-1.5 text-xs"
-                onClick={() => handleCopy(rec.prompt)}
-              >
-                {copied ? (
-                  <>
-                    <Check className="h-3.5 w-3.5 text-emerald-600" />
-                    <span className="text-emerald-600">Kopiert!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-3.5 w-3.5" />
-                    Kopieren
-                  </>
-                )}
-              </Button>
-            </div>
-            <pre className="px-4 py-3 text-xs leading-relaxed whitespace-pre-wrap font-mono text-foreground/80 max-h-[400px] overflow-y-auto">
+          {/* Prompt content */}
+          <div className="rounded-lg bg-white/5 border border-white/10 px-5 py-4 mb-4">
+            <pre className="text-sm leading-relaxed whitespace-pre-wrap font-mono text-slate-200 max-h-[300px] overflow-y-auto">
               {rec.prompt}
             </pre>
           </div>
-        </CardContent>
-      </Card>
+
+          <p className="text-xs text-white/50 mb-1">
+            <ConfidenceBadge level={rec.confidence} /> {rec.reason}
+          </p>
+        </div>
+
+        {/* Copy button */}
+        <div className="px-6 pb-5">
+          <button
+            onClick={() => handleCopy(rec.prompt)}
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-semibold transition-all duration-200 hover:-translate-y-px border border-white/20"
+            style={{
+              background: copied
+                ? "linear-gradient(to right, #00a84f, #4dcb8b)"
+                : "rgba(255,255,255,0.08)",
+              color: "white",
+              boxShadow: copied ? "0 4px 6px rgba(0, 168, 79, 0.3)" : "none",
+            }}
+          >
+            {copied ? (
+              <>
+                <Check className="h-4 w-4" />
+                Kopiert!
+              </>
+            ) : (
+              <>
+                <Copy className="h-4 w-4" />
+                Prompt kopieren
+              </>
+            )}
+          </button>
+        </div>
+      </div>
 
       {/* Pending older steps */}
       {stepData.pendingSteps && stepData.pendingSteps.length > 0 && (
         <PendingStepsSection steps={stepData.pendingSteps} />
       )}
 
-      {/* Recent reports */}
+      {/* Recent reports as "Alle Next Steps" */}
       {recentReports.length > 0 && (
         <RecentReportsSection reports={recentReports} />
       )}
@@ -279,66 +325,71 @@ function ConfidenceBadge({ level }: { level: "high" | "medium" | "low" }) {
   );
 }
 
-// ─── Pending steps section ────────────────────────────────────────────────
+// ─── Pending steps section — Premium Cards ───────────────────────────────
 
 function PendingStepsSection({ steps }: { steps: PendingStep[] }) {
   return (
     <div>
-      <h2 className="text-xs font-medium uppercase tracking-wider text-amber-600/80 mb-2">
-        Offene Schritte
-      </h2>
-      <div className="space-y-1.5">
+      <h2 className="text-sm font-bold mb-3">Offene Schritte</h2>
+      <div className="space-y-2">
         {steps.map((step, i) => (
-          <div
-            key={`${step.version}-${step.skill}-${i}`}
-            className="flex items-center gap-2 px-3 py-2 rounded-md bg-amber-50/50 border border-amber-200/40"
-          >
-            <AlertTriangle className="h-3.5 w-3.5 text-amber-500/60 shrink-0" />
-            <span className="text-xs font-medium text-amber-700">
-              {step.skill}
-            </span>
-            <span className="text-xs text-amber-600/80 truncate">
-              {step.reason}
-            </span>
-          </div>
+          <Card key={`${step.version}-${step.skill}-${i}`} className="relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1" style={{ background: "linear-gradient(to right, #f2b705, #ffd54f)" }} />
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-50">
+                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="text-sm font-semibold">{step.skill}</span>
+                    <Badge variant="outline" className={`${badgeBase} gradient-bg-warning text-slate-900 shadow-sm`}>
+                      {step.version}
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground truncate">{step.reason}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>
   );
 }
 
-// ─── Recent reports section ───────────────────────────────────────────────
+// ─── Recent reports section — Premium Cards ──────────────────────────────
 
 function RecentReportsSection({ reports }: { reports: Report[] }) {
   return (
     <div>
-      <h2 className="text-xs font-medium uppercase tracking-wider text-muted-foreground/60 mb-2">
-        Letzte Reports
-      </h2>
-      <div className="space-y-1.5">
+      <h2 className="text-sm font-bold mb-3">Letzte Reports</h2>
+      <div className="space-y-2">
         {reports.map((report) => (
-          <div
-            key={report.id}
-            className="flex items-center gap-2 px-3 py-2 rounded-md bg-muted/20 border border-border/30"
-          >
-            <FileText className="h-3.5 w-3.5 text-muted-foreground/40 shrink-0" />
-            <span className="font-mono text-[11px] text-muted-foreground/50 shrink-0">
-              {report.id}
-            </span>
-            <span className="text-xs truncate">{report.title}</span>
-            <Badge
-              variant="outline"
-              className={`${badgeBase} ${getReportTypeStyle(report.type)} ml-auto shrink-0`}
-            >
-              {getReportTypeLabel(report.type)}
-            </Badge>
-            <Badge
-              variant="outline"
-              className={`${badgeBase} ${getReportStatusStyle(report.status)} shrink-0`}
-            >
-              {getReportStatusLabel(report.status)}
-            </Badge>
-          </div>
+          <Card key={report.id}>
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-indigo-50">
+                  <FileText className="h-4 w-4 text-indigo-600" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <span className="font-mono text-xs text-[var(--brand-primary-main)]">{report.id}</span>
+                    <span className="text-sm font-medium truncate">{report.title}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] text-muted-foreground">{report.date}</span>
+                    <Badge variant="outline" className={`${badgeBase} ${getReportTypeStyle(report.type)}`}>
+                      {getReportTypeLabel(report.type)}
+                    </Badge>
+                    <Badge variant="outline" className={`${badgeBase} ${getReportStatusStyle(report.status)}`}>
+                      {getReportStatusLabel(report.status)}
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>

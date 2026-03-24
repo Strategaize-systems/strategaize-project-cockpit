@@ -12,34 +12,35 @@ Das Cockpit macht Projektstatus, Features, Slices, Probleme, Releases, Migration
 
 ## Current State
 - High-Level State: released
-- Current Focus: V3.1.0 lokal veröffentlicht
-- Current Phase: Post-Release (V3.1)
+- Current Focus: V4.0.0 lokal veröffentlicht — Premium Design System
+- Current Phase: Post-Release (V4)
 
 ## Immediate Next Steps
-1. Git Commit + Push für V3.1.0
-2. Backport: Rule-Härtungen ins Dev-System (Arbeitsregel 7)
-3. Parallel möglich: Bestehende Projekte onboarden (/onboard-Skill)
+1. Git Commit + Push für V4.0.0
+2. Backport: Style-Templates + Rule-Härtungen ins Dev-System
+3. Optional: V4.1 Projekt-Anpassbarkeit (Kundenname, Farben per Config)
 4. Optional: Dockerfile für Hetzner/Coolify-Deployment
 
 ## Active Scope
-V1, V1.1 und V2 sind abgeschlossen und released.
+V1, V1.1, V2, V3 und V3.1 sind abgeschlossen und released.
 
-V3.0 erweitert das Cockpit zum aktiven Arbeitsplatz:
-- Report-Speicherung und Report-Viewer
-- Nächster-Schritt-Engine mit fertigem Prompt-Output
-- /review-Skill für Claude Code
-- Fester Cockpit-Port
-- Execution-Log
+V4 bringt ein visuelles Upgrade basierend auf dem Figma Style Guide:
+- Neue Brand-Farben (#120774, #4454B8) mit Gradients
+- Premium KPI-Cards mit Gradient-Highlights und Hover-Glow
+- Premium-Tabellen mit Gradient-Top-Border und Action-Icons
+- Sidebar-Redesign mit Gradient-Hintergrund
+- Status-Badges mit Gradient-Fills
+- Header-Banner mit Brand-Gradient
+- Konsistentes Spacing (8px-Grid), Typografie und Interaction-States
 
-V3.0 soll keine API-basierte Execution, keine Datenbank, keine ChatGPT-Integration und kein Speech-to-Text enthalten.
-
-Discovery-Dokument: /planning/V3-discovery.md
+Style Guide: /docs/STYLE_GUIDE.md
+Discovery-Dokument: /planning/V4-design-discovery.md
 
 ## Blockers
 - aktuell keine
 
 ## Last Stable Version
-- V3.0.0 (Lokal) — 2026-03-21
+- V3.1.0 (Lokal) — 2026-03-23
 
 ## Notes
 Dieses Projekt ist der erste echte Testfall für das Strategaize Dev System und sollte daher die Systemstruktur diszipliniert genug einhalten, um sie in der Praxis zu validieren.

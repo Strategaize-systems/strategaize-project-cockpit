@@ -203,6 +203,27 @@
 - Consequence:
   Tests erstellen temp-Verzeichnisse in `beforeEach`, räumen sie in `afterEach` auf. Fixture-Dateien werden bei Bedarf ins temp-Verzeichnis kopiert. Kein `fs`-Mocking.
 
+## DEC-031 — V4 Design Tokens bleiben in theme.ts + globals.css
+- Status: accepted
+- Reason:
+  V4 ist ein Visual Upgrade, kein Architektur-Umbau. Die bestehende Token-Architektur (theme.ts für TypeScript, globals.css für CSS Custom Properties) funktioniert und wird beibehalten. Keine neuen Token-Libraries oder Design-System-Packages nötig.
+- Consequence:
+  theme.ts und globals.css werden aktualisiert, nicht ersetzt. Bestehende Tailwind-Klassen bleiben kompatibel. Keine neuen npm Dependencies.
+
+## DEC-032 — Gradients als CSS Custom Properties
+- Status: accepted
+- Reason:
+  Der Style Guide definiert Gradients für Brand, Success, Warning und Sidebar. CSS Custom Properties (--gradient-primary etc.) sind am einfachsten in globals.css zu definieren und über Tailwind-Utilities zu konsumieren. Tailwind-Plugins wären Overkill.
+- Consequence:
+  Neue CSS-Variablen in :root für alle Gradients. Gradient-Text via background-clip: text. Utility-Klassen in @layer utilities für Wiederverwendung.
+
+## DEC-033 — Badges werden Gradient-Fill statt Outline
+- Status: accepted
+- Reason:
+  Der Style Guide zeigt Status-Badges mit Gradient-Hintergrund und weißem Text (Success, Warning) bzw. Slate-Hintergrund (Neutral). Die aktuelle Outline-Style-Logik in status-badges.ts wird komplett auf die neuen Styles umgestellt.
+- Consequence:
+  status-badges.ts Badge-Klassen werden komplett erneuert. Alle Seiten die Badges nutzen sehen automatisch anders aus ohne Code-Änderung in den Pages.
+
 ## DEC-011 — V1 cockpit UI language is German
 - Status: accepted
 - Reason:
