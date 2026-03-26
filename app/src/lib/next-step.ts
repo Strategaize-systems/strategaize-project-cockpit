@@ -85,6 +85,12 @@ const DOCS_KEYWORDS = [
   "known issues", "decisions", "readme", "playbook",
   "production-docs", "prod-docs",
 ];
+const DEPLOY_KEYWORDS = [
+  "deploy", "deployment", "pipeline", "ci/cd", "ci-cd",
+  "docker", "compose", "coolify", "hetzner", "container",
+  "staging", "production", "rollback", "infrastructure",
+  "infra", "devops",
+];
 const BACKEND_KEYWORDS = [
   "api", "route", "backend", "library", "migration", "lib/",
   "endpoint", "server", "daten", "schema",
@@ -95,32 +101,40 @@ const BACKEND_KEYWORDS = [
   "database", "db", "sql", "trigger", "function",
   "monitoring", "sentry", "logging", "error-tracking",
   "integrity", "append-only", "tenant",
+  "email", "e-mail", "template", "cron", "job", "cleanup",
+  "webhook", "integration", "import", "export",
+  "queue", "worker", "storage", "upload", "download",
+  "notification", "benachrichtigung", "smtp",
 ];
 const FRONTEND_KEYWORDS = [
   "seite", "ansicht", "view", "ui", "dashboard", "sidebar",
   "page", "navigation", "komponente", "component",
   "form", "formular", "layout", "responsive", "style", "css",
   "modal", "dialog", "button", "table", "tabelle", "liste",
+  "onboarding", "wizard", "flow", "screen",
 ];
 
 /**
- * Detect whether a slice is frontend, backend, or docs work based on name + notes.
+ * Detect whether a slice is frontend, backend, docs, or deploy work
+ * based on name + notes keywords.
+ *
+ * All scores are computed first, then the highest wins.
+ * Default is /frontend only as last resort.
  */
-export function detectSliceType(slice: SliceInfo): "/frontend" | "/backend" | "/docs" {
+export function detectSliceType(slice: SliceInfo): "/frontend" | "/backend" | "/docs" | "/deploy" {
   const text = `${slice.name} ${slice.notes}`.toLowerCase();
 
   let docsScore = 0;
+  let deployScore = 0;
   let backendScore = 0;
   let frontendScore = 0;
 
   for (const kw of DOCS_KEYWORDS) {
     if (text.includes(kw)) docsScore++;
   }
-  // Docs wins outright if it scores — docs slices rarely overlap with code slices
-  if (docsScore > 0 && docsScore >= backendScore && docsScore >= frontendScore) {
-    return "/docs";
+  for (const kw of DEPLOY_KEYWORDS) {
+    if (text.includes(kw)) deployScore++;
   }
-
   for (const kw of BACKEND_KEYWORDS) {
     if (text.includes(kw)) backendScore++;
   }
@@ -128,8 +142,13 @@ export function detectSliceType(slice: SliceInfo): "/frontend" | "/backend" | "/
     if (text.includes(kw)) frontendScore++;
   }
 
-  if (backendScore > frontendScore) return "/backend";
-  return "/frontend"; // Default
+  // Highest score wins
+  const max = Math.max(docsScore, deployScore, backendScore, frontendScore);
+  if (max === 0) return "/frontend"; // No keywords matched — default
+  if (docsScore === max) return "/docs";
+  if (deployScore === max) return "/deploy";
+  if (backendScore >= frontendScore) return "/backend";
+  return "/frontend";
 }
 
 // ─── Report Analysis ───────────────────────────────────────────────────────
