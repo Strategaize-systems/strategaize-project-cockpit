@@ -79,6 +79,12 @@ export function parseSlicesFromIndex(content: string): SliceInfo[] {
 
 // ─── Slice Type Detection ──────────────────────────────────────────────────
 
+const DOCS_KEYWORDS = [
+  "documentation", "dokumentation", "docs", "accuracy",
+  "architecture", "architektur", "releases", "migrations",
+  "known issues", "decisions", "readme", "playbook",
+  "production-docs", "prod-docs",
+];
 const BACKEND_KEYWORDS = [
   "api", "route", "backend", "library", "migration", "lib/",
   "endpoint", "server", "daten", "schema",
@@ -98,13 +104,22 @@ const FRONTEND_KEYWORDS = [
 ];
 
 /**
- * Detect whether a slice is frontend or backend work based on name + notes.
+ * Detect whether a slice is frontend, backend, or docs work based on name + notes.
  */
-export function detectSliceType(slice: SliceInfo): "/frontend" | "/backend" {
+export function detectSliceType(slice: SliceInfo): "/frontend" | "/backend" | "/docs" {
   const text = `${slice.name} ${slice.notes}`.toLowerCase();
 
+  let docsScore = 0;
   let backendScore = 0;
   let frontendScore = 0;
+
+  for (const kw of DOCS_KEYWORDS) {
+    if (text.includes(kw)) docsScore++;
+  }
+  // Docs wins outright if it scores — docs slices rarely overlap with code slices
+  if (docsScore > 0 && docsScore >= backendScore && docsScore >= frontendScore) {
+    return "/docs";
+  }
 
   for (const kw of BACKEND_KEYWORDS) {
     if (text.includes(kw)) backendScore++;
