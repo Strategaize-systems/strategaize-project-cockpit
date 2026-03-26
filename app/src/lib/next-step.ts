@@ -84,10 +84,17 @@ const BACKEND_KEYWORDS = [
   "endpoint", "server", "daten", "schema",
   "test", "vitest", "setup", "config", "fixture", "infrastruktur",
   "engine", "regelwerk", "logik",
+  "security", "hardening", "rls", "policy", "policies", "grant", "role",
+  "rate-limit", "rate limit", "auth", "permission", "access",
+  "database", "db", "sql", "trigger", "function",
+  "monitoring", "sentry", "logging", "error-tracking",
+  "integrity", "append-only", "tenant",
 ];
 const FRONTEND_KEYWORDS = [
   "seite", "ansicht", "view", "ui", "dashboard", "sidebar",
   "page", "navigation", "komponente", "component",
+  "form", "formular", "layout", "responsive", "style", "css",
+  "modal", "dialog", "button", "table", "tabelle", "liste",
 ];
 
 /**
