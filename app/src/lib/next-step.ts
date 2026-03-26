@@ -2,6 +2,13 @@ import { readProjectFile } from "@/lib/markdown";
 import { readReports } from "@/lib/reports";
 import type { Report } from "@/lib/reports";
 
+// ─── Helpers ──────────────────────────────────────────────────────────────
+
+/** Normalize skill name: "/qa" and "qa" both match "qa" */
+function matchSkill(reportSkill: string, expected: string): boolean {
+  return reportSkill === expected || reportSkill === `/${expected}`;
+}
+
 // ─── Types ─────────────────────────────────────────────────────────────────
 
 export interface SliceInfo {
@@ -172,7 +179,7 @@ function analyzeSliceReports(
 
   const completionReports = sliceReports.filter((r) => r.type === "completion");
   const reviewReports = sliceReports.filter((r) => r.type === "review");
-  const qaReports = sliceReports.filter((r) => r.skill === "qa");
+  const qaReports = sliceReports.filter((r) => matchSkill(r.skill, "qa"));
 
   // Find the latest review result
   let reviewResult: "reviewed" | "needs-rework" | null = null;
@@ -459,7 +466,7 @@ function detectPendingOlderSteps(
     if (v.status !== "released") continue;
 
     const hasDeploy = reports.some(
-      (r) => r.skill === "deploy" && r.body?.includes(v.name)
+      (r) => matchSkill(r.skill, "deploy") && r.body?.includes(v.name)
     );
     if (!hasDeploy) {
       pending.push({
@@ -500,10 +507,10 @@ function determinePostImplementationStep(
   }
 
   // Check what post-implementation reports exist FOR THE CURRENT VERSION
-  const hasGesamtQa = reports.some((r) => r.skill === "qa" && (!r.slice || r.slice === "null" || r.slice === "—") && isCurrentVersion(r));
-  const hasFinalCheck = reports.some((r) => r.skill === "final-check" && isCurrentVersion(r));
-  const hasGoLive = reports.some((r) => r.skill === "go-live" && isCurrentVersion(r));
-  const hasDeploy = reports.some((r) => r.skill === "deploy" && isCurrentVersion(r));
+  const hasGesamtQa = reports.some((r) => matchSkill(r.skill, "qa") && (!r.slice || r.slice === "null" || r.slice === "—") && isCurrentVersion(r));
+  const hasFinalCheck = reports.some((r) => matchSkill(r.skill, "final-check") && isCurrentVersion(r));
+  const hasGoLive = reports.some((r) => matchSkill(r.skill, "go-live") && isCurrentVersion(r));
+  const hasDeploy = reports.some((r) => matchSkill(r.skill, "deploy") && isCurrentVersion(r));
 
   // Find the active version from roadmap
   const roadmapContent = readProjectFile(projectPath, "planning/roadmap.json");
