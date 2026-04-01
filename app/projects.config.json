@@ -19,6 +19,16 @@
       "id": "immo-docs-hub",
       "name": "Immo Docs Hub",
       "path": "c:/strategaize/immo-docs-hub"
+    },
+    {
+      "id": "strategaize-business-system",
+      "name": "Strategaize Business System",
+      "path": "c:/strategaize/strategaize-business-system"
+    },
+    {
+      "id": "strategaize-intelligence-studio",
+      "name": "StrategAIze Intelligence Studio",
+      "path": "c:/strategaize/strategaize-intelligence-studio"
     }
   ]
 }
