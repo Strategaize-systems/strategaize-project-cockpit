@@ -29,9 +29,9 @@ function parseMarkdownTable(content: string): FeatureRow[] | null {
       .map((c) => c.trim())
       .filter((_, i, arr) => i > 0 && i < arr.length);
 
-    // Skip header rows, separator rows, and non-FEAT rows
+    // Skip header rows, separator rows — accept FEAT- and PROJ- prefixed rows
     const id = cells[0] ?? "";
-    if (!id.startsWith("FEAT-")) continue;
+    if (!id.match(/^(FEAT|PROJ)-\d/)) continue;
 
     rows.push({
       id,
