@@ -71,7 +71,7 @@ export function calculateProgress(
       (item) => item.version !== null && item.version.toLowerCase() === version.name.toLowerCase()
     );
     const total = assigned.length;
-    const done = assigned.filter((item) => item.status === "done").length;
+    const done = assigned.filter((item) => ["done", "deployed"].includes(item.status)).length;
     const percentage = total > 0 ? Math.round((done / total) * 100) : 0;
 
     return {

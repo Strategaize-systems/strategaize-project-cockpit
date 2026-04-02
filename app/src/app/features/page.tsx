@@ -49,7 +49,7 @@ export default function FeaturesPage() {
     });
   }, [features, filterStatus, filterPriority]);
 
-  const doneCount = features.filter((f) => f.status?.toLowerCase() === "done").length;
+  const doneCount = features.filter((f) => ["done", "deployed"].includes(f.status?.toLowerCase() ?? "")).length;
   const activeCount = features.filter((f) => f.status?.toLowerCase() === "in_progress").length;
   const highPriority = features.filter((f) => f.priority?.toLowerCase() === "high").length;
 
@@ -180,7 +180,7 @@ function PageHeader({ subtitle }: { subtitle?: string }) {
 // ─── Feature Table Row ────────────────────────────────────────────────────
 
 function FeatureTableRow({ feature }: { feature: FeatureRow }) {
-  const isDone = feature.status?.toLowerCase() === "done";
+  const isDone = ["done", "deployed"].includes(feature.status?.toLowerCase() ?? "");
 
   return (
     <tr className="border-b border-border/30 last:border-b-0 transition-all duration-200 hover:bg-[linear-gradient(to_right,rgba(239,246,255,0.5),transparent)] hover:border-l-4 hover:border-l-[var(--brand-primary-main)] group">

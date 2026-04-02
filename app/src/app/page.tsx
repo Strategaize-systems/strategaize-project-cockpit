@@ -338,8 +338,8 @@ function PlanningProgress({ projectPath }: { projectPath: string }) {
     );
   }
 
-  const openItems = hasBacklog ? backlog.items.filter((i) => i.status !== "done") : [];
-  const doneCount = hasBacklog ? backlog.items.filter((i) => i.status === "done").length : 0;
+  const openItems = hasBacklog ? backlog.items.filter((i) => !["done", "deployed"].includes(i.status)) : [];
+  const doneCount = hasBacklog ? backlog.items.filter((i) => ["done", "deployed"].includes(i.status)).length : 0;
   const blockedCount = hasBacklog ? backlog.items.filter((i) => i.status === "blocked").length : 0;
 
   return (

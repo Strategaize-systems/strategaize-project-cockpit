@@ -49,7 +49,7 @@ export default function SlicesPage() {
     });
   }, [slices, filterStatus, filterPriority]);
 
-  const doneCount = slices.filter((s) => s.status?.toLowerCase() === "done").length;
+  const doneCount = slices.filter((s) => ["done", "deployed"].includes(s.status?.toLowerCase() ?? "")).length;
   const activeCount = slices.filter((s) => s.status?.toLowerCase() === "in_progress").length;
   const percentage = slices.length > 0 ? Math.round((doneCount / slices.length) * 100) : 0;
 
@@ -184,7 +184,7 @@ function PageHeader({ subtitle }: { subtitle?: string }) {
 }
 
 function SliceTableRow({ slice }: { slice: SliceRow }) {
-  const isDone = slice.status?.toLowerCase() === "done";
+  const isDone = ["done", "deployed"].includes(slice.status?.toLowerCase() ?? "");
   const isActive = slice.status?.toLowerCase() === "in_progress";
 
   return (

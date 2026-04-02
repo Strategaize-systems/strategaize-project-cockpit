@@ -188,7 +188,7 @@ export default function BacklogPage() {
   }
 
   const totalItems = data.items.length;
-  const doneItems = data.items.filter((i) => i.status === "done").length;
+  const doneItems = data.items.filter((i) => ["done", "deployed"].includes(i.status)).length;
   const activeItems = data.items.filter((i) => i.status === "in_progress").length;
 
   return (
