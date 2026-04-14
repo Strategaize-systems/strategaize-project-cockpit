@@ -29,6 +29,11 @@
       "id": "strategaize-intelligence-studio",
       "name": "StrategAIze Intelligence Studio",
       "path": "c:/strategaize/strategaize-intelligence-studio"
+    },
+    {
+      "id": "strategaize-onboarding-plattform",
+      "name": "Strategaize Onboarding-Plattform",
+      "path": "c:/strategaize/strategaize-onboarding-plattform"
     }
   ]
 }
