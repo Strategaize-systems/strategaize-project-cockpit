@@ -61,7 +61,18 @@ export function hasRoadmapFile(projectPath: string): boolean {
 /**
  * Calculate progress for each version based on backlog items.
  * Progress = done items / total items assigned to that version.
+ *
+ * Items with status `deferred` or `superseded` are excluded from the total —
+ * they are decisions to NOT implement (e.g. via a DEC), not pending work, and
+ * should not pull the progress percentage down. A version with 6 done + 1
+ * superseded therefore shows 6/6 = 100%, not 6/7 = 86%.
+ *
+ * `done` and `deployed` both count as completed (deployed > done after a
+ * version is released).
  */
+const COUNTED_DONE_STATUSES = new Set(["done", "deployed"]);
+const EXCLUDED_FROM_TOTAL_STATUSES = new Set(["deferred", "superseded"]);
+
 export function calculateProgress(
   versions: RoadmapVersion[],
   backlogItems: BacklogItem[]
@@ -70,8 +81,11 @@ export function calculateProgress(
     const assigned = backlogItems.filter(
       (item) => item.version !== null && item.version.toLowerCase() === version.name.toLowerCase()
     );
-    const total = assigned.length;
-    const done = assigned.filter((item) => ["done", "deployed"].includes(item.status)).length;
+    const counted = assigned.filter(
+      (item) => !EXCLUDED_FROM_TOTAL_STATUSES.has(item.status)
+    );
+    const total = counted.length;
+    const done = counted.filter((item) => COUNTED_DONE_STATUSES.has(item.status)).length;
     const percentage = total > 0 ? Math.round((done / total) * 100) : 0;
 
     return {
